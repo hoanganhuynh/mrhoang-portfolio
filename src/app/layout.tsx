@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://cv.williens.space"),
   title: "Williens Hoang Nguyen — Psychology-led Project Management",
   description:
     "PhD Psychology, Project Manager, and Creative-Business Leader. Bridging psychology, business strategy, creative direction, and digital product delivery.",
@@ -19,6 +20,7 @@ export const metadata: Metadata = {
     description:
       "PhD Psychology, Project Manager, and Creative-Business Leader.",
     type: "website",
+    url: "https://cv.williens.space",
   },
 };
 
