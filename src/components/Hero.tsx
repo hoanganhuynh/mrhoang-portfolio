@@ -2,17 +2,7 @@
 
 import Image from "next/image";
 import type { CSSProperties } from "react";
-import { BriefcaseBusiness, Mail, MapPin, Phone, GraduationCap } from "lucide-react";
-
-const contactPoints = [
-  { icon: Mail, label: "hello@williens.com", href: "mailto:hello@williens.com" },
-  { icon: Phone, label: "0383 898 238 (Mr. Hoang)", href: "tel:0383898238" },
-  {
-    icon: MapPin,
-    label: "281 Nguyen Van Troi, Phu Nhuan, HCMC",
-    href: "https://www.google.com/maps/search/?api=1&query=281%20Nguyen%20Van%20Troi%2C%20Phu%20Nhuan%2C%20HCMC",
-  },
-];
+import { BriefcaseBusiness, GraduationCap } from "lucide-react";
 
 const credentials = [
   { icon: GraduationCap, emphasis: "PhD. Psychology", detail: " - Lecturer in Psychology in Business Administration" },
@@ -24,13 +14,29 @@ const credentials = [
 ];
 
 function renderBottomUpLetters(text: string, offset = 0) {
-  return Array.from(text).map((char, index) => (
-    <span
-      key={`${char}-${index}`}
-      className="bottom-up-letter"
-      style={{ "--letter-index": offset + index } as CSSProperties}
-    >
-      {char}
+  let letterIndex = offset;
+  return text.split(" ").map((word, wordIndex, arr) => (
+    <span key={wordIndex} className="inline-block whitespace-nowrap">
+      {Array.from(word).map((char, charIndex) => {
+        const currentIndex = letterIndex++;
+        return (
+          <span
+            key={charIndex}
+            className="bottom-up-letter"
+            style={{ "--letter-index": currentIndex } as CSSProperties}
+          >
+            {char}
+          </span>
+        );
+      })}
+      {wordIndex < arr.length - 1 && (
+        <span
+          className="bottom-up-letter"
+          style={{ "--letter-index": letterIndex++ } as CSSProperties}
+        >
+          {" "}
+        </span>
+      )}
     </span>
   ));
 }
@@ -92,18 +98,6 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="mt-7 grid gap-3 border-t border-white/10 pt-5 md:mt-8 md:gap-4 md:pt-6 anim-fade-up anim-delay-6">
-            {contactPoints.map(({ icon: Icon, label, href }) => (
-              <a key={label} href={href} className="flex items-center gap-3 text-[16px] font-semibold text-text-primary/90 transition-colors duration-300 hover:text-gold">
-                <Icon size={18} strokeWidth={1.8} className="text-gold" />
-                <span>{label}</span>
-              </a>
-            ))}
-            <a href="https://www.linkedin.com/in/williens" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-[16px] font-semibold text-text-primary/90 transition-colors duration-300 hover:text-gold">
-              <BriefcaseBusiness size={18} strokeWidth={1.8} className="text-gold" />
-              <span>linkedin.com/in/williens</span>
-            </a>
-          </div>
         </div>
       </div>
     </section>

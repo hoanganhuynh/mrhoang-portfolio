@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import SectionWrapper, { FadeIn, SectionTitle } from "./SectionWrapper";
 import { projects, additionalProjects, type Project } from "@/data/projects";
@@ -64,6 +65,7 @@ function ProjectVisual({ project }: { project: Project }) {
 
 function ProjectCard({ project, featured = false }: { project: Project; featured?: boolean }) {
   const [showModal, setShowModal] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const logo = projectLogos[project.slug];
   const logoOffset =
     project.slug === "sacombank-vr"
@@ -71,6 +73,13 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
       : project.slug === "ss-group" || project.slug === "fpt-techday"
         ? "-translate-x-4"
         : "";
+
+  useEffect(() => { setMounted(true); }, []);
+
+  useEffect(() => {
+    if (showModal) document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, [showModal]);
 
   return (
     <>
@@ -120,28 +129,30 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Side Panel */}
+      {mounted && createPortal(
       <AnimatePresence>
         {showModal && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-50"
             onClick={() => setShowModal(false)}
           >
-            <div className="absolute inset-0 bg-black/80 backdrop-blur-xl" />
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
             <motion.div
-              initial={{ opacity: 0, y: 20, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.98 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="relative w-full max-w-3xl max-h-[88vh] overflow-y-auto rounded-xl border border-line bg-[#0a0a0a] p-4 md:max-h-[85vh] md:rounded-2xl md:p-10"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute top-0 right-0 h-full w-full max-w-2xl overflow-y-auto border-l border-line bg-[#0a0a0a] p-6 md:p-10"
               onClick={(e) => e.stopPropagation()}
             >
               <button
                 onClick={() => setShowModal(false)}
-                className="absolute top-4 right-4 p-2 text-text-muted hover:text-text-primary transition-colors"
+                className="absolute top-5 right-5 p-2 text-text-muted hover:text-text-primary transition-colors z-10"
                 aria-label="Close case study"
               >
                 <X size={18} />
@@ -241,7 +252,9 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>,
+      document.body
+      )}
     </>
   );
 }
