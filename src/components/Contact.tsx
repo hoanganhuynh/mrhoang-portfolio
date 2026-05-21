@@ -4,7 +4,7 @@ import { FadeIn } from "./SectionWrapper";
 
 const contactItems = [
   { label: "Email", value: "hello@williens.com" },
-  { label: "Phone", value: "0383 898 238 (Mr. Hoang)" },
+  { label: "Phone", value: "0929 822 369 (Mr. Hoang)" },
   { label: "Address", value: "281 Nguyen Van Troi, Phu Nhuan, HCMC" },
   { label: "LinkedIn", value: "linkedin.com/in/williens" },
   { label: "Website", value: "williens.com" },

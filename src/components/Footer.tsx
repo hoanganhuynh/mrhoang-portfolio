@@ -20,9 +20,9 @@ export default function Footer() {
                 <Mail size={18} className="text-gold" />
                 hello@williens.com
               </a>
-              <a href="tel:0383898238" className="flex items-center gap-3 transition-colors duration-300 hover:text-gold">
+              <a href="tel:0929822369" className="flex items-center gap-3 transition-colors duration-300 hover:text-gold">
                 <Phone size={18} className="text-gold" />
-                0383 898 238 (Mr. Hoang)
+                0929 822 369 (Mr. Hoang)
               </a>
               <div className="flex items-center gap-3">
                 <MapPin size={18} className="shrink-0 text-gold" />

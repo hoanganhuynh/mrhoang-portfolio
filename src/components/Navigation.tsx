@@ -94,12 +94,12 @@ export default function Navigation() {
 
           <button
             onClick={() => {
-              window.location.href = "tel:0383898238";
+              window.location.href = "tel:0929822369";
             }}
             className="hidden md:inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.1em] uppercase px-5 py-2 rounded-full border border-gold/25 bg-gold/10 text-gold hover:bg-gold hover:text-bg transition-all duration-300 z-10"
           >
             <Phone size={13} />
-            Call 0383 898 238
+            Call 0929 822 369
           </button>
 
           <button
