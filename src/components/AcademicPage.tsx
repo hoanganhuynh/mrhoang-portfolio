@@ -248,15 +248,15 @@ export default function AcademicPage() {
         <div className="flex flex-col md:flex-row gap-8 md:gap-12">
 
           {/* ── Sidebar ── */}
-          <aside className="w-full md:w-56 shrink-0">
+          <aside className="w-full md:w-80 shrink-0">
 
             {/* Desktop: full-width square avatar — new academic photo */}
             <div className="hidden md:block mb-4">
               <Image
                 src="/assets/avatar-Academic%20mode.jpeg"
                 alt="Nguyễn Lê Bảo Hoàng"
-                width={224}
-                height={224}
+                width={320}
+                height={320}
                 className="w-full aspect-square object-cover object-top rounded-2xl"
               />
             </div>
