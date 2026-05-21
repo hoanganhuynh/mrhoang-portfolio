@@ -64,7 +64,7 @@ export default function Partners() {
                   width={240}
                   height={150}
                   sizes="(min-width: 1024px) 160px, (min-width: 640px) 20vw, 25vw"
-                  className="absolute max-h-14 w-auto object-contain opacity-80 transition-all duration-500 group-hover:scale-105 group-hover:opacity-0 sm:max-h-24"
+                  className="absolute max-h-14 w-auto object-contain grayscale opacity-80 transition-all duration-500 group-hover:scale-105 group-hover:opacity-0 sm:max-h-24"
                 />
                 <Image
                   src={logo.color}
