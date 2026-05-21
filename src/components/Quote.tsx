@@ -50,6 +50,7 @@ export default function Quote() {
             src="/assets/avatar.jpeg"
             alt="Williens Hoang Nguyen portrait detail"
             fill
+            priority
             sizes="(min-width: 1024px) 360px, 80vw"
             className="object-cover object-[58%_42%] grayscale contrast-[1.08] transition duration-700 hover:scale-[1.04]"
           />

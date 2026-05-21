@@ -42,7 +42,7 @@ export default function ProjectManagement() {
               <div className="relative text-center px-6">
                 {/* Dot */}
                 <div className="mx-auto mb-6 relative z-10 bg-bg px-3">
-                  <Image src={step.icon} alt="" width={72} height={72} className="mx-auto h-[72px] w-[72px] object-contain transition duration-500 group-hover:scale-110" />
+                  <Image src={step.icon} alt="" width={72} height={72} sizes="72px" className="mx-auto h-[72px] w-[72px] object-contain transition duration-500 group-hover:scale-110" />
                 </div>
                 <span className="font-mono text-[10px] text-gold/60 tracking-wider block mb-2">
                   {step.num}
@@ -66,7 +66,7 @@ export default function ProjectManagement() {
               <FadeIn key={step.title} delay={0.08 * i}>
                 <div className="relative pl-20">
                   <div className="absolute left-0 top-0 bg-bg">
-                    <Image src={step.icon} alt="" width={42} height={42} className="h-11 w-11 object-contain" />
+                    <Image src={step.icon} alt="" width={42} height={42} sizes="44px" className="h-11 w-11 object-contain" />
                   </div>
                   <span className="font-mono text-[10px] text-gold/60 tracking-wider block mb-1">
                     {step.num}

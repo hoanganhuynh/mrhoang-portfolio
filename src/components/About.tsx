@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import SectionWrapper, { FadeIn, SectionTitle } from "./SectionWrapper";
-import { FeatureGridBackground } from "@/components/blocks/grid-feature-cards";
 
 const principles = [
   {
@@ -38,14 +37,13 @@ export default function About() {
           {principles.map((p, i) => (
             <FadeIn key={p.title} delay={0.08 * i}>
               <div className="group relative overflow-hidden p-7 rounded-xl border border-line bg-surface transition-all duration-500 hover:-translate-y-1 hover:border-gold/20 hover:bg-surface-strong">
-                <FeatureGridBackground />
-                <div className="relative z-10 mb-5">
-                  <Image src={p.icon} alt="" width={70} height={70} className="h-[70px] w-[70px] object-contain transition duration-500 group-hover:scale-110" />
+                <div className="mb-5">
+                  <Image src={p.icon} alt="" width={70} height={70} sizes="70px" className="h-[70px] w-[70px] object-contain transition duration-500 group-hover:scale-110" />
                 </div>
-                <h3 className="relative z-10 font-heading font-semibold text-[22px] text-text-primary tracking-tight mb-3">
+                <h3 className="font-heading font-semibold text-[22px] text-text-primary tracking-tight mb-3">
                   {p.title}
                 </h3>
-                <p className="relative z-10 text-[16px] text-text-secondary leading-[1.8]">
+                <p className="text-[16px] text-text-secondary leading-[1.8]">
                   {p.desc}
                 </p>
               </div>

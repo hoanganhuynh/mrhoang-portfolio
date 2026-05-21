@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import SectionWrapper, { FadeIn, SectionTitle } from "./SectionWrapper";
-import { FeatureGridBackground } from "@/components/blocks/grid-feature-cards";
 
 const groups = [
   {
@@ -40,14 +39,13 @@ export default function Capabilities() {
         {groups.map((group, i) => (
           <FadeIn key={group.title} delay={0.08 * i} className="w-[77vw] min-w-[77vw] snap-start sm:w-auto sm:min-w-0">
             <div className="group relative overflow-hidden rounded-xl border border-line bg-surface p-4 md:p-7 h-full transition-all duration-500 hover:-translate-y-1 hover:border-gold/20 hover:bg-surface-strong">
-              <FeatureGridBackground />
-              <div className="relative z-10 mb-4">
-                <Image src={group.icon} alt="" width={56} height={56} className="h-14 w-14 object-contain transition duration-500 group-hover:scale-110" />
+              <div className="mb-4">
+                <Image src={group.icon} alt="" width={56} height={56} sizes="56px" className="h-14 w-14 object-contain transition duration-500 group-hover:scale-110" />
               </div>
-              <h3 className="relative z-10 font-heading font-semibold text-[16px] text-text-primary tracking-tight mb-4">
+              <h3 className="font-heading font-semibold text-[16px] text-text-primary tracking-tight mb-4">
                 {group.title}
               </h3>
-              <div className="relative z-10 flex flex-col gap-2">
+              <div className="flex flex-col gap-2">
                 {group.items.map((item) => (
                   <span
                     key={item}
