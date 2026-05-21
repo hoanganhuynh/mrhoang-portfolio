@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import type { CSSProperties } from "react";
 import { BriefcaseBusiness, GraduationCap } from "lucide-react";
 
 const credentials = [
@@ -13,33 +12,6 @@ const credentials = [
   { icon: BriefcaseBusiness, emphasis: "Former Product Design", detail: " at FPT Global Healthcare - Centre of Excellence" },
 ];
 
-function renderBottomUpLetters(text: string, offset = 0) {
-  let letterIndex = offset;
-  return text.split(" ").map((word, wordIndex, arr) => (
-    <span key={wordIndex} className="inline-block whitespace-nowrap">
-      {Array.from(word).map((char, charIndex) => {
-        const currentIndex = letterIndex++;
-        return (
-          <span
-            key={charIndex}
-            className="bottom-up-letter"
-            style={{ "--letter-index": currentIndex } as CSSProperties}
-          >
-            {char}
-          </span>
-        );
-      })}
-      {wordIndex < arr.length - 1 && (
-        <span
-          className="bottom-up-letter"
-          style={{ "--letter-index": letterIndex++ } as CSSProperties}
-        >
-          {" "}
-        </span>
-      )}
-    </span>
-  ));
-}
 
 export default function Hero() {
   return (
@@ -67,11 +39,11 @@ export default function Hero() {
 
           <div className="max-w-[860px]">
             <h1 className="font-heading font-bold leading-[0.92] tracking-[-0.045em]">
-              <span className="bottom-up-line block text-[clamp(3rem,7vw,7rem)] text-text-primary">
-                {renderBottomUpLetters("Williens")}
+              <span className="block text-[clamp(3rem,7vw,7rem)] text-text-primary">
+                Williens
               </span>
-              <span className="bottom-up-line block text-[clamp(3rem,7vw,7rem)] text-text-primary">
-                {renderBottomUpLetters("Hoang Nguyen", "Williens".length)}
+              <span className="block text-[clamp(3rem,7vw,7rem)] text-text-primary whitespace-nowrap">
+                Hoang Nguyen
               </span>
             </h1>
 
