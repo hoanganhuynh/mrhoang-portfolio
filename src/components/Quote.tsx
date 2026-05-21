@@ -18,6 +18,29 @@ const deliverables = [
   },
 ];
 
+function WhatIDeliver() {
+  return (
+    <div>
+      <span className="mb-5 block font-mono text-[10px] uppercase tracking-[0.18em] text-gold/75 md:text-[11px]">
+        What I Deliver
+      </span>
+      <div className="flex flex-col gap-5">
+        {deliverables.map(({ icon: Icon, title, description }) => (
+          <div key={title} className="flex items-start gap-4">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gold/20 bg-gold/[0.08] text-gold">
+              <Icon size={15} strokeWidth={1.8} />
+            </span>
+            <p className="text-[15px] leading-[1.7] text-text-secondary">
+              <strong className="font-semibold text-text-primary">{title}:</strong>{" "}
+              {description}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Quote() {
   return (
     <section className="relative overflow-hidden py-14 md:py-24">
@@ -42,25 +65,16 @@ export default function Quote() {
             allows teams, products, and users to move with confidence."
           </blockquote>
 
-          <div className="mt-8 md:mt-12">
-            <span className="mb-5 block font-mono text-[10px] uppercase tracking-[0.18em] text-gold/75 md:text-[11px]">
-              What I Deliver
-            </span>
-            <div className="flex flex-col gap-5">
-              {deliverables.map(({ icon: Icon, title, description }) => (
-                <div key={title} className="flex items-start gap-4">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gold/20 bg-gold/[0.08] text-gold">
-                    <Icon size={15} strokeWidth={1.8} />
-                  </span>
-                  <p className="text-[15px] leading-[1.7] text-text-secondary">
-                    <strong className="font-semibold text-text-primary">{title}:</strong>{" "}
-                    {description}
-                  </p>
-                </div>
-              ))}
-            </div>
+          {/* What I Deliver — desktop only (inside grid column) */}
+          <div className="hidden lg:block mt-12">
+            <WhatIDeliver />
           </div>
         </div>
+      </div>
+
+      {/* What I Deliver — mobile & tablet (below the grid) */}
+      <div className="lg:hidden mx-auto max-w-[1360px] px-6 pt-10 md:px-10">
+        <WhatIDeliver />
       </div>
     </section>
   );
