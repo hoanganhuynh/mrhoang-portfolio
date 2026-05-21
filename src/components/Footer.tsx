@@ -1,13 +1,11 @@
 "use client";
 
 import { ArrowUp, Mail, MapPin, Phone } from "lucide-react";
-import { Boxes } from "@/components/ui/background-boxes";
 
 export default function Footer() {
   return (
     <footer id="contact" className="relative overflow-hidden border-t border-white/10 py-16 md:py-28">
-      <Boxes className="opacity-55 [mask-image:radial-gradient(ellipse_at_center,white,transparent_78%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(200,168,90,0.12),transparent_32%),linear-gradient(90deg,var(--color-bg)_0%,rgba(5,5,5,0.82)_48%,rgba(5,5,5,0.64)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(200,168,90,0.12),transparent_32%)]" />
 
       <div className="relative z-10 mx-auto flex max-w-[1360px] flex-col gap-7 px-6 md:gap-8 md:px-10 lg:px-14">
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
