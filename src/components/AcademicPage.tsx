@@ -4,6 +4,22 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
+  Globe,
+  FileText,
+  Mic,
+  MessageSquare,
+  BookOpen,
+  Trophy,
+  Award as AwardIcon,
+  Star,
+  Users,
+  MapPin,
+  Phone,
+  Mail,
+  Calendar,
+  Home,
+} from "lucide-react";
+import {
   internationalPapers,
   domesticPapers,
   internationalConferences,
@@ -16,211 +32,364 @@ import {
   type Award,
 } from "@/data/academic";
 
-type TabId = "papers" | "conferences" | "books" | "awards";
+// ── Types ──────────────────────────────────────────────────────────────
 
-const TABS: { id: TabId; label: string; count: number }[] = [
-  { id: "papers", label: "Bài báo", count: internationalPapers.length + domesticPapers.length },
-  { id: "conferences", label: "Hội thảo", count: internationalConferences.length + domesticConferences.length },
-  { id: "books", label: "Sách", count: books.length },
-  { id: "awards", label: "Giải thưởng", count: awards.length },
+type TabId =
+  | "intl-papers"
+  | "domestic-papers"
+  | "intl-conferences"
+  | "domestic-conferences"
+  | "books"
+  | "awards";
+
+const TABS: { id: TabId; label: string; count: number; Icon: React.ElementType }[] = [
+  { id: "intl-papers",           label: "Bài báo quốc tế",       count: internationalPapers.length,     Icon: Globe         },
+  { id: "domestic-papers",       label: "Bài báo trong nước",     count: domesticPapers.length,          Icon: FileText      },
+  { id: "intl-conferences",      label: "Hội thảo quốc tế",       count: internationalConferences.length, Icon: Mic           },
+  { id: "domestic-conferences",  label: "Hội thảo trong nước",    count: domesticConferences.length,     Icon: MessageSquare },
+  { id: "books",                 label: "Sách",                   count: books.length,                   Icon: BookOpen      },
+  { id: "awards",                label: "Giải thưởng",            count: awards.length,                  Icon: Trophy        },
 ];
 
-function SubGroupLabel({ children }: { children: React.ReactNode }) {
+const PROFILE = {
+  name:      "Nguyễn Lê Bảo Hoàng",
+  dob:       "24/10/1993",
+  hometown:  "ĐăkLăk",
+  title:     "Tiến sĩ Tâm lý học",
+  titleYear: "2025",
+  address:   "Tecco Central Home 06-08 Nguyễn Thiện Thuật, P.24, Q. Bình Thạnh",
+  phone:     "0929822369",
+  email:     "nguyenlebaohoang@gmail.com",
+};
+
+const AWARD_ICONS = [Trophy, AwardIcon, Star] as const;
+
+// ── Timeline utility ───────────────────────────────────────────────────
+
+type YearGroup<T> = { year: string; entries: { data: T; stt: number }[] };
+
+function groupAndIndex<T extends { year: string | number }>(items: T[]): YearGroup<T>[] {
+  const map = new Map<string, T[]>();
+  items.forEach((item) => {
+    const y = String(item.year).match(/(\d{4})/)?.[1] ?? String(item.year);
+    if (!map.has(y)) map.set(y, []);
+    map.get(y)!.push(item);
+  });
+  let counter = 0;
+  return Array.from(map.entries())
+    .sort(([a], [b]) => Number(b) - Number(a))
+    .map(([year, group]) => ({
+      year,
+      entries: group.map((data) => ({ data, stt: ++counter })),
+    }));
+}
+
+// ── TimelineYear wrapper ───────────────────────────────────────────────
+
+function TimelineYear({
+  year,
+  isLast,
+  children,
+}: {
+  year: string;
+  isLast: boolean;
+  children: React.ReactNode;
+}) {
   return (
-    <div className="flex items-center gap-3 mb-4 mt-8 first:mt-0">
-      <span className="font-mono text-[10px] tracking-[0.12em] uppercase text-text-muted shrink-0">
+    <div className="flex">
+      {/* Spine */}
+      <div className="flex flex-col items-center mr-5 pt-1 shrink-0" style={{ width: 44 }}>
+        <div className="w-2.5 h-2.5 rounded-full bg-gold ring-2 ring-gold/20 shrink-0" />
+        {!isLast && <div className="w-px bg-line flex-1 mt-2" />}
+      </div>
+      {/* Content */}
+      <div className={`flex-1 ${isLast ? "pb-2" : "pb-10"}`}>
+        <p className="font-mono text-[11px] font-bold text-gold -mt-0.5 mb-4">{year}</p>
         {children}
+      </div>
+    </div>
+  );
+}
+
+// ── Entry components ───────────────────────────────────────────────────
+
+function PaperEntry({ paper, stt }: { paper: Paper; stt: number }) {
+  return (
+    <div className="mb-5 last:mb-0 flex items-start gap-3">
+      <span className="font-mono text-[10px] text-text-muted tabular-nums pt-0.5 shrink-0 w-5 text-right">
+        {String(stt).padStart(2, "0")}
       </span>
-      <div className="hairline flex-1" />
-    </div>
-  );
-}
-
-function PaperEntry({ paper }: { paper: Paper }) {
-  return (
-    <div className="py-4 border-b border-line last:border-0">
-      <p className="font-body text-[14px] text-text-primary leading-snug font-medium mb-1">
-        {paper.title}
-      </p>
-      <p className="font-mono text-[11px] text-text-muted mb-1">{paper.authors}</p>
-      <div className="flex items-center gap-2 flex-wrap">
-        <span className="font-mono text-[11px] text-text-secondary italic">{paper.journal}</span>
-        <span className="font-mono text-[10px] text-gold px-2 py-0.5 rounded-full border border-gold/20 bg-gold-dim">
-          {paper.year}
-        </span>
+      <div className="flex-1">
+        <p className="font-body text-[14px] text-text-primary leading-snug font-semibold mb-2">
+          {paper.title}
+        </p>
+        <div className="flex items-center gap-1.5 mb-1">
+          <Users size={11} className="text-text-muted shrink-0" />
+          <p className="font-body text-[12px] text-text-muted leading-relaxed">{paper.authors}</p>
+        </div>
+        <p className="font-body text-[12px] text-text-secondary italic pl-[19px]">{paper.journal}</p>
       </div>
     </div>
   );
 }
 
-function ConferenceEntry({ paper }: { paper: ConferencePaper }) {
+function ConferenceEntry({ paper, stt }: { paper: ConferencePaper; stt: number }) {
   return (
-    <div className="py-4 border-b border-line last:border-0">
-      <p className="font-body text-[14px] text-text-primary leading-snug font-medium mb-1">
-        {paper.title}
-      </p>
-      <p className="font-mono text-[11px] text-text-muted mb-1">{paper.authors}</p>
-      <div className="flex items-center gap-2 flex-wrap">
-        <span className="font-mono text-[11px] text-text-secondary italic">{paper.event}</span>
-        <span className="font-mono text-[10px] text-gold px-2 py-0.5 rounded-full border border-gold/20 bg-gold-dim">
-          {paper.year}
-        </span>
+    <div className="mb-5 last:mb-0 flex items-start gap-3">
+      <span className="font-mono text-[10px] text-text-muted tabular-nums pt-0.5 shrink-0 w-5 text-right">
+        {String(stt).padStart(2, "0")}
+      </span>
+      <div className="flex-1">
+        <p className="font-body text-[14px] text-text-primary leading-snug font-semibold mb-2">
+          {paper.title}
+        </p>
+        <div className="flex items-center gap-1.5 mb-1">
+          <Users size={11} className="text-text-muted shrink-0" />
+          <p className="font-body text-[12px] text-text-muted leading-relaxed">{paper.authors}</p>
+        </div>
+        <p className="font-body text-[12px] text-text-secondary italic pl-[19px]">{paper.event}</p>
       </div>
     </div>
   );
 }
 
-function BookEntry({ book }: { book: Book }) {
+function BookEntry({ book, stt }: { book: Book; stt: number }) {
   return (
-    <div className="py-4 border-b border-line last:border-0">
-      <p className="font-body text-[14px] text-text-primary leading-snug font-medium mb-1">
-        {book.title}
-      </p>
-      <div className="flex items-center gap-2 flex-wrap">
-        <span className="font-mono text-[11px] text-text-muted">{book.type}</span>
-        <span className="text-text-muted">·</span>
-        <span className="font-mono text-[11px] text-text-secondary italic">{book.publisher}</span>
-        <span className="font-mono text-[10px] text-gold px-2 py-0.5 rounded-full border border-gold/20 bg-gold-dim">
-          {book.year}
-        </span>
-      </div>
-    </div>
-  );
-}
-
-function AwardEntry({ award }: { award: Award }) {
-  return (
-    <div className="py-4 border-b border-line last:border-0">
-      <div className="flex items-start gap-3">
-        <span className="font-mono text-[11px] text-gold font-bold px-2.5 py-1 rounded-full border border-gold/25 bg-gold-dim shrink-0 mt-0.5">
-          {award.rank}
-        </span>
-        <div>
-          <p className="font-mono text-[11px] text-text-secondary mb-1">{award.organization}</p>
-          <p className="font-body text-[13px] text-text-muted italic">Đề tài: {award.topic}</p>
+    <div className="mb-5 last:mb-0 flex items-start gap-3">
+      <span className="font-mono text-[10px] text-text-muted tabular-nums pt-0.5 shrink-0 w-5 text-right">
+        {String(stt).padStart(2, "0")}
+      </span>
+      <div className="flex-1">
+        <p className="font-body text-[14px] text-text-primary leading-snug font-semibold mb-1.5">
+          {book.title}
+        </p>
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="font-body text-[12px] text-text-muted">{book.type}</span>
+          <span className="text-text-muted opacity-40">·</span>
+          <span className="font-body text-[12px] text-text-secondary italic">{book.publisher}</span>
         </div>
       </div>
     </div>
   );
 }
 
-function PapersTab() {
+// ── Tab content ────────────────────────────────────────────────────────
+
+function PaperTimelineTab({ items }: { items: Paper[] }) {
+  const groups = groupAndIndex(items);
   return (
     <div>
-      <SubGroupLabel>Bài báo quốc tế · {internationalPapers.length}</SubGroupLabel>
-      {internationalPapers.map((p, i) => <PaperEntry key={i} paper={p} />)}
-      <SubGroupLabel>Bài báo trong nước · {domesticPapers.length}</SubGroupLabel>
-      {domesticPapers.map((p, i) => <PaperEntry key={i} paper={p} />)}
+      {groups.map(({ year, entries }, gi) => (
+        <TimelineYear key={year} year={year} isLast={gi === groups.length - 1}>
+          {entries.map(({ data, stt }) => (
+            <PaperEntry key={stt} paper={data} stt={stt} />
+          ))}
+        </TimelineYear>
+      ))}
     </div>
   );
 }
 
-function ConferencesTab() {
+function ConferenceTimelineTab({ items }: { items: ConferencePaper[] }) {
+  const groups = groupAndIndex(items);
   return (
     <div>
-      <SubGroupLabel>Hội thảo quốc tế · {internationalConferences.length}</SubGroupLabel>
-      {internationalConferences.map((p, i) => <ConferenceEntry key={i} paper={p} />)}
-      <SubGroupLabel>Hội thảo trong nước · {domesticConferences.length}</SubGroupLabel>
-      {domesticConferences.map((p, i) => <ConferenceEntry key={i} paper={p} />)}
+      {groups.map(({ year, entries }, gi) => (
+        <TimelineYear key={year} year={year} isLast={gi === groups.length - 1}>
+          {entries.map(({ data, stt }) => (
+            <ConferenceEntry key={stt} paper={data} stt={stt} />
+          ))}
+        </TimelineYear>
+      ))}
     </div>
   );
 }
 
-function BooksTab() {
+function BooksTimelineTab() {
+  const groups = groupAndIndex(books);
   return (
     <div>
-      {books.map((b, i) => <BookEntry key={i} book={b} />)}
+      {groups.map(({ year, entries }, gi) => (
+        <TimelineYear key={year} year={year} isLast={gi === groups.length - 1}>
+          {entries.map(({ data, stt }) => (
+            <BookEntry key={stt} book={data} stt={stt} />
+          ))}
+        </TimelineYear>
+      ))}
     </div>
   );
 }
 
 function AwardsTab() {
   return (
-    <div>
-      {awards.map((a, i) => <AwardEntry key={i} award={a} />)}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {awards.map((award: Award, i: number) => {
+        const Icon = AWARD_ICONS[i % AWARD_ICONS.length];
+        return (
+          <div
+            key={i}
+            className="rounded-2xl border border-line bg-surface p-5 flex flex-col gap-3 hover:border-gold/30 transition-colors duration-200"
+          >
+            <div className="w-10 h-10 rounded-xl bg-gold-soft flex items-center justify-center shrink-0">
+              <Icon size={18} className="text-gold" />
+            </div>
+            <span className="font-mono text-[10px] text-gold font-bold px-2.5 py-1 rounded-full border border-gold/25 bg-gold-dim self-start tracking-wide uppercase">
+              {award.rank}
+            </span>
+            <p className="font-body text-[12px] text-text-secondary leading-snug">
+              {award.organization}
+            </p>
+            <p className="font-body text-[12px] text-text-muted italic leading-snug">
+              {award.topic}
+            </p>
+          </div>
+        );
+      })}
     </div>
   );
 }
 
+// ── Main ───────────────────────────────────────────────────────────────
+
 export default function AcademicPage() {
-  const [activeTab, setActiveTab] = useState<TabId>("papers");
+  const [activeTab, setActiveTab] = useState<TabId>("intl-papers");
+  const activeTabMeta = TABS.find((t) => t.id === activeTab)!;
 
   return (
     <div className="min-h-screen pt-24 pb-20">
       <div className="mx-auto max-w-[1360px] px-6 md:px-10 lg:px-14">
-        <div className="flex flex-col md:flex-row gap-8 md:gap-16">
+        <div className="flex flex-col md:flex-row gap-8 md:gap-12">
 
           {/* ── Sidebar ── */}
           <aside className="w-full md:w-56 shrink-0">
-            <div className="flex flex-row md:flex-col items-center md:items-start gap-4 md:gap-3 mb-6">
+
+            {/* Desktop: full-width square avatar */}
+            <div className="hidden md:block mb-4">
               <Image
                 src="/assets/avatar-3.png"
                 alt="Nguyễn Lê Bảo Hoàng"
-                width={80}
-                height={80}
-                className="rounded-full object-cover w-16 h-16 md:w-20 md:h-20 shrink-0"
+                width={224}
+                height={224}
+                className="w-full aspect-square object-cover rounded-2xl"
+              />
+            </div>
+
+            {/* Mobile: compact header row */}
+            <div className="flex md:hidden items-center gap-4 mb-5">
+              <Image
+                src="/assets/avatar-3.png"
+                alt="Nguyễn Lê Bảo Hoàng"
+                width={64}
+                height={64}
+                className="w-16 h-16 object-cover rounded-2xl shrink-0"
               />
               <div>
-                <h1 className="font-heading font-bold text-[17px] leading-snug text-text-primary">
-                  Nguyễn Lê Bảo Hoàng
+                <h1 className="font-heading font-bold text-[16px] text-text-primary leading-tight">
+                  {PROFILE.name}
                 </h1>
-                <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-text-muted mt-1">
-                  Tiến sĩ Tâm lý học
-                </p>
-                <p className="font-mono text-[10px] text-text-muted mt-0.5">
-                  ĐH Sư phạm TP.HCM · 2025
+                <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-text-muted mt-1">
+                  {PROFILE.title}
                 </p>
               </div>
             </div>
 
-            {/* Desktop vertical tabs */}
-            <div className="hidden md:block">
-              <div className="hairline mb-5" />
-              <nav className="flex flex-col gap-0.5">
-                {TABS.map((tab) => (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`text-left px-3 py-2.5 rounded-lg font-mono text-[12px] tracking-wide transition-all duration-200 flex items-center justify-between border-l-2 ${
-                      activeTab === tab.id
-                        ? "border-gold text-text-primary font-semibold bg-surface-strong"
-                        : "border-transparent text-text-muted hover:text-text-primary hover:bg-surface"
-                    }`}
+            {/* Desktop: name + profile info */}
+            <div className="hidden md:block mb-5">
+              <h1 className="font-heading font-bold text-[16px] leading-tight text-text-primary mb-0.5">
+                {PROFILE.name}
+              </h1>
+              <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-gold mb-4">
+                {PROFILE.title} · {PROFILE.titleYear}
+              </p>
+              <div className="flex flex-col gap-2.5">
+                <div className="flex items-start gap-2">
+                  <Calendar size={11} className="text-text-muted shrink-0 mt-0.5" />
+                  <span className="font-body text-[11px] text-text-secondary">{PROFILE.dob}</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <MapPin size={11} className="text-text-muted shrink-0 mt-0.5" />
+                  <span className="font-body text-[11px] text-text-secondary">{PROFILE.hometown}</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <Home size={11} className="text-text-muted shrink-0 mt-0.5" />
+                  <span className="font-body text-[11px] text-text-secondary leading-snug">{PROFILE.address}</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <Phone size={11} className="text-text-muted shrink-0 mt-0.5" />
+                  <a
+                    href={`tel:${PROFILE.phone}`}
+                    className="font-body text-[11px] text-text-secondary hover:text-gold transition-colors"
                   >
-                    <span>{tab.label}</span>
-                    <span className="text-[10px] text-text-muted tabular-nums">{tab.count}</span>
-                  </button>
-                ))}
+                    {PROFILE.phone}
+                  </a>
+                </div>
+                <div className="flex items-start gap-2">
+                  <Mail size={11} className="text-text-muted shrink-0 mt-0.5" />
+                  <a
+                    href={`mailto:${PROFILE.email}`}
+                    className="font-body text-[11px] text-text-secondary hover:text-gold transition-colors break-all"
+                  >
+                    {PROFILE.email}
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Desktop: vertical tab nav */}
+            <div className="hidden md:block">
+              <div className="hairline mb-4" />
+              <nav className="flex flex-col gap-0.5">
+                {TABS.map((tab) => {
+                  const Icon = tab.Icon;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`text-left px-3 py-2.5 rounded-lg text-[13px] transition-all duration-200 flex items-center gap-2.5 border-l-2 ${
+                        activeTab === tab.id
+                          ? "border-gold text-text-primary font-semibold bg-surface-strong"
+                          : "border-transparent text-text-muted hover:text-text-primary hover:bg-surface"
+                      }`}
+                    >
+                      <Icon size={14} className="shrink-0" />
+                      <span className="flex-1 font-body">{tab.label}</span>
+                      <span className="font-mono text-[10px] text-text-muted tabular-nums">{tab.count}</span>
+                    </button>
+                  );
+                })}
               </nav>
             </div>
 
-            {/* Mobile horizontal tab scroll */}
+            {/* Mobile: horizontal tab scroll */}
             <div className="flex md:hidden overflow-x-auto gap-2 pb-1 -mx-1 px-1">
-              {TABS.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`shrink-0 px-4 py-1.5 rounded-full font-mono text-[11px] tracking-wide transition-all duration-200 border ${
-                    activeTab === tab.id
-                      ? "border-gold/30 bg-gold-soft text-gold"
-                      : "border-line bg-surface text-text-muted"
-                  }`}
-                >
-                  {tab.label}
-                  <span className="ml-1.5 opacity-60">{tab.count}</span>
-                </button>
-              ))}
+              {TABS.map((tab) => {
+                const Icon = tab.Icon;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full font-body text-[11px] transition-all duration-200 border ${
+                      activeTab === tab.id
+                        ? "border-gold/30 bg-gold-soft text-gold"
+                        : "border-line bg-surface text-text-muted"
+                    }`}
+                  >
+                    <Icon size={11} className="shrink-0" />
+                    <span>{tab.label}</span>
+                  </button>
+                );
+              })}
             </div>
           </aside>
 
           {/* ── Main content ── */}
           <main className="flex-1 min-w-0">
-            <div className="mb-6 pb-4 border-b border-line-strong flex items-baseline gap-2">
+            <div className="mb-7 pb-4 border-b border-line-strong flex items-baseline gap-2">
               <h2 className="font-heading font-bold text-[22px] text-text-primary">
-                {TABS.find((t) => t.id === activeTab)?.label}
+                {activeTabMeta.label}
               </h2>
               <span className="font-mono text-[12px] text-text-muted">
-                · {TABS.find((t) => t.id === activeTab)?.count} mục
+                · {activeTabMeta.count} mục
               </span>
             </div>
 
@@ -232,10 +401,12 @@ export default function AcademicPage() {
                 exit={{ opacity: 0, y: -6 }}
                 transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
               >
-                {activeTab === "papers" && <PapersTab />}
-                {activeTab === "conferences" && <ConferencesTab />}
-                {activeTab === "books" && <BooksTab />}
-                {activeTab === "awards" && <AwardsTab />}
+                {activeTab === "intl-papers"          && <PaperTimelineTab items={internationalPapers} />}
+                {activeTab === "domestic-papers"      && <PaperTimelineTab items={domesticPapers} />}
+                {activeTab === "intl-conferences"     && <ConferenceTimelineTab items={internationalConferences} />}
+                {activeTab === "domestic-conferences" && <ConferenceTimelineTab items={domesticConferences} />}
+                {activeTab === "books"                && <BooksTimelineTab />}
+                {activeTab === "awards"               && <AwardsTab />}
               </motion.div>
             </AnimatePresence>
           </main>
