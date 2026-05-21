@@ -260,6 +260,17 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
 }
 
 export default function FeaturedProjects() {
+  const featuredSlugs = ["ss-group", "rav", "emotico", "vinamilk"];
+  const additionalSlugs = ["fpt-techday", "bcnv", "sacombank-vr", "cosmo-club"];
+
+  const featuredProjects = featuredSlugs
+    .map((slug) => projects.find((p) => p.slug === slug))
+    .filter(Boolean) as Project[];
+
+  const movedToAdditional = additionalSlugs
+    .map((slug) => projects.find((p) => p.slug === slug))
+    .filter(Boolean) as Project[];
+
   const visibleAdditionalProjects = additionalProjects.filter(
     (project) => project.name !== "Food Hospitality Vietnam"
   );
@@ -272,19 +283,10 @@ export default function FeaturedProjects() {
         </SectionTitle>
       </FadeIn>
 
-      {/* Featured — first 2 projects large */}
-      <div className="mt-8 space-y-5 md:mt-14 md:space-y-6">
-        {projects.slice(0, 2).map((project, i) => (
+      {/* Featured — 2-col grid */}
+      <div className="mt-8 grid grid-cols-1 gap-5 md:mt-14 md:grid-cols-2">
+        {featuredProjects.map((project, i) => (
           <FadeIn key={project.slug} delay={0.08 * i}>
-            <ProjectCard project={project} featured />
-          </FadeIn>
-        ))}
-      </div>
-
-      {/* Remaining projects — 2-col grid */}
-      <div className="mt-5 grid grid-cols-1 gap-5 md:mt-6 md:grid-cols-2">
-        {projects.slice(2).map((project, i) => (
-          <FadeIn key={project.slug} delay={0.06 * i}>
             <ProjectCard project={project} />
           </FadeIn>
         ))}
@@ -300,40 +302,78 @@ export default function FeaturedProjects() {
             <div className="h-px flex-1 bg-line" />
           </div>
           <div className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 [-webkit-overflow-scrolling:touch] sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 lg:grid-cols-4">
+            {/* Projects moved to additional */}
+            {movedToAdditional.map((proj) => {
+              const logo = projectLogos[proj.slug];
+              const image = proj.images[0];
+              return (
+                <div
+                  key={proj.slug}
+                  className="group w-[76vw] min-w-[76vw] snap-start overflow-hidden rounded-xl border border-line bg-surface transition-all duration-500 hover:-translate-y-1 hover:border-gold/20 hover:bg-surface-strong sm:w-auto sm:min-w-0"
+                >
+                  {image && (
+                    <div className="relative aspect-[16/10] overflow-hidden">
+                      <Image
+                        src={image}
+                        alt={`${proj.name} preview`}
+                        fill
+                        sizes="(min-width: 1024px) 25vw, 50vw"
+                        className="object-cover transition duration-700 group-hover:scale-[1.04]"
+                      />
+                    </div>
+                  )}
+                  {logo && (
+                    <div className="px-0 py-0">
+                      <Image src={logo} alt={`${proj.name} logo`} width={255} height={165} className="max-h-24 w-auto object-contain opacity-85 transition duration-500 group-hover:opacity-100 group-hover:scale-105" />
+                    </div>
+                  )}
+                  <div className="p-5 pt-0">
+                    <span className="font-mono text-[9px] tracking-[0.12em] uppercase text-gold/60 block mb-2">
+                      {proj.category}
+                    </span>
+                    <h4 className="font-heading font-semibold text-[18px] text-text-primary tracking-tight">
+                      {proj.name}
+                    </h4>
+                    <span className="text-[13px] text-text-muted mt-2 block">{proj.timeframe}</span>
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* Original additional works */}
             {visibleAdditionalProjects.map((proj) => {
               const assets = additionalWorkAssets[proj.name];
-
               return (
-              <div
-                key={proj.name}
-                className="group w-[76vw] min-w-[76vw] snap-start overflow-hidden rounded-xl border border-line bg-surface transition-all duration-500 hover:-translate-y-1 hover:border-gold/20 hover:bg-surface-strong sm:w-auto sm:min-w-0"
-              >
-                {assets && (
-                  <div className="relative aspect-[16/10] overflow-hidden">
-                    <Image
-                      src={assets.image}
-                      alt={`${proj.name} preview`}
-                      fill
-                      sizes="(min-width: 1024px) 25vw, 50vw"
-                      className="object-cover transition duration-700 group-hover:scale-[1.04]"
-                    />
+                <div
+                  key={proj.name}
+                  className="group w-[76vw] min-w-[76vw] snap-start overflow-hidden rounded-xl border border-line bg-surface transition-all duration-500 hover:-translate-y-1 hover:border-gold/20 hover:bg-surface-strong sm:w-auto sm:min-w-0"
+                >
+                  {assets && (
+                    <div className="relative aspect-[16/10] overflow-hidden">
+                      <Image
+                        src={assets.image}
+                        alt={`${proj.name} preview`}
+                        fill
+                        sizes="(min-width: 1024px) 25vw, 50vw"
+                        className="object-cover transition duration-700 group-hover:scale-[1.04]"
+                      />
+                    </div>
+                  )}
+                  {assets && (
+                    <div className="px-0 py-0">
+                      <Image src={assets.logo} alt={`${proj.name} logo`} width={255} height={165} className="max-h-24 w-auto object-contain opacity-85 transition duration-500 group-hover:opacity-100 group-hover:scale-105" />
+                    </div>
+                  )}
+                  <div className="p-5 pt-0">
+                    <span className="font-mono text-[9px] tracking-[0.12em] uppercase text-gold/60 block mb-2">
+                      {proj.category}
+                    </span>
+                    <h4 className="font-heading font-semibold text-[18px] text-text-primary tracking-tight">
+                      {proj.name}
+                    </h4>
+                    <span className="text-[13px] text-text-muted mt-2 block">{proj.year}</span>
                   </div>
-                )}
-                {assets && (
-                  <div className="px-0 py-0">
-                    <Image src={assets.logo} alt={`${proj.name} logo`} width={255} height={165} className="max-h-24 w-auto object-contain opacity-85 transition duration-500 group-hover:opacity-100 group-hover:scale-105" />
-                  </div>
-                )}
-                <div className="p-5 pt-0">
-                  <span className="font-mono text-[9px] tracking-[0.12em] uppercase text-gold/60 block mb-2">
-                    {proj.category}
-                  </span>
-                  <h4 className="font-heading font-semibold text-[18px] text-text-primary tracking-tight">
-                    {proj.name}
-                  </h4>
-                  <span className="text-[13px] text-text-muted mt-2 block">{proj.year}</span>
                 </div>
-              </div>
               );
             })}
           </div>
