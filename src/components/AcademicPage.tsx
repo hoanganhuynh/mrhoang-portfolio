@@ -16,8 +16,6 @@ import {
   MapPin,
   Phone,
   Mail,
-  Calendar,
-  Home,
 } from "lucide-react";
 import {
   internationalPapers,
@@ -291,16 +289,8 @@ export default function AcademicPage() {
               </p>
               <div className="flex flex-col gap-2.5">
                 <div className="flex items-start gap-2">
-                  <Calendar size={13} className="text-text-muted shrink-0 mt-0.5" />
-                  <span className="font-body text-[14px] text-text-secondary">{PROFILE.dob}</span>
-                </div>
-                <div className="flex items-start gap-2">
                   <MapPin size={13} className="text-text-muted shrink-0 mt-0.5" />
                   <span className="font-body text-[14px] text-text-secondary">{PROFILE.hometown}</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <Home size={13} className="text-text-muted shrink-0 mt-0.5" />
-                  <span className="font-body text-[14px] text-text-secondary leading-snug">{PROFILE.address}</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <Phone size={13} className="text-text-muted shrink-0 mt-0.5" />
