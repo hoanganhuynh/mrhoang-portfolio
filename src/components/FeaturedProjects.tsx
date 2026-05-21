@@ -13,10 +13,10 @@ const projectLogos: Record<string, string> = {
   "fpt-techday": "/assets/project logo/FPT.png",
   rav: "/assets/project logo/RESTAURANT ASSOCIATION VIETNAM.png",
   emotico: "/assets/project logo/eMotico.png",
-  vinamilk: "/assets/project logo/Vinamilk.png",
+  vinamilk: "/assets/logo partner two mode/mono/vinamilk.png",
   bcnv: "/assets/project logo/BCNV.png",
   "sacombank-vr": "/assets/project logo/Sacombank.png",
-  "cosmo-club": "/assets/project logo/COSMO.png",
+  "cosmo-club": "/assets/logo partner two mode/mono/Cosmo.png",
 };
 
 const additionalWorkAssets: Record<string, { image: string; logo: string }> = {
