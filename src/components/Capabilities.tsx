@@ -39,7 +39,7 @@ export default function Capabilities() {
       <div className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 [-webkit-overflow-scrolling:touch] md:mt-14 sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 lg:grid-cols-4 lg:gap-5">
         {groups.map((group, i) => (
           <FadeIn key={group.title} delay={0.08 * i} className="w-[77vw] min-w-[77vw] snap-start sm:w-auto sm:min-w-0">
-            <div className="group relative overflow-hidden rounded-xl border border-line bg-surface p-4 h-full transition-all duration-500 hover:-translate-y-1 hover:border-gold/20 hover:bg-surface-strong">
+            <div className="group relative overflow-hidden rounded-xl border border-line bg-surface p-4 md:p-7 h-full transition-all duration-500 hover:-translate-y-1 hover:border-gold/20 hover:bg-surface-strong">
               <FeatureGridBackground />
               <div className="relative z-10 mb-4">
                 <Image src={group.icon} alt="" width={56} height={56} className="h-14 w-14 object-contain transition duration-500 group-hover:scale-110" />
