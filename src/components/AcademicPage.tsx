@@ -43,12 +43,12 @@ type TabId =
   | "awards";
 
 const TABS: { id: TabId; label: string; count: number; Icon: React.ElementType }[] = [
-  { id: "intl-papers",           label: "Bài báo quốc tế",       count: internationalPapers.length,     Icon: Globe         },
-  { id: "domestic-papers",       label: "Bài báo trong nước",     count: domesticPapers.length,          Icon: FileText      },
-  { id: "intl-conferences",      label: "Hội thảo quốc tế",       count: internationalConferences.length, Icon: Mic           },
-  { id: "domestic-conferences",  label: "Hội thảo trong nước",    count: domesticConferences.length,     Icon: MessageSquare },
-  { id: "books",                 label: "Sách",                   count: books.length,                   Icon: BookOpen      },
-  { id: "awards",                label: "Giải thưởng",            count: awards.length,                  Icon: Trophy        },
+  { id: "intl-papers",           label: "Bài báo quốc tế",      count: internationalPapers.length,      Icon: Globe         },
+  { id: "domestic-papers",       label: "Bài báo trong nước",    count: domesticPapers.length,           Icon: FileText      },
+  { id: "intl-conferences",      label: "Hội thảo quốc tế",      count: internationalConferences.length, Icon: Mic           },
+  { id: "domestic-conferences",  label: "Hội thảo trong nước",   count: domesticConferences.length,      Icon: MessageSquare },
+  { id: "books",                 label: "Sách",                  count: books.length,                    Icon: BookOpen      },
+  { id: "awards",                label: "Giải thưởng",           count: awards.length,                   Icon: Trophy        },
 ];
 
 const PROFILE = {
@@ -104,7 +104,8 @@ function TimelineYear({
       </div>
       {/* Content */}
       <div className={`flex-1 ${isLast ? "pb-2" : "pb-10"}`}>
-        <p className="font-mono text-[11px] font-bold text-gold -mt-0.5 mb-4">{year}</p>
+        {/* year label: small on mobile, 14px on desktop */}
+        <p className="font-mono text-[11px] md:text-[14px] font-bold text-gold -mt-0.5 mb-4">{year}</p>
         {children}
       </div>
     </div>
@@ -116,7 +117,8 @@ function TimelineYear({
 function PaperEntry({ paper, stt }: { paper: Paper; stt: number }) {
   return (
     <div className="mb-5 last:mb-0 flex items-start gap-3">
-      <span className="font-mono text-[10px] text-text-muted tabular-nums pt-0.5 shrink-0 w-5 text-right">
+      {/* STT: small on mobile, 14px on desktop */}
+      <span className="font-mono text-[10px] md:text-[14px] text-text-muted tabular-nums pt-0.5 shrink-0 w-5 md:w-7 text-right">
         {String(stt).padStart(2, "0")}
       </span>
       <div className="flex-1">
@@ -124,10 +126,11 @@ function PaperEntry({ paper, stt }: { paper: Paper; stt: number }) {
           {paper.title}
         </p>
         <div className="flex items-center gap-1.5 mb-1">
-          <Users size={11} className="text-text-muted shrink-0" />
-          <p className="font-body text-[12px] text-text-muted leading-relaxed">{paper.authors}</p>
+          <Users size={13} className="text-text-muted shrink-0" />
+          {/* authors: small on mobile, 14px on desktop */}
+          <p className="font-body text-[12px] md:text-[14px] text-text-muted leading-relaxed">{paper.authors}</p>
         </div>
-        <p className="font-body text-[12px] text-text-secondary italic pl-[19px]">{paper.journal}</p>
+        <p className="font-body text-[12px] md:text-[14px] text-text-secondary italic pl-[21px]">{paper.journal}</p>
       </div>
     </div>
   );
@@ -136,7 +139,7 @@ function PaperEntry({ paper, stt }: { paper: Paper; stt: number }) {
 function ConferenceEntry({ paper, stt }: { paper: ConferencePaper; stt: number }) {
   return (
     <div className="mb-5 last:mb-0 flex items-start gap-3">
-      <span className="font-mono text-[10px] text-text-muted tabular-nums pt-0.5 shrink-0 w-5 text-right">
+      <span className="font-mono text-[10px] md:text-[14px] text-text-muted tabular-nums pt-0.5 shrink-0 w-5 md:w-7 text-right">
         {String(stt).padStart(2, "0")}
       </span>
       <div className="flex-1">
@@ -144,10 +147,10 @@ function ConferenceEntry({ paper, stt }: { paper: ConferencePaper; stt: number }
           {paper.title}
         </p>
         <div className="flex items-center gap-1.5 mb-1">
-          <Users size={11} className="text-text-muted shrink-0" />
-          <p className="font-body text-[12px] text-text-muted leading-relaxed">{paper.authors}</p>
+          <Users size={13} className="text-text-muted shrink-0" />
+          <p className="font-body text-[12px] md:text-[14px] text-text-muted leading-relaxed">{paper.authors}</p>
         </div>
-        <p className="font-body text-[12px] text-text-secondary italic pl-[19px]">{paper.event}</p>
+        <p className="font-body text-[12px] md:text-[14px] text-text-secondary italic pl-[21px]">{paper.event}</p>
       </div>
     </div>
   );
@@ -156,7 +159,7 @@ function ConferenceEntry({ paper, stt }: { paper: ConferencePaper; stt: number }
 function BookEntry({ book, stt }: { book: Book; stt: number }) {
   return (
     <div className="mb-5 last:mb-0 flex items-start gap-3">
-      <span className="font-mono text-[10px] text-text-muted tabular-nums pt-0.5 shrink-0 w-5 text-right">
+      <span className="font-mono text-[10px] md:text-[14px] text-text-muted tabular-nums pt-0.5 shrink-0 w-5 md:w-7 text-right">
         {String(stt).padStart(2, "0")}
       </span>
       <div className="flex-1">
@@ -164,9 +167,9 @@ function BookEntry({ book, stt }: { book: Book; stt: number }) {
           {book.title}
         </p>
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="font-body text-[12px] text-text-muted">{book.type}</span>
+          <span className="font-body text-[12px] md:text-[14px] text-text-muted">{book.type}</span>
           <span className="text-text-muted opacity-40">·</span>
-          <span className="font-body text-[12px] text-text-secondary italic">{book.publisher}</span>
+          <span className="font-body text-[12px] md:text-[14px] text-text-secondary italic">{book.publisher}</span>
         </div>
       </div>
     </div>
@@ -233,13 +236,14 @@ function AwardsTab() {
             <div className="w-10 h-10 rounded-xl bg-gold-soft flex items-center justify-center shrink-0">
               <Icon size={18} className="text-gold" />
             </div>
-            <span className="font-mono text-[10px] text-gold font-bold px-2.5 py-1 rounded-full border border-gold/25 bg-gold-dim self-start tracking-wide uppercase">
+            {/* rank badge */}
+            <span className="font-mono text-[10px] md:text-[14px] text-gold font-bold px-2.5 py-1 rounded-full border border-gold/25 bg-gold-dim self-start tracking-wide uppercase">
               {award.rank}
             </span>
-            <p className="font-body text-[12px] text-text-secondary leading-snug">
+            <p className="font-body text-[12px] md:text-[14px] text-text-secondary leading-snug">
               {award.organization}
             </p>
-            <p className="font-body text-[12px] text-text-muted italic leading-snug">
+            <p className="font-body text-[12px] md:text-[14px] text-text-muted italic leading-snug">
               {award.topic}
             </p>
           </div>
@@ -263,31 +267,31 @@ export default function AcademicPage() {
           {/* ── Sidebar ── */}
           <aside className="w-full md:w-56 shrink-0">
 
-            {/* Desktop: full-width square avatar */}
+            {/* Desktop: full-width square avatar — new academic photo */}
             <div className="hidden md:block mb-4">
               <Image
-                src="/assets/avatar-3.png"
+                src="/assets/avatar-Academic%20mode.jpeg"
                 alt="Nguyễn Lê Bảo Hoàng"
                 width={224}
                 height={224}
-                className="w-full aspect-square object-cover rounded-2xl"
+                className="w-full aspect-square object-cover object-top rounded-2xl"
               />
             </div>
 
             {/* Mobile: compact header row */}
             <div className="flex md:hidden items-center gap-4 mb-5">
               <Image
-                src="/assets/avatar-3.png"
+                src="/assets/avatar-Academic%20mode.jpeg"
                 alt="Nguyễn Lê Bảo Hoàng"
                 width={64}
                 height={64}
-                className="w-16 h-16 object-cover rounded-2xl shrink-0"
+                className="w-16 h-16 object-cover object-top rounded-2xl shrink-0"
               />
               <div>
                 <h1 className="font-heading font-bold text-[16px] text-text-primary leading-tight">
                   {PROFILE.name}
                 </h1>
-                <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-text-muted mt-1">
+                <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-text-muted mt-1">
                   {PROFILE.title}
                 </p>
               </div>
@@ -298,36 +302,37 @@ export default function AcademicPage() {
               <h1 className="font-heading font-bold text-[16px] leading-tight text-text-primary mb-0.5">
                 {PROFILE.name}
               </h1>
-              <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-gold mb-4">
+              {/* subtitle: desktop minimum 14px */}
+              <p className="font-mono text-[14px] uppercase tracking-[0.06em] text-gold mb-4">
                 {PROFILE.title} · {PROFILE.titleYear}
               </p>
               <div className="flex flex-col gap-2.5">
                 <div className="flex items-start gap-2">
-                  <Calendar size={11} className="text-text-muted shrink-0 mt-0.5" />
-                  <span className="font-body text-[11px] text-text-secondary">{PROFILE.dob}</span>
+                  <Calendar size={13} className="text-text-muted shrink-0 mt-0.5" />
+                  <span className="font-body text-[14px] text-text-secondary">{PROFILE.dob}</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <MapPin size={11} className="text-text-muted shrink-0 mt-0.5" />
-                  <span className="font-body text-[11px] text-text-secondary">{PROFILE.hometown}</span>
+                  <MapPin size={13} className="text-text-muted shrink-0 mt-0.5" />
+                  <span className="font-body text-[14px] text-text-secondary">{PROFILE.hometown}</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <Home size={11} className="text-text-muted shrink-0 mt-0.5" />
-                  <span className="font-body text-[11px] text-text-secondary leading-snug">{PROFILE.address}</span>
+                  <Home size={13} className="text-text-muted shrink-0 mt-0.5" />
+                  <span className="font-body text-[14px] text-text-secondary leading-snug">{PROFILE.address}</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <Phone size={11} className="text-text-muted shrink-0 mt-0.5" />
+                  <Phone size={13} className="text-text-muted shrink-0 mt-0.5" />
                   <a
                     href={`tel:${PROFILE.phone}`}
-                    className="font-body text-[11px] text-text-secondary hover:text-gold transition-colors"
+                    className="font-body text-[14px] text-text-secondary hover:text-gold transition-colors"
                   >
                     {PROFILE.phone}
                   </a>
                 </div>
                 <div className="flex items-start gap-2">
-                  <Mail size={11} className="text-text-muted shrink-0 mt-0.5" />
+                  <Mail size={13} className="text-text-muted shrink-0 mt-0.5" />
                   <a
                     href={`mailto:${PROFILE.email}`}
-                    className="font-body text-[11px] text-text-secondary hover:text-gold transition-colors break-all"
+                    className="font-body text-[14px] text-text-secondary hover:text-gold transition-colors break-all"
                   >
                     {PROFILE.email}
                   </a>
@@ -345,7 +350,7 @@ export default function AcademicPage() {
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
-                      className={`text-left px-3 py-2.5 rounded-lg text-[13px] transition-all duration-200 flex items-center gap-2.5 border-l-2 ${
+                      className={`text-left px-3 py-2.5 rounded-lg text-[14px] transition-all duration-200 flex items-center gap-2.5 border-l-2 ${
                         activeTab === tab.id
                           ? "border-gold text-text-primary font-semibold bg-surface-strong"
                           : "border-transparent text-text-muted hover:text-text-primary hover:bg-surface"
@@ -353,7 +358,7 @@ export default function AcademicPage() {
                     >
                       <Icon size={14} className="shrink-0" />
                       <span className="flex-1 font-body">{tab.label}</span>
-                      <span className="font-mono text-[10px] text-text-muted tabular-nums">{tab.count}</span>
+                      <span className="font-mono text-[14px] text-text-muted tabular-nums">{tab.count}</span>
                     </button>
                   );
                 })}
@@ -388,7 +393,7 @@ export default function AcademicPage() {
               <h2 className="font-heading font-bold text-[22px] text-text-primary">
                 {activeTabMeta.label}
               </h2>
-              <span className="font-mono text-[12px] text-text-muted">
+              <span className="font-mono text-[12px] md:text-[14px] text-text-muted">
                 · {activeTabMeta.count} mục
               </span>
             </div>
