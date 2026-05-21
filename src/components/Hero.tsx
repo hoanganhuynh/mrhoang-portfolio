@@ -76,9 +76,7 @@ export default function Hero() {
             </h1>
 
             <p className="mt-7 max-w-[720px] text-[16px] leading-[1.85] text-text-secondary md:text-[18px] anim-fade-up anim-delay-3">
-              I synthesize complex business objectives, fragmented requirements,
-              and behavioral insights into intuitive, scalable, and commercially
-              viable digital products.
+              Orchestrating lean business operations by synthesizing data-driven analytics and generative AI, underpinned by a strategic foundation in business management psychology
             </p>
           </div>
 
