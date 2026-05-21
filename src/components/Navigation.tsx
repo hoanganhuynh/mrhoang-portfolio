@@ -102,13 +102,23 @@ export default function Navigation() {
             Call 0929 822 369
           </button>
 
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2 text-text-muted hover:text-text-primary transition-colors z-10"
-            aria-label="Toggle menu"
-          >
-            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
+          <div className="flex items-center gap-2 md:hidden">
+            <a
+              href="tel:0929822369"
+              className="flex items-center gap-1.5 font-mono text-[10px] tracking-[0.08em] uppercase px-3 py-2 rounded-full border border-gold/25 bg-gold/10 text-gold"
+              aria-label="Call 0929 822 369"
+            >
+              <Phone size={12} />
+              0929 822 369
+            </a>
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="p-2 text-text-muted hover:text-text-primary transition-colors z-10"
+              aria-label="Toggle menu"
+            >
+              {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
           </div>
         </div>
       </nav>
