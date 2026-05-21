@@ -110,12 +110,6 @@ export default function Navigation({ mode, setMode }: NavigationProps) {
               </div>
             )}
 
-            {/* Academic mode center label */}
-            {mode === "academic" && (
-              <span className="hidden md:block font-mono text-[11px] tracking-[0.12em] uppercase text-text-muted">
-                Lý lịch khoa học
-              </span>
-            )}
 
             {/* Desktop right side: mode toggle + call button */}
             <div className="hidden md:flex items-center gap-3">

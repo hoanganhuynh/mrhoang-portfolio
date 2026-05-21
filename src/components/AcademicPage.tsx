@@ -114,63 +114,46 @@ function TimelineYear({
 
 // ── Entry components ───────────────────────────────────────────────────
 
-function PaperEntry({ paper, stt }: { paper: Paper; stt: number }) {
+function PaperEntry({ paper }: { paper: Paper }) {
   return (
-    <div className="mb-5 last:mb-0 flex items-start gap-3">
-      {/* STT: small on mobile, 14px on desktop */}
-      <span className="font-mono text-[10px] md:text-[14px] text-text-muted tabular-nums pt-0.5 shrink-0 w-5 md:w-7 text-right">
-        {String(stt).padStart(2, "0")}
-      </span>
-      <div className="flex-1">
-        <p className="font-body text-[14px] text-text-primary leading-snug font-semibold mb-2">
-          {paper.title}
-        </p>
-        <div className="flex items-center gap-1.5 mb-1">
-          <Users size={13} className="text-text-muted shrink-0" />
-          {/* authors: small on mobile, 14px on desktop */}
-          <p className="font-body text-[12px] md:text-[14px] text-text-muted leading-relaxed">{paper.authors}</p>
-        </div>
-        <p className="font-body text-[12px] md:text-[14px] text-text-secondary italic pl-[21px]">{paper.journal}</p>
+    <div className="mb-5 last:mb-0">
+      <p className="font-body text-[14px] text-text-primary leading-snug font-semibold mb-2">
+        {paper.title}
+      </p>
+      <div className="flex items-center gap-1.5 mb-1">
+        <Users size={13} className="text-text-muted shrink-0" />
+        <p className="font-body text-[12px] md:text-[14px] text-text-muted leading-relaxed">{paper.authors}</p>
       </div>
+      <p className="font-body text-[12px] md:text-[14px] text-text-secondary italic pl-[21px]">{paper.journal}</p>
     </div>
   );
 }
 
-function ConferenceEntry({ paper, stt }: { paper: ConferencePaper; stt: number }) {
+function ConferenceEntry({ paper }: { paper: ConferencePaper }) {
   return (
-    <div className="mb-5 last:mb-0 flex items-start gap-3">
-      <span className="font-mono text-[10px] md:text-[14px] text-text-muted tabular-nums pt-0.5 shrink-0 w-5 md:w-7 text-right">
-        {String(stt).padStart(2, "0")}
-      </span>
-      <div className="flex-1">
-        <p className="font-body text-[14px] text-text-primary leading-snug font-semibold mb-2">
-          {paper.title}
-        </p>
-        <div className="flex items-center gap-1.5 mb-1">
-          <Users size={13} className="text-text-muted shrink-0" />
-          <p className="font-body text-[12px] md:text-[14px] text-text-muted leading-relaxed">{paper.authors}</p>
-        </div>
-        <p className="font-body text-[12px] md:text-[14px] text-text-secondary italic pl-[21px]">{paper.event}</p>
+    <div className="mb-5 last:mb-0">
+      <p className="font-body text-[14px] text-text-primary leading-snug font-semibold mb-2">
+        {paper.title}
+      </p>
+      <div className="flex items-center gap-1.5 mb-1">
+        <Users size={13} className="text-text-muted shrink-0" />
+        <p className="font-body text-[12px] md:text-[14px] text-text-muted leading-relaxed">{paper.authors}</p>
       </div>
+      <p className="font-body text-[12px] md:text-[14px] text-text-secondary italic pl-[21px]">{paper.event}</p>
     </div>
   );
 }
 
-function BookEntry({ book, stt }: { book: Book; stt: number }) {
+function BookEntry({ book }: { book: Book }) {
   return (
-    <div className="mb-5 last:mb-0 flex items-start gap-3">
-      <span className="font-mono text-[10px] md:text-[14px] text-text-muted tabular-nums pt-0.5 shrink-0 w-5 md:w-7 text-right">
-        {String(stt).padStart(2, "0")}
-      </span>
-      <div className="flex-1">
-        <p className="font-body text-[14px] text-text-primary leading-snug font-semibold mb-1.5">
-          {book.title}
-        </p>
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="font-body text-[12px] md:text-[14px] text-text-muted">{book.type}</span>
-          <span className="text-text-muted opacity-40">·</span>
-          <span className="font-body text-[12px] md:text-[14px] text-text-secondary italic">{book.publisher}</span>
-        </div>
+    <div className="mb-5 last:mb-0">
+      <p className="font-body text-[14px] text-text-primary leading-snug font-semibold mb-1.5">
+        {book.title}
+      </p>
+      <div className="flex items-center gap-2 flex-wrap">
+        <span className="font-body text-[12px] md:text-[14px] text-text-muted">{book.type}</span>
+        <span className="text-text-muted opacity-40">·</span>
+        <span className="font-body text-[12px] md:text-[14px] text-text-secondary italic">{book.publisher}</span>
       </div>
     </div>
   );
@@ -185,7 +168,7 @@ function PaperTimelineTab({ items }: { items: Paper[] }) {
       {groups.map(({ year, entries }, gi) => (
         <TimelineYear key={year} year={year} isLast={gi === groups.length - 1}>
           {entries.map(({ data, stt }) => (
-            <PaperEntry key={stt} paper={data} stt={stt} />
+            <PaperEntry key={stt} paper={data} />
           ))}
         </TimelineYear>
       ))}
@@ -200,7 +183,7 @@ function ConferenceTimelineTab({ items }: { items: ConferencePaper[] }) {
       {groups.map(({ year, entries }, gi) => (
         <TimelineYear key={year} year={year} isLast={gi === groups.length - 1}>
           {entries.map(({ data, stt }) => (
-            <ConferenceEntry key={stt} paper={data} stt={stt} />
+            <ConferenceEntry key={stt} paper={data} />
           ))}
         </TimelineYear>
       ))}
@@ -215,7 +198,7 @@ function BooksTimelineTab() {
       {groups.map(({ year, entries }, gi) => (
         <TimelineYear key={year} year={year} isLast={gi === groups.length - 1}>
           {entries.map(({ data, stt }) => (
-            <BookEntry key={stt} book={data} stt={stt} />
+            <BookEntry key={stt} book={data} />
           ))}
         </TimelineYear>
       ))}
