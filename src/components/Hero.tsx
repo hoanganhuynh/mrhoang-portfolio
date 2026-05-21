@@ -83,8 +83,8 @@ export default function Hero() {
           <div className="mt-8 rounded-2xl border border-white/12 bg-white/[0.035] p-4 backdrop-blur-2xl md:mt-10 md:p-5 anim-slide-right anim-delay-5">
             <div className="grid gap-3">
               {credentials.map(({ icon: Icon, emphasis, detail }) => (
-                <div key={`${emphasis}${detail}`} className="flex items-start gap-3 text-[14px] leading-[1.45] text-text-secondary">
-                  <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-gold/20 bg-gold/[0.08] text-gold">
+                <div key={`${emphasis}${detail}`} className="flex items-center gap-3 text-[14px] leading-[1.45] text-text-secondary">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-gold/20 bg-gold/[0.08] text-gold">
                     <Icon size={14} strokeWidth={1.8} />
                   </span>
                   <span>
