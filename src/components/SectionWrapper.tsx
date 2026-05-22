@@ -43,12 +43,9 @@ export function FadeIn({
   return (
     <div
       ref={ref}
-      className={`${className} ${isInView ? "is-in-view" : ""}`}
-      style={{
-        opacity: isInView ? 1 : 0,
-        transform: isInView ? "translateY(0)" : "translateY(24px)",
-        transition: `opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s`,
-      }}
+      data-in-view={isInView ? "1" : "0"}
+      className={`fade-in-el ${isInView ? "is-in-view" : ""} ${className}`}
+      style={{ "--fade-delay": `${delay}s` } as React.CSSProperties}
     >
       {children}
     </div>

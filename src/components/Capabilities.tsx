@@ -5,22 +5,22 @@ import SectionWrapper, { FadeIn, SectionTitle } from "./SectionWrapper";
 
 const groups = [
   {
-    icon: "/assets/icons/project-general-info/Thời gian thực hiện.png",
+    icon: "/assets/icons/project-general-info/Thời gian thực hiện.webp",
     title: "Project & Product Management",
     items: ["Project roadmap", "Scope definition", "Stakeholder alignment", "Agile coordination", "QA planning", "Documentation", "Handover process", "Partner communication"],
   },
   {
-    icon: "/assets/icons/Brand Archetypes/The Sage (Nhà hiền triết).png",
+    icon: "/assets/icons/Brand Archetypes/The Sage (Nhà hiền triết).webp",
     title: "Psychology & Business",
     items: ["User behavior analysis", "Decision-making insight", "Customer journey thinking", "Business psychology", "Motivation and engagement", "Mental wellness product logic"],
   },
   {
-    icon: "/assets/icons/Brand Archetypes/The Creator (Người kiến tạo).png",
+    icon: "/assets/icons/Brand Archetypes/The Creator (Người kiến tạo).webp",
     title: "Design & Creative Direction",
     items: ["UX/UI direction", "Design system thinking", "Brand identity", "Creative strategy", "Motion / 3D direction", "Digital campaign experience"],
   },
   {
-    icon: "/assets/icons/project-general-info/Công nghệ sử dụng.png",
+    icon: "/assets/icons/project-general-info/Công nghệ sử dụng.webp",
     title: "Technical Understanding",
     items: ["Front-end architecture awareness", "CMS logic", "API and backend coordination", "Performance awareness", "Scalability discussion", "Technical feasibility planning"],
   },

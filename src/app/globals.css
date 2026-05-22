@@ -343,3 +343,52 @@ button:focus-visible {
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
+/* ── FadeIn component — CSS-driven for mobile override ── */
+.fade-in-el {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--fade-delay, 0s),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--fade-delay, 0s);
+}
+.fade-in-el[data-in-view="1"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Mobile: strip heavy animations for performance ── */
+@media (max-width: 767px) {
+  /* Remove expensive blur glow */
+  .glow-gold { display: none; }
+
+  /* Remove filter:blur from heading animation — GPU-expensive on mobile */
+  .heading-soft-blur,
+  .is-in-view :is(h1, h2, h3, h4, h5, h6) {
+    animation: fadeIn 0.3s ease both;
+  }
+  .is-in-view :is(h3, h4, h5, h6) { animation-duration: 0.25s; }
+
+  /* Shorten entrance animation durations */
+  .anim-fade-up  { animation-duration: 0.25s; }
+  .anim-fade-in  { animation-duration: 0.25s; }
+  /* slideRight → plain fadeIn (no horizontal shift jank on narrow screens) */
+  .anim-slide-right { animation: fadeIn 0.25s ease both; }
+
+  /* Cap stagger delays — long delays feel sluggish on mobile */
+  .anim-delay-3  { animation-delay: 0.08s; }
+  .anim-delay-4  { animation-delay: 0.10s; }
+  .anim-delay-5,
+  .anim-delay-6,
+  .anim-delay-7,
+  .anim-delay-8,
+  .anim-delay-9,
+  .anim-delay-10 { animation-delay: 0.12s; }
+
+  /* FadeIn component: skip translateY, opacity only */
+  .fade-in-el {
+    transform: none;
+    transition: opacity 0.25s ease var(--fade-delay, 0s);
+  }
+  .fade-in-el[data-in-view="1"] { transform: none; }
+}

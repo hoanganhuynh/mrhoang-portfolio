@@ -181,8 +181,8 @@ export default function Navigation({ mode, setMode }: NavigationProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 bg-bg/98 backdrop-blur-3xl pt-24 px-8 md:hidden"
+            transition={{ duration: 0.15 }}
+            className="fixed inset-0 z-40 bg-bg/98 backdrop-blur-lg pt-24 px-8 md:hidden"
           >
             <div className="flex flex-col gap-1 pt-8">
               {mode === "business" && navItems.map((item, i) => (
@@ -190,7 +190,7 @@ export default function Navigation({ mode, setMode }: NavigationProps) {
                   key={item.href}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ delay: i * 0.02, ease: [0.22, 1, 0.36, 1] }}
                   onClick={() => scrollTo(item.href)}
                   className="text-left font-heading text-2xl font-bold text-text-primary hover:text-gold transition-colors py-4 border-b border-line flex items-center justify-between"
                 >
@@ -212,7 +212,7 @@ export default function Navigation({ mode, setMode }: NavigationProps) {
               <motion.button
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: navItems.length * 0.05 }}
+                transition={{ delay: navItems.length * 0.02 }}
                 onClick={() => scrollTo("#contact")}
                 className="mt-8 w-full py-3.5 font-mono text-[11px] tracking-wider uppercase border border-gold/20 text-gold rounded-full hover:bg-gold/[0.05] transition-all"
               >

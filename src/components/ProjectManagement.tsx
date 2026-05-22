@@ -4,10 +4,10 @@ import Image from "next/image";
 import SectionWrapper, { FadeIn, SectionTitle } from "./SectionWrapper";
 
 const steps = [
-  { icon: "/assets/icons/project-general-info/Thời gian thực hiện.png", num: "01", title: "Diagnose", description: "Business goals, market context, user behavior, operational pain points, internal constraints." },
-  { icon: "/assets/icons/Brand Archetypes/The Ruler (Người kiểm soát).png", num: "02", title: "Structure", description: "Roadmap, scope, roles, milestones, UX direction, and technical feasibility." },
-  { icon: "/assets/icons/project-general-info/Thành viên tham gia.png", num: "03", title: "Coordinate", description: "Stakeholders, designers, developers, partners, and internal teams through transparent communication." },
-  { icon: "/assets/icons/project-general-info/Công nghệ sử dụng.png", num: "04", title: "Sustain", description: "Handover, documentation, QA, training, iteration loops, and internal adoption." },
+  { icon: "/assets/icons/project-general-info/Thời gian thực hiện.webp", num: "01", title: "Diagnose", description: "Business goals, market context, user behavior, operational pain points, internal constraints." },
+  { icon: "/assets/icons/Brand Archetypes/The Ruler (Người kiểm soát).webp", num: "02", title: "Structure", description: "Roadmap, scope, roles, milestones, UX direction, and technical feasibility." },
+  { icon: "/assets/icons/project-general-info/Thành viên tham gia.webp", num: "03", title: "Coordinate", description: "Stakeholders, designers, developers, partners, and internal teams through transparent communication." },
+  { icon: "/assets/icons/project-general-info/Công nghệ sử dụng.webp", num: "04", title: "Sustain", description: "Handover, documentation, QA, training, iteration loops, and internal adoption." },
 ];
 
 const painChips = [

@@ -21,7 +21,7 @@ export default function Hero() {
       <div className="relative z-10 grid min-h-[calc(100svh-6rem)] grid-cols-1 gap-8 px-5 pb-8 md:gap-10 md:pl-8 md:pr-10 md:pb-10 lg:grid-cols-[0.9fr_1.1fr] lg:pr-14">
         <div className="relative min-h-[340px] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] sm:min-h-[420px] md:rounded-[28px] lg:min-h-0 anim-fade-up anim-delay-1">
           <Image
-            src="/assets/avatar-3.png"
+            src="/assets/avatar-3.jpg"
             alt="Williens Hoang Nguyen portrait"
             fill
             priority

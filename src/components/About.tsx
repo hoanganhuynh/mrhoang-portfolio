@@ -5,17 +5,17 @@ import SectionWrapper, { FadeIn, SectionTitle } from "./SectionWrapper";
 
 const principles = [
   {
-    icon: "/assets/icons/Brand Archetypes/The Sage (Nhà hiền triết).png",
+    icon: "/assets/icons/Brand Archetypes/The Sage (Nhà hiền triết).webp",
     title: "Psychology-informed decisions",
     desc: "Leveraging behavioral science to decode user decision-making and engagement, designing products rooted in authentic human patterns.",
   },
   {
-    icon: "/assets/icons/Brand Archetypes/The Ruler (Người kiểm soát).png",
+    icon: "/assets/icons/Brand Archetypes/The Ruler (Người kiểm soát).webp",
     title: "Business-first creative direction",
     desc: "All design decisions are strictly anchored in operational viability, market relevance, and long-term commercial sustainability.",
   },
   {
-    icon: "/assets/icons/Giao thoa giữa Creative & Business/TRIẾT LÝ VẬN HÀNH.png",
+    icon: "/assets/icons/Giao thoa giữa Creative & Business/TRIẾT LÝ VẬN HÀNH.webp",
     title: "Delivery systems that last",
     desc: "Establishing robust workflows, comprehensive documentation, and systematic handover logic to ensure operational continuity and post-launch maintainability.",
   },

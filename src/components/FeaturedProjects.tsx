@@ -21,15 +21,15 @@ const projectLogos: Record<string, string> = {
 
 const additionalWorkAssets: Record<string, { image: string; logo: string }> = {
   "Ho Chi Minh City Tourism Website": {
-    image: "/assets/additional-works/Ho Chi Minh City Tourism Website.png",
+    image: "/assets/additional-works/Ho Chi Minh City Tourism Website.jpg",
     logo: "/assets/project logo/Vibrant Ho Chi Minh.png",
   },
   "Informa Market": {
-    image: "/assets/additional-works/Informa Market.png",
+    image: "/assets/additional-works/Informa Market.jpg",
     logo: "/assets/project logo/Informa.png",
   },
   "Carebox by Hung Thinh Land": {
-    image: "/assets/additional-works/Carebox by Hung Thinh Land.png",
+    image: "/assets/additional-works/Carebox by Hung Thinh Land.jpg",
     logo: "/assets/project logo/Hung Thinh.png",
   },
 };

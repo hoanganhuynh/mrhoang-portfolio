@@ -6,17 +6,17 @@ import { FeatureGridBackground } from "@/components/blocks/grid-feature-cards";
 
 const cards = [
   {
-    icon: "/assets/icons/Giao thoa giữa Creative & Business/TƯ DUY THIẾT KẾ.png",
+    icon: "/assets/icons/Giao thoa giữa Creative & Business/TƯ DUY THIẾT KẾ.webp",
     title: "Creative × Business",
     body: "Design as a strategic instrument: calibrating every choice for market relevance, user comprehension, and operational alignment.",
   },
   {
-    icon: "/assets/icons/Giao thoa giữa Creative & Business/TIẾP CẬN THỰC TIỄN.png",
+    icon: "/assets/icons/Giao thoa giữa Creative & Business/TIẾP CẬN THỰC TIỄN.webp",
     title: "Technical × Stability",
     body: "Product direction driven by technical feasibility, scalability, and robust handover protocols for long-term maintainability.",
   },
   {
-    icon: "/assets/icons/Giao thoa giữa Creative & Business/TRIẾT LÝ VẬN HÀNH.png",
+    icon: "/assets/icons/Giao thoa giữa Creative & Business/TRIẾT LÝ VẬN HÀNH.webp",
     title: "Governance × Delivery",
     body: "Streamlining project delivery via transparent milestones and defined communication to eliminate stakeholder ambiguity.",
   },
