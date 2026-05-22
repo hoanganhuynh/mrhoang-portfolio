@@ -183,4 +183,9 @@ export const awards: Award[] = [
     organization: "Sinh viên Nghiên cứu khoa học 2016–2017, Trường Đại học Sư phạm TP.HCM",
     topic: "Vận dụng \"Năm điều Bác Hồ dạy\" vào xây dựng sách ảnh giáo dục đạo đức cho học sinh tiểu học",
   },
+  {
+    rank: "Sinh viên 5 tốt cấp Trung Ương",
+    organization: "Trung Ương Hội Sinh viên Việt Nam (2018)",
+    topic: "",
+  },
 ];

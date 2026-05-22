@@ -41,8 +41,8 @@ type TabId =
   | "awards";
 
 const TABS: { id: TabId; label: string; count: number; Icon: React.ElementType }[] = [
-  { id: "intl-papers",           label: "Bài báo quốc tế",      count: internationalPapers.length,      Icon: Globe         },
   { id: "domestic-papers",       label: "Bài báo trong nước",    count: domesticPapers.length,           Icon: FileText      },
+  { id: "intl-papers",           label: "Bài báo quốc tế",      count: internationalPapers.length,      Icon: Globe         },
   { id: "intl-conferences",      label: "Hội thảo quốc tế",      count: internationalConferences.length, Icon: Mic           },
   { id: "domestic-conferences",  label: "Hội thảo trong nước",   count: domesticConferences.length,      Icon: MessageSquare },
   { id: "books",                 label: "Sách",                  count: books.length,                    Icon: BookOpen      },
