@@ -251,7 +251,7 @@ export default function AcademicPage() {
             {/* Desktop: full-width square avatar — new academic photo */}
             <div className="hidden md:block mb-4">
               <Image
-                src="/assets/avatar-Academic%20mode.jpeg"
+                src="/assets/mr-hoang.png"
                 alt="Nguyễn Lê Bảo Hoàng"
                 width={320}
                 height={320}
@@ -262,7 +262,7 @@ export default function AcademicPage() {
             {/* Mobile: compact header row */}
             <div className="flex md:hidden items-center gap-4 mb-5">
               <Image
-                src="/assets/avatar-Academic%20mode.jpeg"
+                src="/assets/mr-hoang.png"
                 alt="Nguyễn Lê Bảo Hoàng"
                 width={64}
                 height={64}
