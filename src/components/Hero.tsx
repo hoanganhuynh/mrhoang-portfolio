@@ -5,9 +5,6 @@ import { BriefcaseBusiness, GraduationCap } from "lucide-react";
 
 const credentials = [
   { icon: GraduationCap, emphasis: "PhD. Psychology", detail: " - Lecturer in Psychology in Business Administration" },
-  { icon: BriefcaseBusiness, emphasis: "Chairman", detail: " at Williens Creative Space" },
-  { icon: BriefcaseBusiness, emphasis: "Chairman", detail: " at Emotico Wellness" },
-  { icon: BriefcaseBusiness, emphasis: "Former Vice President", detail: " at Restaurant Association of Vietnam" },
   { icon: BriefcaseBusiness, emphasis: "Former Head of Digital Design", detail: " at Sacombank" },
   { icon: BriefcaseBusiness, emphasis: "Former Product Design", detail: " at FPT Global Healthcare - Centre of Excellence" },
 ];
@@ -47,7 +44,11 @@ export default function Hero() {
               </span>
             </h1>
 
-            <p className="mt-7 max-w-[720px] text-[16px] leading-[1.85] text-text-secondary md:text-[18px] anim-fade-up anim-delay-3">
+            <p className="mt-5 font-mono text-[13px] tracking-[0.14em] uppercase text-gold anim-fade-up anim-delay-2">
+              Product Design Lead
+            </p>
+
+            <p className="mt-5 max-w-[720px] text-[16px] leading-[1.85] text-text-secondary md:text-[18px] anim-fade-up anim-delay-3">
               Orchestrating lean business operations by synthesizing data-driven analytics and generative AI, underpinned by a strategic foundation in business management psychology
             </p>
           </div>

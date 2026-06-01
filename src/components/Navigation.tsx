@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, Phone, X, GraduationCap, Briefcase } from "lucide-react";
+import { Menu, Phone, X } from "lucide-react";
 
 type Mode = "business" | "academic";
 
@@ -52,8 +52,6 @@ export default function Navigation({ mode, setMode }: NavigationProps) {
     }, 80);
   };
 
-  const toggleMode = () => setMode(mode === "business" ? "academic" : "business");
-
   return (
     <>
       <nav
@@ -73,11 +71,7 @@ export default function Navigation({ mode, setMode }: NavigationProps) {
               href="#top"
               onClick={(e) => {
                 e.preventDefault();
-                if (mode === "academic") {
-                  setMode("business");
-                } else {
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }
+                window.scrollTo({ top: 0, behavior: "smooth" });
               }}
               className="relative z-10 flex items-center"
             >
@@ -91,52 +85,26 @@ export default function Navigation({ mode, setMode }: NavigationProps) {
               />
             </a>
 
-            {/* Desktop nav items — only in business mode */}
-            {mode === "business" && (
-              <div className="hidden md:flex items-center gap-1 rounded-full px-1.5 py-1.5 transition-all duration-500">
-                {navItems.map((item) => (
-                  <button
-                    key={item.href}
-                    onClick={() => scrollTo(item.href)}
-                    className={`relative px-4 py-1.5 rounded-full font-mono text-[16px] tracking-[0.02em] uppercase transition-all duration-300 ${
-                      activeSection === item.href.slice(1)
-                        ? "text-gold"
-                        : "text-text-muted hover:text-text-primary"
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            )}
+            {/* Desktop nav items */}
+            <div className="hidden md:flex items-center gap-1 rounded-full px-1.5 py-1.5 transition-all duration-500">
+              {navItems.map((item) => (
+                <button
+                  key={item.href}
+                  onClick={() => scrollTo(item.href)}
+                  className={`relative px-4 py-1.5 rounded-full font-mono text-[16px] tracking-[0.02em] uppercase transition-all duration-300 ${
+                    activeSection === item.href.slice(1)
+                      ? "text-gold"
+                      : "text-text-muted hover:text-text-primary"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
 
 
-            {/* Desktop right side: mode toggle + call button */}
+            {/* Desktop right side: call button */}
             <div className="hidden md:flex items-center gap-3">
-              {/* Pill toggle */}
-              <div className="flex items-center rounded-full border border-line bg-surface overflow-hidden">
-                <button
-                  onClick={() => setMode("business")}
-                  className={`px-3.5 py-1.5 font-mono text-[10px] tracking-[0.08em] uppercase transition-all duration-300 rounded-full ${
-                    mode === "business"
-                      ? "bg-gold/15 text-gold"
-                      : "text-text-muted hover:text-text-primary"
-                  }`}
-                >
-                  Business
-                </button>
-                <button
-                  onClick={() => setMode("academic")}
-                  className={`px-3.5 py-1.5 font-mono text-[10px] tracking-[0.08em] uppercase transition-all duration-300 rounded-full ${
-                    mode === "academic"
-                      ? "bg-gold/15 text-gold"
-                      : "text-text-muted hover:text-text-primary"
-                  }`}
-                >
-                  Academic
-                </button>
-              </div>
-
               <button
                 onClick={() => { window.location.href = "tel:0929822369"; }}
                 className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.1em] uppercase px-5 py-2 rounded-full border border-gold/25 bg-gold/10 text-gold hover:bg-gold hover:text-bg transition-all duration-300 z-10"
@@ -146,7 +114,7 @@ export default function Navigation({ mode, setMode }: NavigationProps) {
               </button>
             </div>
 
-            {/* Mobile right side: call + mode icon + menu */}
+            {/* Mobile right side: call + menu */}
             <div className="flex items-center gap-2 md:hidden">
               <a
                 href="tel:0929822369"
@@ -156,13 +124,6 @@ export default function Navigation({ mode, setMode }: NavigationProps) {
                 <Phone size={12} />
                 0929 822 369
               </a>
-              <button
-                onClick={toggleMode}
-                className="p-2 text-text-muted hover:text-gold transition-colors z-10"
-                aria-label={mode === "business" ? "Switch to Academic mode" : "Switch to Business mode"}
-              >
-                {mode === "business" ? <GraduationCap size={18} /> : <Briefcase size={18} />}
-              </button>
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
                 className="p-2 text-text-muted hover:text-text-primary transition-colors z-10"
@@ -185,7 +146,7 @@ export default function Navigation({ mode, setMode }: NavigationProps) {
             className="fixed inset-0 z-40 bg-bg/98 backdrop-blur-lg pt-24 px-8 md:hidden"
           >
             <div className="flex flex-col gap-1 pt-8">
-              {mode === "business" && navItems.map((item, i) => (
+              {navItems.map((item, i) => (
                 <motion.button
                   key={item.href}
                   initial={{ opacity: 0, x: -20 }}
@@ -200,15 +161,6 @@ export default function Navigation({ mode, setMode }: NavigationProps) {
                   </span>
                 </motion.button>
               ))}
-              {mode === "academic" && (
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="font-mono text-[12px] text-text-muted uppercase tracking-wider py-4"
-                >
-                  Lý lịch khoa học
-                </motion.p>
-              )}
               <motion.button
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}

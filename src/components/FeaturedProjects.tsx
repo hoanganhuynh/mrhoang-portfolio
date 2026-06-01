@@ -6,7 +6,7 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import SectionWrapper, { FadeIn, SectionTitle } from "./SectionWrapper";
 import { projects, additionalProjects, type Project } from "@/data/projects";
-import { ArrowRight, X, Clock, Users } from "lucide-react";
+import { ArrowRight, X, Clock, Users, ChevronLeft, ChevronRight } from "lucide-react";
 
 const projectLogos: Record<string, string> = {
   "ss-group": "/assets/project logo/SSGroup.png",
@@ -33,6 +33,84 @@ const additionalWorkAssets: Record<string, { image: string; logo: string }> = {
     logo: "/assets/project logo/Hung Thinh.png",
   },
 };
+
+function ImageCarousel({ images, projectName }: { images: string[]; projectName: string }) {
+  const [current, setCurrent] = useState(0);
+
+  const prev = () => setCurrent((i) => (i - 1 + images.length) % images.length);
+  const next = () => setCurrent((i) => (i + 1) % images.length);
+
+  if (!images.length) {
+    return <div className="flex h-full items-center justify-center bg-white/[0.025]" />;
+  }
+
+  return (
+    <div className="flex h-full flex-col bg-[#050505]">
+      <div className="relative min-h-0 flex-1 overflow-hidden">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={current}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0"
+          >
+            <Image
+              src={images[current]}
+              alt={`${projectName} image ${current + 1}`}
+              fill
+              priority
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
+          </motion.div>
+        </AnimatePresence>
+
+        {images.length > 1 && (
+          <>
+            <button
+              onClick={prev}
+              className="absolute left-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/60 p-2.5 text-white transition-colors hover:bg-black/80"
+              aria-label="Previous image"
+            >
+              <ChevronLeft size={18} />
+            </button>
+            <button
+              onClick={next}
+              className="absolute right-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/60 p-2.5 text-white transition-colors hover:bg-black/80"
+              aria-label="Next image"
+            >
+              <ChevronRight size={18} />
+            </button>
+            <div className="absolute bottom-3 right-3 z-10 rounded-full bg-black/50 px-2.5 py-1 font-mono text-[10px] tracking-wider text-white/70">
+              {current + 1} / {images.length}
+            </div>
+          </>
+        )}
+      </div>
+
+      {images.length > 1 && (
+        <div className="flex shrink-0 gap-2 overflow-x-auto bg-black/80 p-3">
+          {images.map((img, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrent(i)}
+              aria-label={`View image ${i + 1}`}
+              className={`relative h-11 w-16 shrink-0 overflow-hidden rounded transition-all duration-200 ${
+                i === current
+                  ? "opacity-100 ring-2 ring-gold"
+                  : "opacity-50 ring-1 ring-white/10 hover:opacity-80"
+              }`}
+            >
+              <Image src={img} alt="" fill sizes="64px" className="object-cover" />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function ProjectVisual({ project }: { project: Project }) {
   const image = project.images[0];
@@ -129,51 +207,51 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
         </div>
       </div>
 
-      {/* Side Panel */}
+      {/* Fullscreen modal */}
       {mounted && createPortal(
       <AnimatePresence>
         {showModal && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-50"
-            onClick={() => setShowModal(false)}
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.97 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-50 flex flex-col bg-bg lg:grid lg:grid-cols-2"
           >
-            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
-            <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute top-0 right-0 h-full w-full max-w-2xl overflow-y-auto border-l border-line bg-[#0a0a0a] p-6 md:p-10"
-              onClick={(e) => e.stopPropagation()}
+            {/* Close button — fixed top-right, always visible */}
+            <button
+              onClick={() => setShowModal(false)}
+              className="absolute right-4 top-4 z-[60] rounded-full border border-white/10 bg-white/[0.06] p-2.5 text-text-muted transition-all hover:bg-white/10 hover:text-text-primary"
+              aria-label="Close"
             >
-              <button
-                onClick={() => setShowModal(false)}
-                className="absolute top-5 right-5 p-2 text-text-muted hover:text-text-primary transition-colors z-10"
-                aria-label="Close case study"
-              >
-                <X size={18} />
-              </button>
+              <X size={16} />
+            </button>
 
-              <div className="rounded-lg overflow-hidden border border-line md:rounded-xl">
-                <ProjectVisual project={project} />
-              </div>
+            {/* LEFT: image carousel */}
+            <div className="h-[45vh] shrink-0 lg:h-full">
+              <ImageCarousel images={project.images} projectName={project.name} />
+            </div>
 
-              <div className="mt-6 md:mt-8">
-                <span className="font-mono text-[10px] tracking-[0.12em] uppercase text-gold/70 block mb-2">
+            {/* RIGHT: project info (scrollable) */}
+            <div className="flex-1 overflow-y-auto border-t border-line lg:border-l lg:border-t-0">
+              <div className="px-6 py-8 md:px-10 md:py-10">
+                <span className="mb-2 block font-mono text-[10px] tracking-[0.12em] uppercase text-gold/70">
                   {project.category}
                 </span>
                 {logo && (
-                  <Image src={logo} alt={`${project.name} logo`} width={285} height={192} className="mb-4 max-h-20 w-auto object-contain md:mb-5 md:max-h-[108px]" />
+                  <Image
+                    src={logo}
+                    alt={`${project.name} logo`}
+                    width={285}
+                    height={192}
+                    className={`mb-4 max-h-20 w-auto object-contain md:mb-5 md:max-h-[108px] ${logoOffset}`}
+                  />
                 )}
-                <h2 className="font-heading font-bold text-[24px] md:text-[36px] text-text-primary tracking-tight leading-[1.1]">
+                <h2 className="font-heading font-bold text-[24px] leading-[1.1] tracking-tight text-text-primary md:text-[36px]">
                   {project.name}
                 </h2>
 
-                <div className="flex items-center gap-4 mt-4 text-[12px] text-text-muted">
+                <div className="mt-4 flex items-center gap-4 text-[12px] text-text-muted">
                   <span className="flex items-center gap-1.5">
                     <Clock size={11} className="text-gold/40" />
                     {project.timeframe}
@@ -183,10 +261,10 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
 
                 <div className="mt-6 space-y-6 md:mt-8 md:space-y-8">
                   <div>
-                    <h4 className="font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60 mb-2">
+                    <h4 className="mb-2 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
                       Business Context
                     </h4>
-                    <p className="text-[16px] text-text-secondary leading-[1.8]">
+                    <p className="text-[16px] leading-[1.8] text-text-secondary">
                       {project.description}
                     </p>
                   </div>
@@ -194,19 +272,19 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                   <div className="hairline" />
 
                   <div>
-                    <h4 className="font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60 mb-2">
+                    <h4 className="mb-2 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
                       Pain Point
                     </h4>
-                    <p className="text-[16px] text-text-secondary leading-[1.8]">
+                    <p className="text-[16px] leading-[1.8] text-text-secondary">
                       {project.painPoint}
                     </p>
                   </div>
 
                   <div>
-                    <h4 className="font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60 mb-2">
+                    <h4 className="mb-2 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
                       My Role &amp; Contribution
                     </h4>
-                    <p className="text-[16px] text-text-secondary leading-[1.8]">
+                    <p className="text-[16px] leading-[1.8] text-text-secondary">
                       {project.pmContribution}
                     </p>
                   </div>
@@ -214,13 +292,13 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                   <div className="hairline" />
 
                   <div>
-                    <h4 className="font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60 mb-3">
+                    <h4 className="mb-3 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
                       Operational Impact
                     </h4>
                     <ul className="space-y-2.5">
                       {project.outcomes.map((o, i) => (
-                        <li key={i} className="flex items-start gap-3 text-[16px] text-text-secondary leading-[1.7]">
-                          <span className="w-1 h-1 rounded-full bg-gold/50 mt-2 shrink-0" />
+                        <li key={i} className="flex items-start gap-3 text-[16px] leading-[1.7] text-text-secondary">
+                          <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-gold/50" />
                           {o}
                         </li>
                       ))}
@@ -228,7 +306,7 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                   </div>
 
                   <div>
-                    <h4 className="font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60 mb-3">
+                    <h4 className="mb-3 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
                       Team
                     </h4>
                     <div className="flex items-center gap-2 text-[12px] text-text-muted">
@@ -238,7 +316,7 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                   </div>
 
                   <div>
-                    <h4 className="font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60 mb-3">
+                    <h4 className="mb-3 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
                       Tech Stack
                     </h4>
                     <div className="flex flex-wrap gap-2">
@@ -249,7 +327,7 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>,
