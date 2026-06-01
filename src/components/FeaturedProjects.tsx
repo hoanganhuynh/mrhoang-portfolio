@@ -370,7 +370,7 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
     <>
       <div className="group w-[76vw] min-w-[76vw] snap-start overflow-hidden rounded-xl border border-line bg-surface transition-all duration-500 hover:-translate-y-1 hover:border-gold/20 hover:bg-surface-strong sm:w-auto sm:min-w-0">
         {previewImage && (
-          <div className="relative aspect-[16/10] overflow-hidden">
+          <div className="relative aspect-[16/9] overflow-hidden">
             <Image
               src={previewImage}
               alt={`${data.name} preview`}
