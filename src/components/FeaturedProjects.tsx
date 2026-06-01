@@ -337,6 +337,215 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
   );
 }
 
+type AdditionalCardData = {
+  name: string;
+  category: string;
+  images: string[];
+  logo?: string;
+  logoOffset?: string;
+  timeframe?: string;
+  role?: string;
+  description?: string;
+  painPoint?: string;
+  pmContribution?: string;
+  outcomes?: string[];
+  team?: string[];
+  techStack?: string[];
+};
+
+function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
+  const [showModal, setShowModal] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
+
+  useEffect(() => {
+    if (showModal) document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, [showModal]);
+
+  const previewImage = data.images[0];
+
+  return (
+    <>
+      <div className="group w-[76vw] min-w-[76vw] snap-start overflow-hidden rounded-xl border border-line bg-surface transition-all duration-500 hover:-translate-y-1 hover:border-gold/20 hover:bg-surface-strong sm:w-auto sm:min-w-0">
+        {previewImage && (
+          <div className="relative aspect-[16/10] overflow-hidden">
+            <Image
+              src={previewImage}
+              alt={`${data.name} preview`}
+              fill
+              sizes="(min-width: 1024px) 25vw, 50vw"
+              className="object-cover transition duration-700 group-hover:scale-[1.04]"
+            />
+          </div>
+        )}
+        {data.logo && (
+          <div className="px-0 py-0">
+            <Image
+              src={data.logo}
+              alt={`${data.name} logo`}
+              width={255}
+              height={165}
+              className="max-h-24 w-auto object-contain opacity-85 transition duration-500 group-hover:opacity-100 group-hover:scale-105"
+            />
+          </div>
+        )}
+        <div className="p-5 pt-0">
+          <span className="font-mono text-[9px] tracking-[0.12em] uppercase text-gold/60 block mb-2">
+            {data.category}
+          </span>
+          <h4 className="font-heading font-semibold text-[18px] text-text-primary tracking-tight">
+            {data.name}
+          </h4>
+          <span className="text-[13px] text-text-muted mt-2 block">{data.timeframe}</span>
+          <button
+            onClick={() => setShowModal(true)}
+            className="mt-4 flex items-center gap-2 text-[13px] text-gold hover:text-gold/80 transition-colors group/btn"
+          >
+            View Case Study
+            <ArrowRight size={11} className="group-hover/btn:translate-x-1 transition-transform" />
+          </button>
+        </div>
+      </div>
+
+      {mounted && createPortal(
+        <AnimatePresence>
+          {showModal && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.97 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="fixed inset-0 z-50 flex flex-col bg-bg lg:grid lg:grid-cols-2"
+            >
+              <button
+                onClick={() => setShowModal(false)}
+                className="absolute right-4 top-4 z-[60] rounded-full border border-white/10 bg-white/[0.06] p-2.5 text-text-muted transition-all hover:bg-white/10 hover:text-text-primary"
+                aria-label="Close"
+              >
+                <X size={16} />
+              </button>
+
+              <div className="h-[45vh] shrink-0 lg:h-full">
+                <ImageCarousel images={data.images} projectName={data.name} />
+              </div>
+
+              <div className="flex-1 overflow-y-auto border-t border-line lg:border-l lg:border-t-0">
+                <div className="px-6 py-8 md:px-10 md:py-10">
+                  <span className="mb-2 block font-mono text-[10px] tracking-[0.12em] uppercase text-gold/70">
+                    {data.category}
+                  </span>
+                  {data.logo && (
+                    <Image
+                      src={data.logo}
+                      alt={`${data.name} logo`}
+                      width={285}
+                      height={192}
+                      className={`mb-4 max-h-20 w-auto object-contain md:mb-5 md:max-h-[108px] ${data.logoOffset ?? ""}`}
+                    />
+                  )}
+                  <h2 className="font-heading font-bold text-[24px] leading-[1.1] tracking-tight text-text-primary md:text-[36px]">
+                    {data.name}
+                  </h2>
+
+                  {(data.timeframe || data.role) && (
+                    <div className="mt-4 flex items-center gap-4 text-[12px] text-text-muted">
+                      {data.timeframe && (
+                        <span className="flex items-center gap-1.5">
+                          <Clock size={11} className="text-gold/40" />
+                          {data.timeframe}
+                        </span>
+                      )}
+                      {data.role && <span>{data.role}</span>}
+                    </div>
+                  )}
+
+                  <div className="mt-6 space-y-6 md:mt-8 md:space-y-8">
+                    {data.description && (
+                      <div>
+                        <h4 className="mb-2 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
+                          Business Context
+                        </h4>
+                        <p className="text-[16px] leading-[1.8] text-text-secondary">{data.description}</p>
+                      </div>
+                    )}
+
+                    {(data.painPoint || data.pmContribution) && <div className="hairline" />}
+
+                    {data.painPoint && (
+                      <div>
+                        <h4 className="mb-2 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
+                          Pain Point
+                        </h4>
+                        <p className="text-[16px] leading-[1.8] text-text-secondary">{data.painPoint}</p>
+                      </div>
+                    )}
+
+                    {data.pmContribution && (
+                      <div>
+                        <h4 className="mb-2 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
+                          My Role &amp; Contribution
+                        </h4>
+                        <p className="text-[16px] leading-[1.8] text-text-secondary">{data.pmContribution}</p>
+                      </div>
+                    )}
+
+                    {!!data.outcomes?.length && (
+                      <>
+                        <div className="hairline" />
+                        <div>
+                          <h4 className="mb-3 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
+                            Operational Impact
+                          </h4>
+                          <ul className="space-y-2.5">
+                            {data.outcomes.map((o, i) => (
+                              <li key={i} className="flex items-start gap-3 text-[16px] leading-[1.7] text-text-secondary">
+                                <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-gold/50" />
+                                {o}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </>
+                    )}
+
+                    {!!data.team?.length && (
+                      <div>
+                        <h4 className="mb-3 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
+                          Team
+                        </h4>
+                        <div className="flex items-center gap-2 text-[12px] text-text-muted">
+                          <Users size={12} className="text-gold/40" />
+                          {data.team.join(" · ")}
+                        </div>
+                      </div>
+                    )}
+
+                    {!!data.techStack?.length && (
+                      <div>
+                        <h4 className="mb-3 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
+                          Tech Stack
+                        </h4>
+                        <div className="flex flex-wrap gap-2">
+                          {data.techStack.map((tech) => (
+                            <span key={tech} className="chip">{tech}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
+    </>
+  );
+}
+
 export default function FeaturedProjects() {
   const featuredSlugs = ["ss-group", "rav", "emotico", "vinamilk"];
   const additionalSlugs = ["fpt-techday", "bcnv", "sacombank-vr", "cosmo-club"];
@@ -380,78 +589,50 @@ export default function FeaturedProjects() {
             <div className="h-px flex-1 bg-line" />
           </div>
           <div className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 [-webkit-overflow-scrolling:touch] sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 lg:grid-cols-4">
-            {/* Projects moved to additional */}
+            {/* Projects moved to additional — full Project data */}
             {movedToAdditional.map((proj) => {
-              const logo = projectLogos[proj.slug];
-              const image = proj.images[0];
+              const logoOffset =
+                proj.slug === "sacombank-vr"
+                  ? "translate-x-[10px]"
+                  : proj.slug === "fpt-techday"
+                    ? "-translate-x-4"
+                    : "";
               return (
-                <div
+                <AdditionalWorkCard
                   key={proj.slug}
-                  className="group w-[76vw] min-w-[76vw] snap-start overflow-hidden rounded-xl border border-line bg-surface transition-all duration-500 hover:-translate-y-1 hover:border-gold/20 hover:bg-surface-strong sm:w-auto sm:min-w-0"
-                >
-                  {image && (
-                    <div className="relative aspect-[16/10] overflow-hidden">
-                      <Image
-                        src={image}
-                        alt={`${proj.name} preview`}
-                        fill
-                        sizes="(min-width: 1024px) 25vw, 50vw"
-                        className="object-cover transition duration-700 group-hover:scale-[1.04]"
-                      />
-                    </div>
-                  )}
-                  {logo && (
-                    <div className="px-0 py-0">
-                      <Image src={logo} alt={`${proj.name} logo`} width={255} height={165} className="max-h-24 w-auto object-contain opacity-85 transition duration-500 group-hover:opacity-100 group-hover:scale-105" />
-                    </div>
-                  )}
-                  <div className="p-5 pt-0">
-                    <span className="font-mono text-[9px] tracking-[0.12em] uppercase text-gold/60 block mb-2">
-                      {proj.category}
-                    </span>
-                    <h4 className="font-heading font-semibold text-[18px] text-text-primary tracking-tight">
-                      {proj.name}
-                    </h4>
-                    <span className="text-[13px] text-text-muted mt-2 block">{proj.timeframe}</span>
-                  </div>
-                </div>
+                  data={{
+                    name: proj.name,
+                    category: proj.category,
+                    images: proj.images,
+                    logo: projectLogos[proj.slug],
+                    logoOffset,
+                    timeframe: proj.timeframe,
+                    role: proj.role,
+                    description: proj.description,
+                    painPoint: proj.painPoint,
+                    pmContribution: proj.pmContribution,
+                    outcomes: proj.outcomes,
+                    team: proj.team,
+                    techStack: proj.techStack,
+                  }}
+                />
               );
             })}
 
-            {/* Original additional works */}
+            {/* Original additional works — limited data */}
             {visibleAdditionalProjects.map((proj) => {
               const assets = additionalWorkAssets[proj.name];
               return (
-                <div
+                <AdditionalWorkCard
                   key={proj.name}
-                  className="group w-[76vw] min-w-[76vw] snap-start overflow-hidden rounded-xl border border-line bg-surface transition-all duration-500 hover:-translate-y-1 hover:border-gold/20 hover:bg-surface-strong sm:w-auto sm:min-w-0"
-                >
-                  {assets && (
-                    <div className="relative aspect-[16/10] overflow-hidden">
-                      <Image
-                        src={assets.image}
-                        alt={`${proj.name} preview`}
-                        fill
-                        sizes="(min-width: 1024px) 25vw, 50vw"
-                        className="object-cover transition duration-700 group-hover:scale-[1.04]"
-                      />
-                    </div>
-                  )}
-                  {assets && (
-                    <div className="px-0 py-0">
-                      <Image src={assets.logo} alt={`${proj.name} logo`} width={255} height={165} className="max-h-24 w-auto object-contain opacity-85 transition duration-500 group-hover:opacity-100 group-hover:scale-105" />
-                    </div>
-                  )}
-                  <div className="p-5 pt-0">
-                    <span className="font-mono text-[9px] tracking-[0.12em] uppercase text-gold/60 block mb-2">
-                      {proj.category}
-                    </span>
-                    <h4 className="font-heading font-semibold text-[18px] text-text-primary tracking-tight">
-                      {proj.name}
-                    </h4>
-                    <span className="text-[13px] text-text-muted mt-2 block">{proj.year}</span>
-                  </div>
-                </div>
+                  data={{
+                    name: proj.name,
+                    category: proj.category,
+                    images: assets ? [assets.image] : [],
+                    logo: assets?.logo,
+                    timeframe: proj.year,
+                  }}
+                />
               );
             })}
           </div>
