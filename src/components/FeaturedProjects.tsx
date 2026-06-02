@@ -118,12 +118,15 @@ function ImageViewer({
   images,
   projectName,
   autoSlide = false,
+  enableLightbox = false,
 }: {
   images: string[];
   projectName: string;
   autoSlide?: boolean;
+  enableLightbox?: boolean;
 }) {
   const [current, setCurrent] = useState(0); // unbounded — grows forever
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dims, setDims] = useState({ cH: 0, imgH: 0 });
   const lastScrollTime = useRef(0);
@@ -152,6 +155,15 @@ function ImageViewer({
     }, 2000);
     return () => clearInterval(id);
   }, [autoSlide, n]);
+
+  useEffect(() => {
+    if (!selectedImage) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSelectedImage(null);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [selectedImage]);
 
   const advance = useCallback((dir: 1 | -1) => {
     const now = Date.now();
@@ -222,7 +234,14 @@ function ImageViewer({
             initial={false}
             animate={{ y, opacity }}
             transition={{ duration: 0.48, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute left-0 right-0"
+            onClick={() => {
+              if (enableLightbox && vIdx === current) {
+                setSelectedImage(images[realIdx]);
+              }
+            }}
+            className={`absolute left-0 right-0 ${
+              enableLightbox && vIdx === current ? "cursor-zoom-in" : ""
+            }`}
             style={{ top: 0, height: imgH }}
           >
             <Image
@@ -253,6 +272,47 @@ function ImageViewer({
           ))}
         </div>
       )}
+
+      <AnimatePresence>
+        {enableLightbox && selectedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[90] flex items-center justify-center bg-black/50 p-6"
+            onClick={() => setSelectedImage(null)}
+          >
+            <button
+              type="button"
+              onClick={(event) => {
+                event.stopPropagation();
+                setSelectedImage(null);
+              }}
+              className="absolute right-5 top-5 z-[91] rounded-full border border-white/15 bg-black/35 p-3 text-white transition-all hover:bg-white hover:text-black"
+              aria-label="Close enlarged image"
+            >
+              <X size={18} />
+            </button>
+            <motion.div
+              initial={{ scale: 0.96, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.96, opacity: 0 }}
+              transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+              className="relative h-[85vh] w-[85vw]"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <Image
+                src={selectedImage}
+                alt={`${projectName} enlarged preview`}
+                fill
+                sizes="85vw"
+                className="object-contain"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -402,7 +462,7 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
               <MobileCarousel images={project.images} projectName={project.name} />
             </div>
             <div className="hidden lg:block h-full shrink-0">
-              <ImageViewer images={project.images} projectName={project.name} autoSlide />
+              <ImageViewer images={project.images} projectName={project.name} autoSlide enableLightbox />
             </div>
 
             {/* RIGHT: project info */}
@@ -573,7 +633,7 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
                 <ImageViewer images={data.images} projectName={data.name} />
               </div>
               <div className="hidden shrink-0 lg:block lg:h-full">
-                <ImageViewer images={data.images} projectName={data.name} autoSlide />
+                <ImageViewer images={data.images} projectName={data.name} autoSlide enableLightbox />
               </div>
 
               {/* RIGHT: project info */}
