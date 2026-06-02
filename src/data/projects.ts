@@ -260,7 +260,14 @@ export const projects: Project[] = [
       "Tailwind CSS",
       "Blender",
     ],
-    images: ["/assets/projects/bcnv/01.jpg"],
+    images: [
+      "/assets/projects/bcnv/01.jpg",
+      "/assets/projects/bcnv/02.jpg",
+      "/assets/projects/bcnv/03.jpg",
+      "/assets/projects/bcnv/04.jpg",
+      "/assets/projects/bcnv/05.jpg",
+      "/assets/projects/bcnv/06.jpg",
+    ],
   },
   {
     slug: "sacombank-vr",
