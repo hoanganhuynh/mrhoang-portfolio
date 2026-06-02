@@ -64,18 +64,19 @@ const additionalWorkAssets: Record<string, { image: string; logo: string }> = {
   },
 };
 
-/* ─── Scroll-based image viewer ─────────────────────────────────────────────
-   • 1 scroll / swipe = advance 1 image
+/* ─── Infinite scroll image viewer ──────────────────────────────────────────
+   • current = unbounded virtual index (never wraps) → smooth loop, no jump
    • Active image: opacity 100%, centered
-   • Adjacent images: opacity 30%, peek above/below
-   • Black fills the rest of the column
+   • Adjacent images: opacity 30%, always pre-positioned above/below
+   • realIdx = ((current % n) + n) % n maps virtual → real image
 ────────────────────────────────────────────────────────────────────────── */
 function ImageViewer({ images, projectName }: { images: string[]; projectName: string }) {
-  const [current, setCurrent] = useState(0);
+  const [current, setCurrent] = useState(0); // unbounded — grows forever
   const containerRef = useRef<HTMLDivElement>(null);
   const [dims, setDims] = useState({ cH: 0, imgH: 0 });
   const lastScrollTime = useRef(0);
   const touchStartY = useRef(0);
+  const n = images.length;
 
   useLayoutEffect(() => {
     const measure = () => {
@@ -92,14 +93,14 @@ function ImageViewer({ images, projectName }: { images: string[]; projectName: s
 
   const advance = useCallback((dir: 1 | -1) => {
     const now = Date.now();
-    if (now - lastScrollTime.current < 550) return; // throttle: 1 scroll = 1 image
+    if (now - lastScrollTime.current < 550) return;
     lastScrollTime.current = now;
-    setCurrent(i => (i + dir + images.length) % images.length);
-  }, [images.length]);
+    setCurrent(i => i + dir); // unbounded — no modulo → no jump
+  }, []);
 
   const handleWheel = (e: React.WheelEvent) => {
     e.stopPropagation();
-    if (images.length <= 1) return;
+    if (n <= 1) return;
     advance(e.deltaY > 0 ? 1 : -1);
   };
 
@@ -112,11 +113,23 @@ function ImageViewer({ images, projectName }: { images: string[]; projectName: s
     if (Math.abs(delta) > 40) advance(delta > 0 ? 1 : -1);
   };
 
-  if (!images.length) return <div className="h-full bg-[#050505]" />;
+  if (!n) return <div className="h-full bg-[#050505]" />;
 
   const { cH, imgH } = dims;
   const centerY = cH > 0 && imgH > 0 ? Math.round((cH - imgH) / 2) : 0;
   const ready = imgH > 0 && cH > 0;
+
+  // Real index of active image (for dot indicators)
+  const realCurrent = ((current % n) + n) % n;
+
+  // Navigate to image i via shortest circular path
+  const goTo = (i: number) => {
+    lastScrollTime.current = 0;
+    let diff = i - realCurrent;
+    if (diff > n / 2) diff -= n;
+    if (diff < -n / 2) diff += n;
+    setCurrent(c => c + diff);
+  };
 
   return (
     <div
@@ -126,7 +139,7 @@ function ImageViewer({ images, projectName }: { images: string[]; projectName: s
       onTouchEnd={handleTouchEnd}
       className="relative h-full select-none overflow-hidden bg-[#050505]"
     >
-      {/* Fallback: show first image before dimensions are measured */}
+      {/* Fallback before dimensions measured */}
       {!ready && (
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="relative w-full aspect-[16/9]">
@@ -135,16 +148,15 @@ function ImageViewer({ images, projectName }: { images: string[]; projectName: s
         </div>
       )}
 
-      {/* Positioned images — slide + fade on scroll */}
-      {ready && images.map((src, i) => {
-        const distance = i - current;
-        if (Math.abs(distance) > 2) return null;
-        const y = centerY + distance * imgH;
-        const opacity = distance === 0 ? 1 : Math.abs(distance) === 1 ? 0.3 : 0;
+      {/* 3 virtual slots — prev / current / next — always positioned, never jump */}
+      {ready && [current - 1, current, current + 1].map((vIdx) => {
+        const realIdx = ((vIdx % n) + n) % n;
+        const y = centerY + (vIdx - current) * imgH;
+        const opacity = vIdx === current ? 1 : 0.3;
 
         return (
           <motion.div
-            key={src}
+            key={vIdx}
             initial={false}
             animate={{ y, opacity }}
             transition={{ duration: 0.48, ease: [0.22, 1, 0.36, 1] }}
@@ -152,8 +164,8 @@ function ImageViewer({ images, projectName }: { images: string[]; projectName: s
             style={{ top: 0, height: imgH }}
           >
             <Image
-              src={src}
-              alt={`${projectName} ${i + 1}`}
+              src={images[realIdx]}
+              alt={`${projectName} ${realIdx + 1}`}
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"
               className="object-cover"
@@ -162,16 +174,16 @@ function ImageViewer({ images, projectName }: { images: string[]; projectName: s
         );
       })}
 
-      {/* Vertical dot indicators — right edge, centered */}
-      {images.length > 1 && (
+      {/* Vertical dot indicators — right edge */}
+      {n > 1 && (
         <div className="absolute right-3.5 top-1/2 z-10 -translate-y-1/2 flex flex-col gap-2">
           {images.map((_, i) => (
             <button
               key={i}
-              onClick={() => { lastScrollTime.current = 0; setCurrent(i); }}
+              onClick={() => goTo(i)}
               aria-label={`Image ${i + 1}`}
               className={`rounded-full border transition-all duration-300 ${
-                i === current
+                i === realCurrent
                   ? "h-2.5 w-2.5 border-gold bg-gold shadow-[0_0_6px_rgba(200,168,90,0.7)]"
                   : "h-2 w-2 border-white/40 bg-transparent hover:border-white/70"
               }`}
