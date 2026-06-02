@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "framer-motion";
 import Navigation from "@/components/Navigation";
+import MobileMeshBackground from "@/components/MobileMeshBackground";
 import Hero from "@/components/Hero";
 import Quote from "@/components/Quote";
 import LazyMount from "@/components/LazyMount";
@@ -32,6 +33,7 @@ export default function Home() {
 
   return (
     <>
+      <MobileMeshBackground />
       <Navigation mode={mode} setMode={setMode} />
       <AnimatePresence mode="wait">
         {mode === "business" ? (

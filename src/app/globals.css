@@ -357,6 +357,20 @@ button:focus-visible {
   transform: translateY(0);
 }
 
+/* ── Mobile mesh gradient — 3 orbs drift independently ── */
+@keyframes mesh-orb-1 {
+  0%   { transform: translate(0, 0)    scale(1); }
+  100% { transform: translate(40px, 70px) scale(1.12); }
+}
+@keyframes mesh-orb-2 {
+  0%   { transform: translate(0, 0)     scale(1); }
+  100% { transform: translate(-55px, -45px) scale(0.92); }
+}
+@keyframes mesh-orb-3 {
+  0%   { transform: translate(0, 0)    scale(1); }
+  100% { transform: translate(35px, -55px) scale(1.08); }
+}
+
 /* ── Mobile: strip heavy animations for performance ── */
 @media (max-width: 767px) {
   /* Remove expensive blur glow */
