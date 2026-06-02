@@ -176,7 +176,13 @@ export const projects: Project[] = [
       "Tailwind CSS",
       "Blender",
     ],
-    images: ["/assets/projects/emotico/01.jpg"],
+    images: [
+      "/assets/projects/emotico/01.jpg",      // ảnh 1
+      "/assets/projects/emotico/mockup1.jpg", // mockup 1
+      "/assets/projects/emotico/11.jpg",      // ảnh 2
+      "/assets/projects/emotico/mockup2.jpg", // mockup 2
+      "/assets/projects/emotico/12.jpg",      // ảnh 3
+    ],
   },
   {
     slug: "vinamilk",
