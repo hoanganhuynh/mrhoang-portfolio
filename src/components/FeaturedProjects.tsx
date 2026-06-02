@@ -301,7 +301,7 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                     alt={`${project.name} logo`}
                     width={285}
                     height={192}
-                    className={`mb-4 max-h-20 w-auto object-contain md:mb-5 md:max-h-[108px] ${logoOffset}`}
+                    className={`mb-4 max-h-28 w-auto object-contain md:mb-5 md:max-h-[160px] ${logoOffset}`}
                   />
                 )}
                 <h2 className="font-heading font-bold text-[24px] leading-[1.1] tracking-tight text-text-primary md:text-[36px]">
@@ -485,7 +485,7 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
                       alt={`${data.name} logo`}
                       width={285}
                       height={192}
-                      className={`mb-4 max-h-20 w-auto object-contain md:mb-5 md:max-h-[108px] ${data.logoOffset ?? ""}`}
+                      className={`mb-4 max-h-28 w-auto object-contain md:mb-5 md:max-h-[160px] ${data.logoOffset ?? ""}`}
                     />
                   )}
                   <h2 className="font-heading font-bold text-[24px] leading-[1.1] tracking-tight text-text-primary md:text-[36px]">
