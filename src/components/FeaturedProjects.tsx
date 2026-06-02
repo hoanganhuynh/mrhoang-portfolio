@@ -349,17 +349,10 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                   </div>
 
                   <div>
-                    <SectionLabel icon={Users}>Team</SectionLabel>
-                    <p className="text-[13px] text-text-muted leading-[1.7]">
-                      {project.team.join(" · ")}
-                    </p>
-                  </div>
-
-                  <div>
                     <SectionLabel icon={Code2}>Tech Stack</SectionLabel>
                     <div className="flex flex-wrap gap-2">
                       {project.techStack.map((tech) => (
-                        <span key={tech} className="chip">{tech}</span>
+                        <span key={tech} className="chip !text-[12px] !py-1.5 !px-3.5">{tech}</span>
                       ))}
                     </div>
                   </div>
@@ -535,21 +528,12 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
                       </>
                     )}
 
-                    {!!data.team?.length && (
-                      <div>
-                        <SectionLabel icon={Users}>Team</SectionLabel>
-                        <p className="text-[13px] text-text-muted leading-[1.7]">
-                          {data.team.join(" · ")}
-                        </p>
-                      </div>
-                    )}
-
                     {!!data.techStack?.length && (
                       <div>
                         <SectionLabel icon={Code2}>Tech Stack</SectionLabel>
                         <div className="flex flex-wrap gap-2">
                           {data.techStack.map((tech) => (
-                            <span key={tech} className="chip">{tech}</span>
+                            <span key={tech} className="chip !text-[12px] !py-1.5 !px-3.5">{tech}</span>
                           ))}
                         </div>
                       </div>
