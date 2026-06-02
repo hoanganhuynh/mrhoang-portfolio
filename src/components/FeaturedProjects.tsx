@@ -64,7 +64,7 @@ function ImageViewer({ images, projectName }: { images: string[]; projectName: s
     const now = Date.now();
     if (now - lastScrollTime.current < 550) return; // throttle: 1 scroll = 1 image
     lastScrollTime.current = now;
-    setCurrent(i => Math.max(0, Math.min(images.length - 1, i + dir)));
+    setCurrent(i => (i + dir + images.length) % images.length);
   }, [images.length]);
 
   const handleWheel = (e: React.WheelEvent) => {
@@ -132,33 +132,6 @@ function ImageViewer({ images, projectName }: { images: string[]; projectName: s
         );
       })}
 
-      {/* Dot indicator + counter */}
-      {images.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2 flex flex-col items-center gap-2">
-          <div className="flex items-center gap-1.5">
-            {images.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => { lastScrollTime.current = 0; setCurrent(i); }}
-                aria-label={`Go to image ${i + 1}`}
-                className={`rounded-full transition-all duration-300 ${
-                  i === current ? "h-1.5 w-5 bg-gold" : "h-1.5 w-1.5 bg-white/30 hover:bg-white/50"
-                }`}
-              />
-            ))}
-          </div>
-          <span className="font-mono text-[10px] tracking-wider text-white/40">
-            {current + 1} / {images.length}
-          </span>
-        </div>
-      )}
-
-      {/* Scroll hint when multiple images */}
-      {images.length > 1 && current === 0 && (
-        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 animate-bounce">
-          <div className="font-mono text-[9px] tracking-[0.12em] uppercase text-white/30">scroll</div>
-        </div>
-      )}
     </div>
   );
 }
