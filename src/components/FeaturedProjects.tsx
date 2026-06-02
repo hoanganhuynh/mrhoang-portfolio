@@ -8,7 +8,8 @@ import SectionWrapper, { FadeIn, SectionTitle } from "./SectionWrapper";
 import { projects, additionalProjects, type Project } from "@/data/projects";
 import { ArrowRight, X, Clock, Users, Globe, AlertCircle, UserCheck, TrendingUp, Code2 } from "lucide-react";
 
-// Tech stack icon mapping — icons from marwin1991/profile-technology-icons
+// Tech stack icon mapping
+// Sources: marwin1991/profile-technology-icons (.png) · get-icon/geticon (.svg)
 const TECH_ICONS: Record<string, string> = {
   "Figma":        "/assets/tech-icons/figma.png",
   "Go":           "/assets/tech-icons/go.png",
@@ -20,6 +21,9 @@ const TECH_ICONS: Record<string, string> = {
   "MongoDB":      "/assets/tech-icons/mongodb.png",
   "Docker":       "/assets/tech-icons/docker.png",
   "Unity":        "/assets/tech-icons/unity.png",
+  "Photoshop":    "/assets/tech-icons/photoshop.svg",
+  "Illustrator":  "/assets/tech-icons/illustrator.svg",
+  "Blender":      "/assets/tech-icons/blender.svg",
 };
 
 function TechChip({ tech }: { tech: string }) {
