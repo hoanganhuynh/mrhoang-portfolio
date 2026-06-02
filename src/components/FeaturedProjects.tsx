@@ -162,6 +162,23 @@ function ImageViewer({ images, projectName }: { images: string[]; projectName: s
         );
       })}
 
+      {/* Vertical dot indicators — right edge, centered */}
+      {images.length > 1 && (
+        <div className="absolute right-3.5 top-1/2 z-10 -translate-y-1/2 flex flex-col gap-2">
+          {images.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => { lastScrollTime.current = 0; setCurrent(i); }}
+              aria-label={`Image ${i + 1}`}
+              className={`rounded-full border transition-all duration-300 ${
+                i === current
+                  ? "h-2.5 w-2.5 border-gold bg-gold shadow-[0_0_6px_rgba(200,168,90,0.7)]"
+                  : "h-2 w-2 border-white/40 bg-transparent hover:border-white/70"
+              }`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -322,21 +339,23 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
             {/* RIGHT: project info */}
             <div className="flex-1 overflow-y-auto border-t border-line lg:border-l lg:border-t-0">
               <div className="px-6 py-8 md:px-10 md:py-10">
-                <span className="mb-2 block font-mono text-[10px] tracking-[0.12em] uppercase text-gold/70">
+                <span className="mb-3 block font-mono text-[10px] tracking-[0.12em] uppercase text-gold/70">
                   {project.category}
                 </span>
-                {logo && (
-                  <Image
-                    src={logo}
-                    alt={`${project.name} logo`}
-                    width={285}
-                    height={192}
-                    className={`mb-4 max-h-28 w-auto object-contain md:mb-5 md:max-h-[160px] ${logoOffset}`}
-                  />
-                )}
-                <h2 className="font-heading font-bold text-[24px] leading-[1.1] tracking-tight text-text-primary md:text-[36px]">
-                  {project.name}
-                </h2>
+                <div className="flex items-start justify-between gap-4">
+                  <h2 className="flex-1 font-heading font-bold text-[24px] leading-[1.1] tracking-tight text-text-primary md:text-[36px]">
+                    {project.name}
+                  </h2>
+                  {logo && (
+                    <Image
+                      src={logo}
+                      alt={`${project.name} logo`}
+                      width={200}
+                      height={130}
+                      className={`shrink-0 max-h-12 w-auto object-contain md:max-h-16 ${logoOffset}`}
+                    />
+                  )}
+                </div>
 
                 <MetaChips timeframe={project.timeframe} role={project.role} />
 
@@ -499,21 +518,23 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
               {/* RIGHT: project info */}
               <div className="flex-1 overflow-y-auto border-t border-line lg:border-l lg:border-t-0">
                 <div className="px-6 py-8 md:px-10 md:py-10">
-                  <span className="mb-2 block font-mono text-[10px] tracking-[0.12em] uppercase text-gold/70">
+                  <span className="mb-3 block font-mono text-[10px] tracking-[0.12em] uppercase text-gold/70">
                     {data.category}
                   </span>
-                  {data.logo && (
-                    <Image
-                      src={data.logo}
-                      alt={`${data.name} logo`}
-                      width={285}
-                      height={192}
-                      className={`mb-4 max-h-28 w-auto object-contain md:mb-5 md:max-h-[160px] ${data.logoOffset ?? ""}`}
-                    />
-                  )}
-                  <h2 className="font-heading font-bold text-[24px] leading-[1.1] tracking-tight text-text-primary md:text-[36px]">
-                    {data.name}
-                  </h2>
+                  <div className="flex items-start justify-between gap-4">
+                    <h2 className="flex-1 font-heading font-bold text-[24px] leading-[1.1] tracking-tight text-text-primary md:text-[36px]">
+                      {data.name}
+                    </h2>
+                    {data.logo && (
+                      <Image
+                        src={data.logo}
+                        alt={`${data.name} logo`}
+                        width={200}
+                        height={130}
+                        className={`shrink-0 max-h-12 w-auto object-contain md:max-h-16 ${data.logoOffset ?? ""}`}
+                      />
+                    )}
+                  </div>
 
                   <MetaChips timeframe={data.timeframe} role={data.role} />
 
