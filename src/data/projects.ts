@@ -52,7 +52,15 @@ export const projects: Project[] = [
       "MongoDB",
       "Docker",
     ],
-    images: ["/assets/projects/ss-group/01.jpg"],
+    images: [
+      "/assets/projects/ss-group/01.jpg",
+      "/assets/projects/ss-group/1.jpg",
+      "/assets/projects/ss-group/2.jpg",
+      "/assets/projects/ss-group/3.jpg",
+      "/assets/projects/ss-group/4.jpg",
+      "/assets/projects/ss-group/mockup1.png",
+      "/assets/projects/ss-group/mockup2.png",
+    ],
   },
   {
     slug: "fpt-techday",
