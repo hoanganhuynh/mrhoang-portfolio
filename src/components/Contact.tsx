@@ -27,9 +27,9 @@ export default function Contact() {
 
         <FadeIn delay={0.1}>
           <p className="mt-7 text-text-secondary text-[16px] md:text-[17px] leading-[1.85] max-w-2xl mx-auto">
-            From digital products to brand platforms, I pursue initiatives that
-            demand the seamless integration of psychological insights, business
-            acumen, and technical stability.
+            From digital products to brand platforms, I pursue work that brings
+            psychological insight, product clarity, and refined interface design
+            into one usable experience.
           </p>
         </FadeIn>
 

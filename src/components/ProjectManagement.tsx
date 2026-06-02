@@ -4,21 +4,21 @@ import Image from "next/image";
 import SectionWrapper, { FadeIn, SectionTitle } from "./SectionWrapper";
 
 const steps = [
-  { icon: "/assets/icons/project-general-info/Thời gian thực hiện.webp", num: "01", title: "Diagnose", description: "Business goals, market context, user behavior, operational pain points, internal constraints." },
-  { icon: "/assets/icons/Brand Archetypes/The Ruler (Người kiểm soát).webp", num: "02", title: "Structure", description: "Roadmap, scope, roles, milestones, UX direction, and technical feasibility." },
-  { icon: "/assets/icons/project-general-info/Thành viên tham gia.webp", num: "03", title: "Coordinate", description: "Stakeholders, designers, developers, partners, and internal teams through transparent communication." },
-  { icon: "/assets/icons/project-general-info/Công nghệ sử dụng.webp", num: "04", title: "Sustain", description: "Handover, documentation, QA, training, iteration loops, and internal adoption." },
+  { icon: "/assets/icons/project-general-info/Thời gian thực hiện.webp", num: "01", title: "Discover", description: "User goals, behavior patterns, product context, friction points, and success signals." },
+  { icon: "/assets/icons/Brand Archetypes/The Ruler (Người kiểm soát).webp", num: "02", title: "Frame", description: "Experience principles, user journeys, information architecture, and interface priorities." },
+  { icon: "/assets/icons/project-general-info/Thành viên tham gia.webp", num: "03", title: "Design", description: "Wireframes, visual systems, interaction patterns, prototypes, and product narratives." },
+  { icon: "/assets/icons/project-general-info/Công nghệ sử dụng.webp", num: "04", title: "Refine", description: "Usability feedback, stakeholder critique, visual QA, handoff notes, and iteration loops." },
 ];
 
 const painChips = [
-  "Fragmented requirements",
-  "Unclear ownership",
-  "Weak handover",
-  "Slow stakeholder feedback",
-  "Design without operational logic",
-  "Technical decisions made too late",
-  "Poor internal adoption",
-  "Inconsistent brand experience",
+  "Unclear user flows",
+  "Scattered product requirements",
+  "Weak information architecture",
+  "Inconsistent interface patterns",
+  "Low stakeholder clarity",
+  "Visual direction without product logic",
+  "Hard-to-use feature journeys",
+  "Brand experience fragmentation",
 ];
 
 export default function ProjectManagement() {
@@ -26,7 +26,7 @@ export default function ProjectManagement() {
     <SectionWrapper id="method">
       <FadeIn>
         <SectionTitle className="max-w-xl">
-          <span className="text-gold">How I Turn</span> <span className="sm:whitespace-nowrap">Complexity Into Delivery.</span>
+          <span className="text-gold">How I Turn</span> <span className="sm:whitespace-nowrap">Complexity Into Experience.</span>
         </SectionTitle>
       </FadeIn>
 
@@ -88,7 +88,7 @@ export default function ProjectManagement() {
       <FadeIn delay={0.2}>
         <div className="mt-14 md:mt-24">
           <h3 className="font-heading font-semibold text-[15px] text-text-primary tracking-tight mb-4 md:mb-6">
-            Pain Points I Solve
+            Product & UX Problems I Solve
           </h3>
           <div className="grid grid-flow-col grid-rows-2 auto-cols-max gap-3 overflow-x-auto pb-3 [-webkit-overflow-scrolling:touch] md:flex md:flex-wrap md:overflow-visible md:pb-0">
             {painChips.map((chip) => (

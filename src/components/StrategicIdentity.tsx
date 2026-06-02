@@ -7,18 +7,18 @@ import { FeatureGridBackground } from "@/components/blocks/grid-feature-cards";
 const cards = [
   {
     icon: "/assets/icons/Giao thoa giữa Creative & Business/TƯ DUY THIẾT KẾ.webp",
-    title: "Creative × Business",
-    body: "Design as a strategic instrument: calibrating every choice for market relevance, user comprehension, and operational alignment.",
+    title: "UX × Psychology",
+    body: "Designing from the way people understand, choose, feel, and act, so each product decision has a human reason behind it.",
   },
   {
     icon: "/assets/icons/Giao thoa giữa Creative & Business/TIẾP CẬN THỰC TIỄN.webp",
-    title: "Technical × Stability",
-    body: "Product direction driven by technical feasibility, scalability, and robust handover protocols for long-term maintainability.",
+    title: "UI × Product Logic",
+    body: "Turning complex requirements into clear screens, flows, states, and reusable patterns that support real product use.",
   },
   {
     icon: "/assets/icons/Giao thoa giữa Creative & Business/TRIẾT LÝ VẬN HÀNH.webp",
-    title: "Governance × Delivery",
-    body: "Streamlining project delivery via transparent milestones and defined communication to eliminate stakeholder ambiguity.",
+    title: "Brand × Experience",
+    body: "Keeping visual identity, interaction quality, and product behavior aligned across every touchpoint users encounter.",
   },
 ];
 
@@ -27,7 +27,7 @@ export default function StrategicIdentity() {
     <SectionWrapper>
       <FadeIn>
         <SectionTitle className="max-w-2xl">
-          <span className="text-gold">Where Creative,</span> <span className="sm:whitespace-nowrap">Business, and Stability Meet.</span>
+          <span className="text-gold">Where Behavior,</span> <span className="sm:whitespace-nowrap">Interface, and Product Meet.</span>
         </SectionTitle>
       </FadeIn>
 

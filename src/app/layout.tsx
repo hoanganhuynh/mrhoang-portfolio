@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://cv.williens.space"),
   title: "Williens Hoang Nguyen — Product Design Lead",
   description:
-    "PhD Psychology, Product Design Lead, and Creative-Business Leader. Bridging psychology, business strategy, creative direction, and digital product delivery.",
+    "PhD Psychology and Product Design Lead. Designing UIUX systems, product journeys, and digital experiences shaped by human behavior.",
   keywords: [
     "Williens Hoang Nguyen",
     "Product Design",
@@ -30,12 +30,14 @@ export const metadata: Metadata = {
     "Digital Product",
     "Creative Direction",
     "UX/UI",
+    "UIUX Designer",
+    "Design Systems",
     "Business Administration",
   ],
   openGraph: {
     title: "Williens Hoang Nguyen — Product Design Lead",
     description:
-      "PhD Psychology, Product Design Lead, and Creative-Business Leader.",
+      "PhD Psychology and Product Design Lead designing UIUX systems and product experiences.",
     type: "website",
     url: "https://cv.williens.space",
   },

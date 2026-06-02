@@ -6,37 +6,7 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import SectionWrapper, { FadeIn, SectionTitle } from "./SectionWrapper";
 import { projects, additionalProjects, type Project } from "@/data/projects";
-import { ArrowRight, X, Clock, Users, Globe, AlertCircle, UserCheck, TrendingUp, Code2 } from "lucide-react";
-
-// Tech stack icon mapping
-// Sources: marwin1991/profile-technology-icons (.png) · get-icon/geticon (.svg)
-const TECH_ICONS: Record<string, string> = {
-  "Figma":        "/assets/tech-icons/figma.png",
-  "Go":           "/assets/tech-icons/go.png",
-  "Node.js":      "/assets/tech-icons/node_js.png",
-  "Next.js":      "/assets/tech-icons/next_js.png",
-  "Tailwind CSS": "/assets/tech-icons/tailwind_css.png",
-  "Redis":        "/assets/tech-icons/redis.png",
-  "MySQL":        "/assets/tech-icons/mysql.png",
-  "MongoDB":      "/assets/tech-icons/mongodb.png",
-  "Docker":       "/assets/tech-icons/docker.png",
-  "Unity":        "/assets/tech-icons/unity.png",
-  "Photoshop":    "/assets/tech-icons/photoshop.svg",
-  "Illustrator":  "/assets/tech-icons/illustrator.svg",
-  "Blender":      "/assets/tech-icons/blender.svg",
-};
-
-function TechChip({ tech }: { tech: string }) {
-  const icon = TECH_ICONS[tech];
-  return (
-    <span className="chip !text-[12px] !py-1.5 !px-3.5 inline-flex items-center gap-1.5">
-      {icon && (
-        <Image src={icon} alt={tech} width={16} height={16} className="shrink-0 object-contain" />
-      )}
-      {tech}
-    </span>
-  );
-}
+import { ArrowRight, X, Clock, Globe, AlertCircle, UserCheck, TrendingUp } from "lucide-react";
 
 const projectLogos: Record<string, string> = {
   "ss-group": "/assets/project logo/SSGroup.png",
@@ -378,14 +348,6 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
               {project.description}
             </p>
 
-            <div className="flex flex-wrap gap-1.5 mt-5">
-              {project.techStack.slice(0, 4).map((tech) => (
-                <span key={tech} className="chip !text-[9px] !py-0.5 !px-2">
-                  {tech}
-                </span>
-              ))}
-            </div>
-
             <button
               onClick={() => setShowModal(true)}
               className="mt-6 flex items-center gap-2 text-[14px] text-gold hover:text-gold/80 transition-colors group/btn"
@@ -450,7 +412,7 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
 
                 <div className="mt-8 space-y-7 md:space-y-8">
                   <div>
-                    <SectionLabel icon={Globe}>Business Context</SectionLabel>
+                    <SectionLabel icon={Globe}>Product Context</SectionLabel>
                     <p className="text-[15px] leading-[1.85] text-text-secondary">
                       {project.description}
                     </p>
@@ -459,7 +421,7 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                   <div className="hairline" />
 
                   <div>
-                    <SectionLabel icon={AlertCircle}>Pain Point</SectionLabel>
+                    <SectionLabel icon={AlertCircle}>UX Challenge</SectionLabel>
                     <p className="text-[15px] leading-[1.85] text-text-secondary">
                       {project.painPoint}
                     </p>
@@ -475,7 +437,7 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                   <div className="hairline" />
 
                   <div>
-                    <SectionLabel icon={TrendingUp}>Operational Impact</SectionLabel>
+                    <SectionLabel icon={TrendingUp}>Design Impact</SectionLabel>
                     <ul className="space-y-2.5">
                       {project.outcomes.map((o, i) => (
                         <li key={i} className="flex items-start gap-3 text-[15px] leading-[1.75] text-text-secondary">
@@ -484,15 +446,6 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                         </li>
                       ))}
                     </ul>
-                  </div>
-
-                  <div>
-                    <SectionLabel icon={Code2}>Tech Stack</SectionLabel>
-                    <div className="flex flex-wrap gap-2">
-                      {project.techStack.map((tech) => (
-                        <TechChip key={tech} tech={tech} />
-                      ))}
-                    </div>
                   </div>
                 </div>
               </div>
@@ -518,8 +471,6 @@ type AdditionalCardData = {
   painPoint?: string;
   pmContribution?: string;
   outcomes?: string[];
-  team?: string[];
-  techStack?: string[];
 };
 
 function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
@@ -630,7 +581,7 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
                   <div className="mt-8 space-y-7 md:space-y-8">
                     {data.description && (
                       <div>
-                        <SectionLabel icon={Globe}>Business Context</SectionLabel>
+                        <SectionLabel icon={Globe}>Product Context</SectionLabel>
                         <p className="text-[15px] leading-[1.85] text-text-secondary">{data.description}</p>
                       </div>
                     )}
@@ -639,7 +590,7 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
 
                     {data.painPoint && (
                       <div>
-                        <SectionLabel icon={AlertCircle}>Pain Point</SectionLabel>
+                        <SectionLabel icon={AlertCircle}>UX Challenge</SectionLabel>
                         <p className="text-[15px] leading-[1.85] text-text-secondary">{data.painPoint}</p>
                       </div>
                     )}
@@ -655,7 +606,7 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
                       <>
                         <div className="hairline" />
                         <div>
-                          <SectionLabel icon={TrendingUp}>Operational Impact</SectionLabel>
+                          <SectionLabel icon={TrendingUp}>Design Impact</SectionLabel>
                           <ul className="space-y-2.5">
                             {data.outcomes.map((o, i) => (
                               <li key={i} className="flex items-start gap-3 text-[15px] leading-[1.75] text-text-secondary">
@@ -666,17 +617,6 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
                           </ul>
                         </div>
                       </>
-                    )}
-
-                    {!!data.techStack?.length && (
-                      <div>
-                        <SectionLabel icon={Code2}>Tech Stack</SectionLabel>
-                        <div className="flex flex-wrap gap-2">
-                          {data.techStack.map((tech) => (
-                            <TechChip key={tech} tech={tech} />
-                          ))}
-                        </div>
-                      </div>
                     )}
                   </div>
                 </div>
@@ -710,7 +650,7 @@ export default function FeaturedProjects() {
     <SectionWrapper id="projects">
       <FadeIn>
         <SectionTitle className="max-w-4xl">
-          <span className="text-gold">Projects Across Industries</span> <span className="sm:whitespace-nowrap">and Platforms</span>
+          <span className="text-gold">Product Design Work</span> <span className="sm:whitespace-nowrap">Across Industries</span>
         </SectionTitle>
       </FadeIn>
 
@@ -756,8 +696,6 @@ export default function FeaturedProjects() {
                     painPoint: proj.painPoint,
                     pmContribution: proj.pmContribution,
                     outcomes: proj.outcomes,
-                    team: proj.team,
-                    techStack: proj.techStack,
                   }}
                 />
               );

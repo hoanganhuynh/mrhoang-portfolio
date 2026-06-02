@@ -6,23 +6,23 @@ import SectionWrapper, { FadeIn, SectionTitle } from "./SectionWrapper";
 const groups = [
   {
     icon: "/assets/icons/project-general-info/Thời gian thực hiện.webp",
-    title: "Project & Product Management",
-    items: ["Project roadmap", "Scope definition", "Stakeholder alignment", "Agile coordination", "QA planning", "Documentation", "Handover process", "Partner communication"],
+    title: "Product Thinking",
+    items: ["Product discovery", "Problem framing", "Feature prioritization", "Journey mapping", "User stories", "Experience principles", "MVP definition", "Stakeholder alignment"],
   },
   {
     icon: "/assets/icons/Brand Archetypes/The Sage (Nhà hiền triết).webp",
-    title: "Psychology & Business",
-    items: ["User behavior analysis", "Decision-making insight", "Customer journey thinking", "Business psychology", "Motivation and engagement", "Mental wellness product logic"],
+    title: "UX Research & Psychology",
+    items: ["User behavior analysis", "Decision-making insight", "Research synthesis", "Persona thinking", "Motivation mapping", "Usability review", "Mental wellness logic", "Insight storytelling"],
   },
   {
     icon: "/assets/icons/Brand Archetypes/The Creator (Người kiến tạo).webp",
-    title: "Design & Creative Direction",
-    items: ["UX/UI direction", "Design system thinking", "Brand identity", "Creative strategy", "Motion / 3D direction", "Digital campaign experience"],
+    title: "UI & Interaction Design",
+    items: ["UX/UI direction", "Wireframes", "High-fidelity interfaces", "Design systems", "Interaction patterns", "Prototype logic", "Motion direction", "Visual QA"],
   },
   {
     icon: "/assets/icons/project-general-info/Công nghệ sử dụng.webp",
-    title: "Technical Understanding",
-    items: ["Front-end architecture awareness", "CMS logic", "API and backend coordination", "Performance awareness", "Scalability discussion", "Technical feasibility planning"],
+    title: "Product Delivery",
+    items: ["Design handoff", "Acceptance criteria", "Cross-functional critique", "Launch readiness", "Content structure", "Design documentation", "Iteration loops", "Quality alignment"],
   },
 ];
 
@@ -31,7 +31,7 @@ export default function Capabilities() {
     <SectionWrapper>
       <FadeIn>
         <SectionTitle className="max-w-xl">
-          <span className="text-gold">Technical</span> & Creative Range
+          <span className="text-gold">Product</span> & Design Range
         </SectionTitle>
       </FadeIn>
 

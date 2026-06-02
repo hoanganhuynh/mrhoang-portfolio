@@ -4,9 +4,9 @@ import Image from "next/image";
 import { BriefcaseBusiness, GraduationCap } from "lucide-react";
 
 const credentials = [
-  { icon: GraduationCap, emphasis: "PhD. Psychology", detail: " - Lecturer in Psychology in Business Administration" },
+  { icon: GraduationCap, emphasis: "PhD. Psychology", detail: " - human behavior as a design foundation" },
   { icon: BriefcaseBusiness, emphasis: "Former Head of Digital Design", detail: " at Sacombank" },
-  { icon: BriefcaseBusiness, emphasis: "Former Product Design", detail: " at FPT Global Healthcare - Centre of Excellence" },
+  { icon: BriefcaseBusiness, emphasis: "Former Product Designer", detail: " at FPT Global Healthcare - Centre of Excellence" },
 ];
 
 
@@ -49,7 +49,7 @@ export default function Hero() {
             </p>
 
             <p className="mt-5 max-w-[720px] text-[16px] leading-[1.85] text-text-secondary md:text-[18px] anim-fade-up anim-delay-3">
-              Orchestrating lean business operations by synthesizing data-driven analytics and generative AI, underpinned by a strategic foundation in business management psychology
+              Designing digital products where user psychology, interface clarity, and business goals meet in one coherent experience.
             </p>
           </div>
 

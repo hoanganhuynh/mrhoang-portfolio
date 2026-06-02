@@ -1,20 +1,20 @@
 "use client";
 
 import Image from "next/image";
-import { BarChart3, Cpu } from "lucide-react";
+import { BarChart3, PanelsTopLeft } from "lucide-react";
 
 const deliverables = [
   {
     icon: BarChart3,
-    title: "Operational Excellence",
+    title: "Product Clarity",
     description:
-      "Partnering with enterprises to cultivate and institutionalize lean operational capabilities, driven by data and organizational psychology.",
+      "Turning ambiguous goals into user journeys, product priorities, and interface decisions teams can rally around.",
   },
   {
-    icon: Cpu,
-    title: "Digital Product R&D",
+    icon: PanelsTopLeft,
+    title: "UIUX Systems",
     description:
-      "Spearheading cross-industry research and development to engineer scalable, high-impact digital products.",
+      "Designing screens, patterns, and handoff logic that keep digital products coherent as they grow.",
   },
 ];
 
@@ -62,8 +62,8 @@ export default function Quote() {
             Working principle
           </span>
           <blockquote className="max-w-3xl font-heading text-[18px] font-bold leading-[1.5] tracking-[-0.01em] text-text-primary md:text-[20px] md:leading-[1.55]">
-            "Clarity is not a visual style. It is the operational condition that
-            allows teams, products, and users to move with confidence."
+            "Good interface design is not decoration. It is the moment where
+            user behavior, product intent, and business clarity become visible."
           </blockquote>
 
           {/* What I Deliver — desktop only (inside grid column) */}

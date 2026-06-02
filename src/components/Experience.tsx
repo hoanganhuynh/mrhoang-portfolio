@@ -17,14 +17,14 @@ const roles: Role[] = [
     title: "Head of Digital Design",
     org: "Sacombank",
     logo: "/assets/project logo/Sacombank.png",
-    focus: "Digital design leadership, financial product experience, banking innovation, and design system governance.",
+    focus: "Led digital design direction for banking experiences, shaping product journeys, interface standards, innovation concepts, and design system governance.",
   },
   {
     status: "Former",
-    title: "Product Design",
+    title: "Product Designer",
     org: "FPT Global Healthcare — Centre of Excellence",
     logo: "/assets/project logo/FPT.png",
-    focus: "Healthcare product design, UX research, digital health experience, and cross-functional collaboration.",
+    focus: "Designed healthcare product experiences through UX research, journey definition, interface design, prototyping, and cross-functional product collaboration.",
   },
 ];
 
@@ -36,7 +36,7 @@ export default function Experience() {
         <div className="lg:sticky lg:top-32 lg:self-start">
           <FadeIn>
             <SectionTitle>
-              <span className="text-gold">Leadership</span> <span className="sm:whitespace-nowrap">Across Industries</span>
+              <span className="text-gold">Product Design</span> <span className="sm:whitespace-nowrap">Across Industries</span>
             </SectionTitle>
           </FadeIn>
         </div>

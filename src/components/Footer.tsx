@@ -43,7 +43,7 @@ export default function Footer() {
 
         <div className="flex flex-col justify-between gap-4 border-t border-white/10 pt-6 text-[13px] text-text-muted md:flex-row md:items-center">
           <span>&copy; {new Date().getFullYear()} Williens Hoang Nguyen</span>
-          <span>Psychology · Product · Creative Operations</span>
+          <span>Psychology · Product Design · UIUX Systems</span>
         </div>
       </div>
     </footer>
