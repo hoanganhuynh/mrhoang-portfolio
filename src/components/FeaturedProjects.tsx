@@ -114,7 +114,15 @@ function MobileCarousel({ images, projectName }: { images: string[]; projectName
    • Adjacent images: opacity 30%, always pre-positioned above/below
    • realIdx = ((current % n) + n) % n maps virtual → real image
 ────────────────────────────────────────────────────────────────────────── */
-function ImageViewer({ images, projectName }: { images: string[]; projectName: string }) {
+function ImageViewer({
+  images,
+  projectName,
+  autoSlide = false,
+}: {
+  images: string[];
+  projectName: string;
+  autoSlide?: boolean;
+}) {
   const [current, setCurrent] = useState(0); // unbounded — grows forever
   const containerRef = useRef<HTMLDivElement>(null);
   const [dims, setDims] = useState({ cH: 0, imgH: 0 });
@@ -134,6 +142,16 @@ function ImageViewer({ images, projectName }: { images: string[]; projectName: s
     if (containerRef.current) ro.observe(containerRef.current);
     return () => ro.disconnect();
   }, []);
+
+  useEffect(() => {
+    if (!autoSlide) return;
+    if (n <= 1) return;
+    const id = setInterval(() => {
+      lastScrollTime.current = Date.now();
+      setCurrent(i => i + 1);
+    }, 2000);
+    return () => clearInterval(id);
+  }, [autoSlide, n]);
 
   const advance = useCallback((dir: 1 | -1) => {
     const now = Date.now();
@@ -384,7 +402,7 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
               <MobileCarousel images={project.images} projectName={project.name} />
             </div>
             <div className="hidden lg:block h-full shrink-0">
-              <ImageViewer images={project.images} projectName={project.name} />
+              <ImageViewer images={project.images} projectName={project.name} autoSlide />
             </div>
 
             {/* RIGHT: project info */}
@@ -551,8 +569,11 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
               </button>
 
               {/* LEFT: scroll-based image viewer */}
-              <div className="h-[45vh] shrink-0 lg:h-full">
+              <div className="h-[45vh] shrink-0 lg:hidden">
                 <ImageViewer images={data.images} projectName={data.name} />
+              </div>
+              <div className="hidden shrink-0 lg:block lg:h-full">
+                <ImageViewer images={data.images} projectName={data.name} autoSlide />
               </div>
 
               {/* RIGHT: project info */}
