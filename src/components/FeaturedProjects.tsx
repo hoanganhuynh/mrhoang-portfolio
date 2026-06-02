@@ -41,53 +41,56 @@ function ImageCarousel({ images, projectName }: { images: string[]; projectName:
   const next = () => setCurrent((i) => (i + 1) % images.length);
 
   if (!images.length) {
-    return <div className="flex h-full items-center justify-center bg-white/[0.025]" />;
+    return <div className="h-full bg-[#050505]" />;
   }
 
   return (
     <div className="flex h-full flex-col bg-[#050505]">
-      <div className="relative min-h-0 flex-1 overflow-hidden">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={current}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="absolute inset-0"
-          >
-            <Image
-              src={images[current]}
-              alt={`${projectName} image ${current + 1}`}
-              fill
-              priority
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover"
-            />
-          </motion.div>
-        </AnimatePresence>
+      {/* Flex-1 area: centers the 16:9 image — black fills leftover space */}
+      <div className="flex min-h-0 flex-1 items-center justify-center">
+        <div className="relative w-full aspect-[16/9]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="absolute inset-0"
+            >
+              <Image
+                src={images[current]}
+                alt={`${projectName} image ${current + 1}`}
+                fill
+                priority
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-cover"
+              />
+            </motion.div>
+          </AnimatePresence>
 
-        {images.length > 1 && (
-          <>
-            <button
-              onClick={prev}
-              className="absolute left-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/60 p-2.5 text-white transition-colors hover:bg-black/80"
-              aria-label="Previous image"
-            >
-              <ChevronLeft size={18} />
-            </button>
-            <button
-              onClick={next}
-              className="absolute right-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/60 p-2.5 text-white transition-colors hover:bg-black/80"
-              aria-label="Next image"
-            >
-              <ChevronRight size={18} />
-            </button>
-            <div className="absolute bottom-3 right-3 z-10 rounded-full bg-black/50 px-2.5 py-1 font-mono text-[10px] tracking-wider text-white/70">
-              {current + 1} / {images.length}
-            </div>
-          </>
-        )}
+          {images.length > 1 && (
+            <>
+              <button
+                onClick={prev}
+                className="absolute left-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/60 p-2.5 text-white transition-colors hover:bg-black/80"
+                aria-label="Previous image"
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <button
+                onClick={next}
+                className="absolute right-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/60 p-2.5 text-white transition-colors hover:bg-black/80"
+                aria-label="Next image"
+              >
+                <ChevronRight size={18} />
+              </button>
+              <div className="absolute bottom-3 right-3 z-10 rounded-full bg-black/50 px-2.5 py-1 font-mono text-[10px] tracking-wider text-white/70">
+                {current + 1} / {images.length}
+              </div>
+            </>
+          )}
+        </div>
       </div>
 
       {images.length > 1 && (
@@ -162,7 +165,8 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
   return (
     <>
       <div
-        className={`group rounded-xl border border-line bg-surface overflow-hidden hover:border-gold/15 transition-all duration-500 ${
+        onClick={() => setShowModal(true)}
+        className={`group cursor-pointer rounded-xl border border-line bg-surface overflow-hidden hover:border-gold/15 transition-all duration-500 ${
           featured ? "lg:grid lg:grid-cols-[1.12fr_0.88fr] lg:items-stretch" : ""
         }`}
       >
@@ -368,7 +372,10 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
 
   return (
     <>
-      <div className="group w-[76vw] min-w-[76vw] snap-start overflow-hidden rounded-xl border border-line bg-surface transition-all duration-500 hover:-translate-y-1 hover:border-gold/20 hover:bg-surface-strong sm:w-auto sm:min-w-0">
+      <div
+        onClick={() => setShowModal(true)}
+        className="group cursor-pointer w-[76vw] min-w-[76vw] snap-start overflow-hidden rounded-xl border border-line bg-surface transition-all duration-500 hover:-translate-y-1 hover:border-gold/20 hover:bg-surface-strong sm:w-auto sm:min-w-0"
+      >
         {previewImage && (
           <div className="relative aspect-[16/9] overflow-hidden">
             <Image
