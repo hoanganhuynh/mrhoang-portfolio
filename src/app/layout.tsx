@@ -19,12 +19,13 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://cv.williens.space"),
-  title: "Williens Hoang Nguyen — Psychology-led Project Management",
+  title: "Williens Hoang Nguyen — Product Design Lead",
   description:
-    "PhD Psychology, Project Manager, and Creative-Business Leader. Bridging psychology, business strategy, creative direction, and digital product delivery.",
+    "PhD Psychology, Product Design Lead, and Creative-Business Leader. Bridging psychology, business strategy, creative direction, and digital product delivery.",
   keywords: [
     "Williens Hoang Nguyen",
-    "Project Management",
+    "Product Design",
+    "Product Design Lead",
     "Psychology",
     "Digital Product",
     "Creative Direction",
@@ -32,9 +33,9 @@ export const metadata: Metadata = {
     "Business Administration",
   ],
   openGraph: {
-    title: "Williens Hoang Nguyen — Psychology-led Project Management",
+    title: "Williens Hoang Nguyen — Product Design Lead",
     description:
-      "PhD Psychology, Project Manager, and Creative-Business Leader.",
+      "PhD Psychology, Product Design Lead, and Creative-Business Leader.",
     type: "website",
     url: "https://cv.williens.space",
   },
