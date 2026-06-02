@@ -4,7 +4,7 @@ import Image from "next/image";
 import { BriefcaseBusiness, GraduationCap } from "lucide-react";
 
 const credentials = [
-  { icon: GraduationCap, emphasis: "PhD. Psychology", detail: " - human behavior as a design foundation" },
+  { icon: GraduationCap, emphasis: "PhD. Psychology", detail: " - Lecturer in Psychology in Business Administration" },
   { icon: BriefcaseBusiness, emphasis: "Former Head of Digital Design", detail: " at Sacombank" },
   { icon: BriefcaseBusiness, emphasis: "Former Product Designer", detail: " at FPT Global Healthcare - Centre of Excellence" },
 ];
