@@ -352,7 +352,7 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                       alt={`${project.name} logo`}
                       width={200}
                       height={130}
-                      className={`shrink-0 max-h-12 w-auto object-contain md:max-h-16 ${logoOffset}`}
+                      className={`shrink-0 max-h-36 w-auto object-contain md:max-h-48 ${logoOffset}`}
                     />
                   )}
                 </div>
@@ -531,7 +531,7 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
                         alt={`${data.name} logo`}
                         width={200}
                         height={130}
-                        className={`shrink-0 max-h-12 w-auto object-contain md:max-h-16 ${data.logoOffset ?? ""}`}
+                        className={`shrink-0 max-h-36 w-auto object-contain md:max-h-48 ${data.logoOffset ?? ""}`}
                       />
                     )}
                   </div>
