@@ -52,7 +52,7 @@ export const projects: Project[] = [
       "MongoDB",
       "Docker",
     ],
-    images: ["/assets/project image/SSGroup.jpg"],
+    images: ["/assets/projects/ss-group/01.jpg"],
   },
   {
     slug: "fpt-techday",
@@ -89,7 +89,7 @@ export const projects: Project[] = [
       "Tailwind CSS",
       "Blender",
     ],
-    images: ["/assets/project image/FPT techday.jpg"],
+    images: ["/assets/projects/fpt-techday/01.jpg"],
   },
   {
     slug: "rav",
@@ -125,7 +125,7 @@ export const projects: Project[] = [
       "Tailwind CSS",
       "Blender",
     ],
-    images: ["/assets/project image/RAV.jpg"],
+    images: ["/assets/projects/rav/01.jpg"],
   },
   {
     slug: "emotico",
@@ -160,7 +160,7 @@ export const projects: Project[] = [
       "Tailwind CSS",
       "Blender",
     ],
-    images: ["/assets/project image/eMotico.jpg"],
+    images: ["/assets/projects/emotico/01.jpg"],
   },
   {
     slug: "vinamilk",
@@ -195,7 +195,7 @@ export const projects: Project[] = [
       "Tailwind CSS",
       "Blender",
     ],
-    images: ["/assets/project image/Vinamilk.jpg"],
+    images: ["/assets/projects/vinamilk/01.jpg"],
   },
   {
     slug: "bcnv",
@@ -231,7 +231,7 @@ export const projects: Project[] = [
       "Tailwind CSS",
       "Blender",
     ],
-    images: ["/assets/project image/BCNV.jpg"],
+    images: ["/assets/projects/bcnv/01.jpg"],
   },
   {
     slug: "sacombank-vr",
@@ -267,7 +267,7 @@ export const projects: Project[] = [
       "Blender",
       "Unity",
     ],
-    images: ["/assets/project image/Sacombank VR.jpg"],
+    images: ["/assets/projects/sacombank-vr/01.jpg"],
   },
   {
     slug: "cosmo-club",
@@ -301,7 +301,7 @@ export const projects: Project[] = [
       "Node.js",
       "Tailwind CSS",
     ],
-    images: ["/assets/project image/Cosmo.jpg"],
+    images: ["/assets/projects/cosmo-club/01.jpg"],
   },
 ];
 
