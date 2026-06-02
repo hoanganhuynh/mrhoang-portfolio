@@ -133,7 +133,15 @@ export const projects: Project[] = [
       "Tailwind CSS",
       "Blender",
     ],
-    images: ["/assets/projects/rav/01.jpg"],
+    images: [
+      "/assets/projects/rav/01.jpg",       // ảnh 1
+      "/assets/projects/rav/mockup1.jpg",  // mockup 1
+      "/assets/projects/rav/7.jpg",        // ảnh 2
+      "/assets/projects/rav/mockup2.jpg",  // mockup 2
+      "/assets/projects/rav/8.jpg",        // ảnh 3
+      "/assets/projects/rav/9.jpg",        // ảnh 4
+      "/assets/projects/rav/10.jpg",       // ảnh 5
+    ],
   },
   {
     slug: "emotico",
