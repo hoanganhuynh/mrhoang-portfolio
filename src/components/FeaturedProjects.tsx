@@ -8,6 +8,32 @@ import SectionWrapper, { FadeIn, SectionTitle } from "./SectionWrapper";
 import { projects, additionalProjects, type Project } from "@/data/projects";
 import { ArrowRight, X, Clock, Users, Globe, AlertCircle, UserCheck, TrendingUp, Code2 } from "lucide-react";
 
+// Tech stack icon mapping — icons from marwin1991/profile-technology-icons
+const TECH_ICONS: Record<string, string> = {
+  "Figma":        "/assets/tech-icons/figma.png",
+  "Go":           "/assets/tech-icons/go.png",
+  "Node.js":      "/assets/tech-icons/node_js.png",
+  "Next.js":      "/assets/tech-icons/next_js.png",
+  "Tailwind CSS": "/assets/tech-icons/tailwind_css.png",
+  "Redis":        "/assets/tech-icons/redis.png",
+  "MySQL":        "/assets/tech-icons/mysql.png",
+  "MongoDB":      "/assets/tech-icons/mongodb.png",
+  "Docker":       "/assets/tech-icons/docker.png",
+  "Unity":        "/assets/tech-icons/unity.png",
+};
+
+function TechChip({ tech }: { tech: string }) {
+  const icon = TECH_ICONS[tech];
+  return (
+    <span className="chip !text-[12px] !py-1.5 !px-3.5 inline-flex items-center gap-1.5">
+      {icon && (
+        <Image src={icon} alt={tech} width={16} height={16} className="shrink-0 object-contain" />
+      )}
+      {tech}
+    </span>
+  );
+}
+
 const projectLogos: Record<string, string> = {
   "ss-group": "/assets/project logo/SSGroup.png",
   "fpt-techday": "/assets/project logo/FPT.png",
@@ -352,7 +378,7 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                     <SectionLabel icon={Code2}>Tech Stack</SectionLabel>
                     <div className="flex flex-wrap gap-2">
                       {project.techStack.map((tech) => (
-                        <span key={tech} className="chip !text-[12px] !py-1.5 !px-3.5">{tech}</span>
+                        <TechChip key={tech} tech={tech} />
                       ))}
                     </div>
                   </div>
@@ -533,7 +559,7 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
                         <SectionLabel icon={Code2}>Tech Stack</SectionLabel>
                         <div className="flex flex-wrap gap-2">
                           {data.techStack.map((tech) => (
-                            <span key={tech} className="chip !text-[12px] !py-1.5 !px-3.5">{tech}</span>
+                            <TechChip key={tech} tech={tech} />
                           ))}
                         </div>
                       </div>
