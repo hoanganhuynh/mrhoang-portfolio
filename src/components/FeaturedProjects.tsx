@@ -342,7 +342,7 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                 <span className="mb-3 block font-mono text-[10px] tracking-[0.12em] uppercase text-gold/70">
                   {project.category}
                 </span>
-                <div className="flex items-start justify-between gap-4">
+                <div className="flex items-center justify-between gap-4">
                   <h2 className="flex-1 font-heading font-bold text-[24px] leading-[1.1] tracking-tight text-text-primary md:text-[36px]">
                     {project.name}
                   </h2>
@@ -352,7 +352,7 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                       alt={`${project.name} logo`}
                       width={200}
                       height={130}
-                      className={`shrink-0 max-h-36 w-auto object-contain md:max-h-48 ${logoOffset}`}
+                      className={`shrink-0 max-h-[188px] w-auto object-contain md:max-h-[250px] ${logoOffset}`}
                     />
                   )}
                 </div>
@@ -521,7 +521,7 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
                   <span className="mb-3 block font-mono text-[10px] tracking-[0.12em] uppercase text-gold/70">
                     {data.category}
                   </span>
-                  <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-center justify-between gap-4">
                     <h2 className="flex-1 font-heading font-bold text-[24px] leading-[1.1] tracking-tight text-text-primary md:text-[36px]">
                       {data.name}
                     </h2>
@@ -531,7 +531,7 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
                         alt={`${data.name} logo`}
                         width={200}
                         height={130}
-                        className={`shrink-0 max-h-36 w-auto object-contain md:max-h-48 ${data.logoOffset ?? ""}`}
+                        className={`shrink-0 max-h-[188px] w-auto object-contain md:max-h-[250px] ${data.logoOffset ?? ""}`}
                       />
                     )}
                   </div>
