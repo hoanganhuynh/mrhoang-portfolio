@@ -58,8 +58,8 @@ export const projects: Project[] = [
       "/assets/projects/ss-group/2.jpg",
       "/assets/projects/ss-group/3.jpg",
       "/assets/projects/ss-group/4.jpg",
-      "/assets/projects/ss-group/mockup1.png",
-      "/assets/projects/ss-group/mockup2.png",
+      "/assets/projects/ss-group/5.jpg",
+      "/assets/projects/ss-group/6.jpg",
     ],
   },
   {
