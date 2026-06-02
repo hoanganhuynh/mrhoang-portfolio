@@ -64,28 +64,65 @@ const additionalWorkAssets: Record<string, { image: string; logo: string }> = {
   },
 };
 
-/* ─── Mobile: horizontal auto-slide carousel (16:9, no controls) ────────── */
+/* ─── Mobile: horizontal carousel — auto-slide + manual swipe ───────────── */
 function MobileCarousel({ images, projectName }: { images: string[]; projectName: string }) {
   const [current, setCurrent] = useState(0);
+  const [dir, setDir] = useState<1 | -1>(1);
   const n = images.length;
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
+
+  // Start/restart 2s auto-slide
+  const startAuto = useCallback(() => {
+    if (n <= 1) return;
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      setDir(1);
+      setCurrent(i => (i + 1) % n);
+    }, 2000);
+  }, [n]);
 
   useEffect(() => {
-    if (n <= 1) return;
-    const id = setInterval(() => setCurrent(i => (i + 1) % n), 2000);
-    return () => clearInterval(id);
-  }, [n]);
+    startAuto();
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+  }, [startAuto]);
+
+  // Manual navigate — restarts auto timer so 2s resets from last touch
+  const go = useCallback((d: 1 | -1) => {
+    setDir(d);
+    setCurrent(i => (i + d + n) % n);
+    startAuto();
+  }, [n, startAuto]);
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const dx = touchStartX.current - e.changedTouches[0].clientX;
+    const dy = Math.abs(touchStartY.current - e.changedTouches[0].clientY);
+    // Only trigger horizontal swipe when dominant axis and > 40px
+    if (Math.abs(dx) > 40 && Math.abs(dx) > dy) go(dx > 0 ? 1 : -1);
+  };
 
   if (!n) return <div className="aspect-[16/9] w-full bg-[#050505]" />;
 
   return (
-    <div className="relative w-full aspect-[16/9] overflow-hidden bg-[#050505]">
-      <AnimatePresence initial={false}>
+    <div
+      className="relative w-full aspect-[16/9] overflow-hidden bg-[#050505] touch-pan-y"
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+    >
+      <AnimatePresence initial={false} custom={dir}>
         <motion.div
           key={current}
-          initial={{ x: "100%" }}
+          custom={dir}
+          initial={{ x: dir > 0 ? "100%" : "-100%" }}
           animate={{ x: 0 }}
-          exit={{ x: "-100%" }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          exit={{ x: dir > 0 ? "-100%" : "100%" }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0"
         >
           <Image
