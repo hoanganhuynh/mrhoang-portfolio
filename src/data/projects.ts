@@ -217,7 +217,14 @@ export const projects: Project[] = [
       "Tailwind CSS",
       "Blender",
     ],
-    images: ["/assets/projects/vinamilk/01.jpg"],
+    images: [
+      "/assets/projects/vinamilk/01.jpg",      // ảnh 1
+      "/assets/projects/vinamilk/mockup1.jpg", // mockup 1
+      "/assets/projects/vinamilk/1.jpg",       // ảnh 2
+      "/assets/projects/vinamilk/2.jpg",       // ảnh 3
+      "/assets/projects/vinamilk/3.jpg",       // ảnh 4
+      "/assets/projects/vinamilk/4.jpg",       // ảnh 5
+    ],
   },
   {
     slug: "bcnv",
