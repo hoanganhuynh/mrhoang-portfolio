@@ -337,7 +337,7 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
   const logoOffset =
     project.slug === "sacombank-vr"
       ? "translate-x-[10px]"
-      : project.slug === "ss-group" || project.slug === "fpt-techday"
+      : project.slug === "ss-group" || project.slug === "fpt-techday" || project.slug === "emotico" || project.slug === "rav"
         ? "-translate-x-4"
         : "";
 
@@ -738,7 +738,7 @@ export default function FeaturedProjects() {
               const logoOffset =
                 proj.slug === "sacombank-vr"
                   ? "translate-x-[10px]"
-                  : proj.slug === "fpt-techday"
+                  : proj.slug === "fpt-techday" || proj.slug === "emotico" || proj.slug === "rav"
                     ? "-translate-x-4"
                     : "";
               return (
