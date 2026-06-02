@@ -53,13 +53,13 @@ export const projects: Project[] = [
       "Docker",
     ],
     images: [
-      "/assets/projects/ss-group/01.jpg",
-      "/assets/projects/ss-group/1.jpg",
-      "/assets/projects/ss-group/2.jpg",
-      "/assets/projects/ss-group/3.jpg",
-      "/assets/projects/ss-group/4.jpg",
-      "/assets/projects/ss-group/5.jpg",
-      "/assets/projects/ss-group/6.jpg",
+      "/assets/projects/ss-group/01.jpg",    // ảnh 1
+      "/assets/projects/ss-group/mockup-5.jpg", // mockup 1
+      "/assets/projects/ss-group/1.jpg",     // ảnh 2
+      "/assets/projects/ss-group/mockup-6.jpg", // mockup 2
+      "/assets/projects/ss-group/2.jpg",     // ảnh 3
+      "/assets/projects/ss-group/3.jpg",     // ảnh 4
+      "/assets/projects/ss-group/4.jpg",     // ảnh 5
     ],
   },
   {
