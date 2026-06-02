@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback, useLayoutEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import SectionWrapper, { FadeIn, SectionTitle } from "./SectionWrapper";
 import { projects, additionalProjects, type Project } from "@/data/projects";
-import { ArrowRight, X, Clock, Users, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, X, Clock, Users, Globe, AlertCircle, UserCheck, TrendingUp, Code2 } from "lucide-react";
 
 const projectLogos: Record<string, string> = {
   "ss-group": "/assets/project logo/SSGroup.png",
@@ -34,82 +34,162 @@ const additionalWorkAssets: Record<string, { image: string; logo: string }> = {
   },
 };
 
-function ImageCarousel({ images, projectName }: { images: string[]; projectName: string }) {
+/* ─── Scroll-based image viewer ─────────────────────────────────────────────
+   • 1 scroll / swipe = advance 1 image
+   • Active image: opacity 100%, centered
+   • Adjacent images: opacity 30%, peek above/below
+   • Black fills the rest of the column
+────────────────────────────────────────────────────────────────────────── */
+function ImageViewer({ images, projectName }: { images: string[]; projectName: string }) {
   const [current, setCurrent] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [dims, setDims] = useState({ cH: 0, imgH: 0 });
+  const lastScrollTime = useRef(0);
+  const touchStartY = useRef(0);
 
-  const prev = () => setCurrent((i) => (i - 1 + images.length) % images.length);
-  const next = () => setCurrent((i) => (i + 1) % images.length);
+  useLayoutEffect(() => {
+    const measure = () => {
+      const el = containerRef.current;
+      if (!el) return;
+      const { width, height } = el.getBoundingClientRect();
+      setDims({ cH: Math.round(height), imgH: Math.round(width * 9 / 16) });
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    if (containerRef.current) ro.observe(containerRef.current);
+    return () => ro.disconnect();
+  }, []);
 
-  if (!images.length) {
-    return <div className="h-full bg-[#050505]" />;
-  }
+  const advance = useCallback((dir: 1 | -1) => {
+    const now = Date.now();
+    if (now - lastScrollTime.current < 550) return; // throttle: 1 scroll = 1 image
+    lastScrollTime.current = now;
+    setCurrent(i => Math.max(0, Math.min(images.length - 1, i + dir)));
+  }, [images.length]);
+
+  const handleWheel = (e: React.WheelEvent) => {
+    e.stopPropagation();
+    if (images.length <= 1) return;
+    advance(e.deltaY > 0 ? 1 : -1);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const delta = touchStartY.current - e.changedTouches[0].clientY;
+    if (Math.abs(delta) > 40) advance(delta > 0 ? 1 : -1);
+  };
+
+  if (!images.length) return <div className="h-full bg-[#050505]" />;
+
+  const { cH, imgH } = dims;
+  const centerY = cH > 0 && imgH > 0 ? Math.round((cH - imgH) / 2) : 0;
+  const ready = imgH > 0 && cH > 0;
 
   return (
-    <div className="flex h-full flex-col bg-[#050505]">
-      {/* Flex-1 area: centers the 16:9 image — black fills leftover space */}
-      <div className="flex min-h-0 flex-1 items-center justify-center">
-        <div className="relative w-full aspect-[16/9]">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={current}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="absolute inset-0"
-            >
-              <Image
-                src={images[current]}
-                alt={`${projectName} image ${current + 1}`}
-                fill
-                priority
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
-              />
-            </motion.div>
-          </AnimatePresence>
-
-          {images.length > 1 && (
-            <>
-              <button
-                onClick={prev}
-                className="absolute left-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/60 p-2.5 text-white transition-colors hover:bg-black/80"
-                aria-label="Previous image"
-              >
-                <ChevronLeft size={18} />
-              </button>
-              <button
-                onClick={next}
-                className="absolute right-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/60 p-2.5 text-white transition-colors hover:bg-black/80"
-                aria-label="Next image"
-              >
-                <ChevronRight size={18} />
-              </button>
-              <div className="absolute bottom-3 right-3 z-10 rounded-full bg-black/50 px-2.5 py-1 font-mono text-[10px] tracking-wider text-white/70">
-                {current + 1} / {images.length}
-              </div>
-            </>
-          )}
+    <div
+      ref={containerRef}
+      onWheel={handleWheel}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      className="relative h-full select-none overflow-hidden bg-[#050505]"
+    >
+      {/* Fallback: show first image before dimensions are measured */}
+      {!ready && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="relative w-full aspect-[16/9]">
+            <Image src={images[0]} alt={projectName} fill priority sizes="50vw" className="object-cover" />
+          </div>
         </div>
-      </div>
+      )}
 
+      {/* Positioned images — slide + fade on scroll */}
+      {ready && images.map((src, i) => {
+        const distance = i - current;
+        if (Math.abs(distance) > 2) return null;
+        const y = centerY + distance * imgH;
+        const opacity = distance === 0 ? 1 : Math.abs(distance) === 1 ? 0.3 : 0;
+
+        return (
+          <motion.div
+            key={src}
+            initial={false}
+            animate={{ y, opacity }}
+            transition={{ duration: 0.48, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute left-0 right-0"
+            style={{ top: 0, height: imgH }}
+          >
+            <Image
+              src={src}
+              alt={`${projectName} ${i + 1}`}
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
+          </motion.div>
+        );
+      })}
+
+      {/* Dot indicator + counter */}
       {images.length > 1 && (
-        <div className="flex shrink-0 gap-2 overflow-x-auto bg-black/80 p-3">
-          {images.map((img, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrent(i)}
-              aria-label={`View image ${i + 1}`}
-              className={`relative h-11 w-16 shrink-0 overflow-hidden rounded transition-all duration-200 ${
-                i === current
-                  ? "opacity-100 ring-2 ring-gold"
-                  : "opacity-50 ring-1 ring-white/10 hover:opacity-80"
-              }`}
-            >
-              <Image src={img} alt="" fill sizes="64px" className="object-cover" />
-            </button>
-          ))}
+        <div className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2 flex flex-col items-center gap-2">
+          <div className="flex items-center gap-1.5">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => { lastScrollTime.current = 0; setCurrent(i); }}
+                aria-label={`Go to image ${i + 1}`}
+                className={`rounded-full transition-all duration-300 ${
+                  i === current ? "h-1.5 w-5 bg-gold" : "h-1.5 w-1.5 bg-white/30 hover:bg-white/50"
+                }`}
+              />
+            ))}
+          </div>
+          <span className="font-mono text-[10px] tracking-wider text-white/40">
+            {current + 1} / {images.length}
+          </span>
         </div>
+      )}
+
+      {/* Scroll hint when multiple images */}
+      {images.length > 1 && current === 0 && (
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 animate-bounce">
+          <div className="font-mono text-[9px] tracking-[0.12em] uppercase text-white/30">scroll</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ─── Section label helper ───────────────────────────────────────────────── */
+function SectionLabel({ icon: Icon, children }: { icon: React.ElementType; children: React.ReactNode }) {
+  return (
+    <div className="mb-3 flex items-center gap-2">
+      <Icon size={14} strokeWidth={1.8} className="shrink-0 text-gold" />
+      <span className="font-mono text-[12px] font-semibold tracking-[0.12em] uppercase text-gold">
+        {children}
+      </span>
+    </div>
+  );
+}
+
+/* ─── Meta chips (timeframe + role) ─────────────────────────────────────── */
+function MetaChips({ timeframe, role }: { timeframe?: string; role?: string }) {
+  if (!timeframe && !role) return null;
+  return (
+    <div className="mt-4 flex flex-wrap gap-2">
+      {timeframe && (
+        <span className="flex items-center gap-1.5 rounded-full border border-gold/25 bg-gold/[0.07] px-3 py-1 font-mono text-[10px] tracking-[0.08em] uppercase text-gold/85">
+          <Clock size={10} className="shrink-0" />
+          {timeframe}
+        </span>
+      )}
+      {role && (
+        <span className="rounded-full border border-line bg-white/[0.04] px-3 py-1 font-mono text-[10px] tracking-[0.08em] uppercase text-text-muted">
+          {role}
+        </span>
       )}
     </div>
   );
@@ -222,7 +302,7 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="fixed inset-0 z-50 flex flex-col bg-bg lg:grid lg:grid-cols-2"
           >
-            {/* Close button — fixed top-right, always visible */}
+            {/* Close */}
             <button
               onClick={() => setShowModal(false)}
               className="absolute right-4 top-4 z-[60] rounded-full border border-white/10 bg-white/[0.06] p-2.5 text-text-muted transition-all hover:bg-white/10 hover:text-text-primary"
@@ -231,12 +311,12 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
               <X size={16} />
             </button>
 
-            {/* LEFT: image carousel */}
+            {/* LEFT: scroll-based image viewer */}
             <div className="h-[45vh] shrink-0 lg:h-full">
-              <ImageCarousel images={project.images} projectName={project.name} />
+              <ImageViewer images={project.images} projectName={project.name} />
             </div>
 
-            {/* RIGHT: project info (scrollable) */}
+            {/* RIGHT: project info */}
             <div className="flex-1 overflow-y-auto border-t border-line lg:border-l lg:border-t-0">
               <div className="px-6 py-8 md:px-10 md:py-10">
                 <span className="mb-2 block font-mono text-[10px] tracking-[0.12em] uppercase text-gold/70">
@@ -255,20 +335,12 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                   {project.name}
                 </h2>
 
-                <div className="mt-4 flex items-center gap-4 text-[12px] text-text-muted">
-                  <span className="flex items-center gap-1.5">
-                    <Clock size={11} className="text-gold/40" />
-                    {project.timeframe}
-                  </span>
-                  <span>{project.role}</span>
-                </div>
+                <MetaChips timeframe={project.timeframe} role={project.role} />
 
-                <div className="mt-6 space-y-6 md:mt-8 md:space-y-8">
+                <div className="mt-8 space-y-7 md:space-y-8">
                   <div>
-                    <h4 className="mb-2 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
-                      Business Context
-                    </h4>
-                    <p className="text-[16px] leading-[1.8] text-text-secondary">
+                    <SectionLabel icon={Globe}>Business Context</SectionLabel>
+                    <p className="text-[15px] leading-[1.85] text-text-secondary">
                       {project.description}
                     </p>
                   </div>
@@ -276,19 +348,15 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                   <div className="hairline" />
 
                   <div>
-                    <h4 className="mb-2 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
-                      Pain Point
-                    </h4>
-                    <p className="text-[16px] leading-[1.8] text-text-secondary">
+                    <SectionLabel icon={AlertCircle}>Pain Point</SectionLabel>
+                    <p className="text-[15px] leading-[1.85] text-text-secondary">
                       {project.painPoint}
                     </p>
                   </div>
 
                   <div>
-                    <h4 className="mb-2 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
-                      My Role &amp; Contribution
-                    </h4>
-                    <p className="text-[16px] leading-[1.8] text-text-secondary">
+                    <SectionLabel icon={UserCheck}>My Role &amp; Contribution</SectionLabel>
+                    <p className="text-[15px] leading-[1.85] text-text-secondary">
                       {project.pmContribution}
                     </p>
                   </div>
@@ -296,12 +364,10 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                   <div className="hairline" />
 
                   <div>
-                    <h4 className="mb-3 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
-                      Operational Impact
-                    </h4>
+                    <SectionLabel icon={TrendingUp}>Operational Impact</SectionLabel>
                     <ul className="space-y-2.5">
                       {project.outcomes.map((o, i) => (
-                        <li key={i} className="flex items-start gap-3 text-[16px] leading-[1.7] text-text-secondary">
+                        <li key={i} className="flex items-start gap-3 text-[15px] leading-[1.75] text-text-secondary">
                           <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-gold/50" />
                           {o}
                         </li>
@@ -310,19 +376,14 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                   </div>
 
                   <div>
-                    <h4 className="mb-3 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
-                      Team
-                    </h4>
-                    <div className="flex items-center gap-2 text-[12px] text-text-muted">
-                      <Users size={12} className="text-gold/40" />
+                    <SectionLabel icon={Users}>Team</SectionLabel>
+                    <p className="text-[13px] text-text-muted leading-[1.7]">
                       {project.team.join(" · ")}
-                    </div>
+                    </p>
                   </div>
 
                   <div>
-                    <h4 className="mb-3 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
-                      Tech Stack
-                    </h4>
+                    <SectionLabel icon={Code2}>Tech Stack</SectionLabel>
                     <div className="flex flex-wrap gap-2">
                       {project.techStack.map((tech) => (
                         <span key={tech} className="chip">{tech}</span>
@@ -434,10 +495,12 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
                 <X size={16} />
               </button>
 
+              {/* LEFT: scroll-based image viewer */}
               <div className="h-[45vh] shrink-0 lg:h-full">
-                <ImageCarousel images={data.images} projectName={data.name} />
+                <ImageViewer images={data.images} projectName={data.name} />
               </div>
 
+              {/* RIGHT: project info */}
               <div className="flex-1 overflow-y-auto border-t border-line lg:border-l lg:border-t-0">
                 <div className="px-6 py-8 md:px-10 md:py-10">
                   <span className="mb-2 block font-mono text-[10px] tracking-[0.12em] uppercase text-gold/70">
@@ -456,25 +519,13 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
                     {data.name}
                   </h2>
 
-                  {(data.timeframe || data.role) && (
-                    <div className="mt-4 flex items-center gap-4 text-[12px] text-text-muted">
-                      {data.timeframe && (
-                        <span className="flex items-center gap-1.5">
-                          <Clock size={11} className="text-gold/40" />
-                          {data.timeframe}
-                        </span>
-                      )}
-                      {data.role && <span>{data.role}</span>}
-                    </div>
-                  )}
+                  <MetaChips timeframe={data.timeframe} role={data.role} />
 
-                  <div className="mt-6 space-y-6 md:mt-8 md:space-y-8">
+                  <div className="mt-8 space-y-7 md:space-y-8">
                     {data.description && (
                       <div>
-                        <h4 className="mb-2 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
-                          Business Context
-                        </h4>
-                        <p className="text-[16px] leading-[1.8] text-text-secondary">{data.description}</p>
+                        <SectionLabel icon={Globe}>Business Context</SectionLabel>
+                        <p className="text-[15px] leading-[1.85] text-text-secondary">{data.description}</p>
                       </div>
                     )}
 
@@ -482,19 +533,15 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
 
                     {data.painPoint && (
                       <div>
-                        <h4 className="mb-2 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
-                          Pain Point
-                        </h4>
-                        <p className="text-[16px] leading-[1.8] text-text-secondary">{data.painPoint}</p>
+                        <SectionLabel icon={AlertCircle}>Pain Point</SectionLabel>
+                        <p className="text-[15px] leading-[1.85] text-text-secondary">{data.painPoint}</p>
                       </div>
                     )}
 
                     {data.pmContribution && (
                       <div>
-                        <h4 className="mb-2 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
-                          My Role &amp; Contribution
-                        </h4>
-                        <p className="text-[16px] leading-[1.8] text-text-secondary">{data.pmContribution}</p>
+                        <SectionLabel icon={UserCheck}>My Role &amp; Contribution</SectionLabel>
+                        <p className="text-[15px] leading-[1.85] text-text-secondary">{data.pmContribution}</p>
                       </div>
                     )}
 
@@ -502,12 +549,10 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
                       <>
                         <div className="hairline" />
                         <div>
-                          <h4 className="mb-3 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
-                            Operational Impact
-                          </h4>
+                          <SectionLabel icon={TrendingUp}>Operational Impact</SectionLabel>
                           <ul className="space-y-2.5">
                             {data.outcomes.map((o, i) => (
-                              <li key={i} className="flex items-start gap-3 text-[16px] leading-[1.7] text-text-secondary">
+                              <li key={i} className="flex items-start gap-3 text-[15px] leading-[1.75] text-text-secondary">
                                 <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-gold/50" />
                                 {o}
                               </li>
@@ -519,21 +564,16 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
 
                     {!!data.team?.length && (
                       <div>
-                        <h4 className="mb-3 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
-                          Team
-                        </h4>
-                        <div className="flex items-center gap-2 text-[12px] text-text-muted">
-                          <Users size={12} className="text-gold/40" />
+                        <SectionLabel icon={Users}>Team</SectionLabel>
+                        <p className="text-[13px] text-text-muted leading-[1.7]">
                           {data.team.join(" · ")}
-                        </div>
+                        </p>
                       </div>
                     )}
 
                     {!!data.techStack?.length && (
                       <div>
-                        <h4 className="mb-3 font-mono text-[10px] tracking-[0.12em] uppercase text-gold/60">
-                          Tech Stack
-                        </h4>
+                        <SectionLabel icon={Code2}>Tech Stack</SectionLabel>
                         <div className="flex flex-wrap gap-2">
                           {data.techStack.map((tech) => (
                             <span key={tech} className="chip">{tech}</span>
