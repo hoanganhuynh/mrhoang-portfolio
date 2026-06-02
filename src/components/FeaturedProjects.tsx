@@ -64,6 +64,43 @@ const additionalWorkAssets: Record<string, { image: string; logo: string }> = {
   },
 };
 
+/* ─── Mobile: horizontal auto-slide carousel (16:9, no controls) ────────── */
+function MobileCarousel({ images, projectName }: { images: string[]; projectName: string }) {
+  const [current, setCurrent] = useState(0);
+  const n = images.length;
+
+  useEffect(() => {
+    if (n <= 1) return;
+    const id = setInterval(() => setCurrent(i => (i + 1) % n), 2000);
+    return () => clearInterval(id);
+  }, [n]);
+
+  if (!n) return <div className="aspect-[16/9] w-full bg-[#050505]" />;
+
+  return (
+    <div className="relative w-full aspect-[16/9] overflow-hidden bg-[#050505]">
+      <AnimatePresence initial={false}>
+        <motion.div
+          key={current}
+          initial={{ x: "100%" }}
+          animate={{ x: 0 }}
+          exit={{ x: "-100%" }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute inset-0"
+        >
+          <Image
+            src={images[current]}
+            alt={`${projectName} ${current + 1}`}
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+}
+
 /* ─── Infinite scroll image viewer ──────────────────────────────────────────
    • current = unbounded virtual index (never wraps) → smooth loop, no jump
    • Active image: opacity 100%, centered
@@ -343,8 +380,11 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
               <X size={16} />
             </button>
 
-            {/* LEFT: scroll-based image viewer */}
-            <div className="h-[45vh] shrink-0 lg:h-full">
+            {/* LEFT: mobile = horizontal auto-carousel | desktop = vertical scroll */}
+            <div className="lg:hidden w-full shrink-0">
+              <MobileCarousel images={project.images} projectName={project.name} />
+            </div>
+            <div className="hidden lg:block h-full shrink-0">
               <ImageViewer images={project.images} projectName={project.name} />
             </div>
 
@@ -354,7 +394,7 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                 <span className="mb-3 block font-mono text-[10px] tracking-[0.12em] uppercase text-gold/70">
                   {project.category}
                 </span>
-                <div className="flex items-center justify-between gap-4">
+                <div className="flex flex-col-reverse items-start gap-3 lg:flex-row lg:items-center lg:justify-between lg:gap-4">
                   <h2 className="flex-1 font-heading font-bold text-[24px] leading-[1.1] tracking-tight text-text-primary md:text-[36px]">
                     {project.name}
                   </h2>
@@ -364,7 +404,7 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                       alt={`${project.name} logo`}
                       width={200}
                       height={130}
-                      className={`shrink-0 max-h-[188px] w-auto object-contain md:max-h-[250px] ${logoOffset}`}
+                      className={`shrink-0 max-h-[132px] w-auto object-contain lg:max-h-[250px] ${logoOffset}`}
                     />
                   )}
                 </div>
@@ -533,7 +573,7 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
                   <span className="mb-3 block font-mono text-[10px] tracking-[0.12em] uppercase text-gold/70">
                     {data.category}
                   </span>
-                  <div className="flex items-center justify-between gap-4">
+                  <div className="flex flex-col-reverse items-start gap-3 lg:flex-row lg:items-center lg:justify-between lg:gap-4">
                     <h2 className="flex-1 font-heading font-bold text-[24px] leading-[1.1] tracking-tight text-text-primary md:text-[36px]">
                       {data.name}
                     </h2>
@@ -543,7 +583,7 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
                         alt={`${data.name} logo`}
                         width={200}
                         height={130}
-                        className={`shrink-0 max-h-[188px] w-auto object-contain md:max-h-[250px] ${data.logoOffset ?? ""}`}
+                        className={`shrink-0 max-h-[132px] w-auto object-contain lg:max-h-[250px] ${data.logoOffset ?? ""}`}
                       />
                     )}
                   </div>
