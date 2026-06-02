@@ -13,6 +13,9 @@ export default function Footer() {
             <p className="font-heading text-[1.6rem] font-bold tracking-[-0.025em] text-text-primary md:text-[2.5rem]">
               Williens Hoang Nguyen
             </p>
+            <p className="mt-2 font-mono text-[13px] tracking-[0.14em] uppercase text-gold">
+              Product Design Lead
+            </p>
             <div className="mt-5 grid gap-3 text-[16px] text-text-secondary">
               <a href="mailto:hello@williens.com" className="flex items-center gap-3 transition-colors duration-300 hover:text-gold">
                 <Mail size={18} className="text-gold" />
