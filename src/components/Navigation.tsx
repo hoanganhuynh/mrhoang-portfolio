@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, Phone, X } from "lucide-react";
+import { BriefcaseBusiness, GraduationCap, Menu, Phone, X } from "lucide-react";
 
 type Mode = "business" | "academic";
 
@@ -50,6 +50,11 @@ export default function Navigation({ mode, setMode }: NavigationProps) {
     window.setTimeout(() => {
       document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
     }, 80);
+  };
+
+  const switchMode = (nextMode: Mode) => {
+    setMobileOpen(false);
+    setMode(nextMode);
   };
 
   return (
@@ -105,6 +110,32 @@ export default function Navigation({ mode, setMode }: NavigationProps) {
 
             {/* Desktop right side: call button */}
             <div className="hidden md:flex items-center gap-3">
+              <div className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.04] p-1">
+                <button
+                  onClick={() => switchMode("business")}
+                  className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 font-mono text-[10px] tracking-[0.1em] uppercase transition-all ${
+                    mode === "business"
+                      ? "bg-gold text-bg"
+                      : "text-text-muted hover:text-text-primary"
+                  }`}
+                  aria-pressed={mode === "business"}
+                >
+                  <BriefcaseBusiness size={12} />
+                  Product
+                </button>
+                <button
+                  onClick={() => switchMode("academic")}
+                  className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 font-mono text-[10px] tracking-[0.1em] uppercase transition-all ${
+                    mode === "academic"
+                      ? "bg-gold text-bg"
+                      : "text-text-muted hover:text-text-primary"
+                  }`}
+                  aria-pressed={mode === "academic"}
+                >
+                  <GraduationCap size={12} />
+                  Academic
+                </button>
+              </div>
               <button
                 onClick={() => { window.location.href = "tel:0929822369"; }}
                 className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.1em] uppercase px-5 py-2 rounded-full border border-gold/25 bg-gold/10 text-gold hover:bg-gold hover:text-bg transition-all duration-300 z-10"
@@ -146,6 +177,32 @@ export default function Navigation({ mode, setMode }: NavigationProps) {
             className="fixed inset-0 z-40 bg-bg/98 backdrop-blur-lg pt-24 px-8 md:hidden"
           >
             <div className="flex flex-col gap-1 pt-8">
+              <div className="mb-6 grid grid-cols-2 gap-2 rounded-full border border-white/10 bg-white/[0.04] p-1">
+                <button
+                  onClick={() => switchMode("business")}
+                  className={`inline-flex items-center justify-center gap-2 rounded-full px-3 py-3 font-mono text-[10px] uppercase tracking-[0.1em] transition-all ${
+                    mode === "business"
+                      ? "bg-gold text-bg"
+                      : "text-text-muted"
+                  }`}
+                  aria-pressed={mode === "business"}
+                >
+                  <BriefcaseBusiness size={13} />
+                  Product
+                </button>
+                <button
+                  onClick={() => switchMode("academic")}
+                  className={`inline-flex items-center justify-center gap-2 rounded-full px-3 py-3 font-mono text-[10px] uppercase tracking-[0.1em] transition-all ${
+                    mode === "academic"
+                      ? "bg-gold text-bg"
+                      : "text-text-muted"
+                  }`}
+                  aria-pressed={mode === "academic"}
+                >
+                  <GraduationCap size={13} />
+                  Academic
+                </button>
+              </div>
               {navItems.map((item, i) => (
                 <motion.button
                   key={item.href}
