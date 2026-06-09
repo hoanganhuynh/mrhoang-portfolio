@@ -5,8 +5,11 @@ import { BriefcaseBusiness, GraduationCap } from "lucide-react";
 
 const credentials = [
   { icon: GraduationCap, emphasis: "PhD. Psychology", detail: " - Lecturer in Psychology in Business Administration" },
+  { icon: BriefcaseBusiness, emphasis: "Chairman", detail: " at Williens Creative Space" },
+  { icon: BriefcaseBusiness, emphasis: "Chairman", detail: " at Emotico Wellness" },
+  { icon: BriefcaseBusiness, emphasis: "Former Vice President", detail: " at Restaurant Association of Vietnam" },
   { icon: BriefcaseBusiness, emphasis: "Former Head of Digital Design", detail: " at Sacombank" },
-  { icon: BriefcaseBusiness, emphasis: "Former Product Designer", detail: " at FPT - The Corporation for Financing Promoting Technology" },
+  { icon: BriefcaseBusiness, emphasis: "Former Product Design", detail: " at FPT Global Healthcare - Centre of Excellence" },
 ];
 
 

@@ -6,7 +6,7 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import SectionWrapper, { FadeIn, SectionTitle } from "./SectionWrapper";
 import { projects, additionalProjects, type Project } from "@/data/projects";
-import { ArrowRight, X, Clock, Globe, AlertCircle, UserCheck, TrendingUp } from "lucide-react";
+import { ArrowRight, X, Clock, Globe, AlertCircle, UserCheck, TrendingUp, Users } from "lucide-react";
 
 const projectLogos: Record<string, string> = {
   "ss-group": "/assets/project logo/SSGroup.png",
@@ -525,6 +525,15 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                       ))}
                     </ul>
                   </div>
+
+                  {!!project.team?.length && (
+                    <div>
+                      <SectionLabel icon={Users}>Team</SectionLabel>
+                      <p className="text-[13px] text-text-muted leading-[1.7]">
+                        {project.team.join(" · ")}
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -698,6 +707,15 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
                           </ul>
                         </div>
                       </>
+                    )}
+
+                    {!!data.team?.length && (
+                      <div>
+                        <SectionLabel icon={Users}>Team</SectionLabel>
+                        <p className="text-[13px] text-text-muted leading-[1.7]">
+                          {data.team.join(" · ")}
+                        </p>
+                      </div>
                     )}
                   </div>
                 </div>

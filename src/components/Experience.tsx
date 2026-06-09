@@ -13,6 +13,27 @@ interface Role {
 
 const roles: Role[] = [
   {
+    status: "Current",
+    title: "Chairman",
+    org: "Williens Creative Space",
+    logo: "/assets/Williens Logo White text.svg",
+    focus: "Creative-technical agency leadership, digital product strategy, project governance, and client delivery.",
+  },
+  {
+    status: "Current",
+    title: "Chairman",
+    org: "Emotico Wellness",
+    logo: "/assets/project logo/eMotico.png",
+    focus: "Mental wellness platform development, psychology-informed product direction, and wellness technology strategy.",
+  },
+  {
+    status: "Former",
+    title: "Vice President",
+    org: "Restaurant Association of Vietnam",
+    logo: "/assets/project logo/RESTAURANT ASSOCIATION VIETNAM.png",
+    focus: "Community ecosystem building, F&B industry partnership, campaign coordination, and stakeholder engagement.",
+  },
+  {
     status: "Former",
     title: "Head of Digital Design",
     org: "Sacombank",
@@ -36,7 +57,7 @@ export default function Experience() {
         <div className="lg:sticky lg:top-32 lg:self-start">
           <FadeIn>
             <SectionTitle>
-              <span className="text-gold">Product Design</span> <span className="sm:whitespace-nowrap">Across Industries</span>
+              <span className="text-gold">Leadership</span> <span className="sm:whitespace-nowrap">Across Industries</span>
             </SectionTitle>
           </FadeIn>
         </div>
