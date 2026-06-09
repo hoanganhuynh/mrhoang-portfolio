@@ -10,6 +10,7 @@ export interface Project {
   painPoint: string;
   pmContribution: string;
   outcomes: string[];
+  techStack: string[];
   images: string[];
 }
 
@@ -38,6 +39,18 @@ export const projects: Project[] = [
       "Improved usability around product discovery and sales handling",
       "Reduced ambiguity between brand expectations and interface decisions",
       "Established a more consistent visual language across customer and internal touchpoints",
+    ],
+    techStack: [
+      "Figma",
+      "Photoshop",
+      "Go",
+      "Node.js",
+      "Next.js",
+      "Tailwind CSS",
+      "Redis",
+      "MySQL",
+      "MongoDB",
+      "Docker",
     ],
     images: [
       "/assets/projects/ss-group/01.jpg",    // ảnh 1
@@ -75,6 +88,15 @@ export const projects: Project[] = [
       "Aligned 3D, motion, and interface direction into one coherent experience",
       "Supported a smoother audience flow during high-attention event moments",
     ],
+    techStack: [
+      "Figma",
+      "Photoshop",
+      "Illustrator",
+      "Next.js",
+      "Node.js",
+      "Tailwind CSS",
+      "Blender",
+    ],
     images: ["/assets/projects/fpt-techday/01.jpg"],
   },
   {
@@ -101,6 +123,15 @@ export const projects: Project[] = [
       "Strengthened the association's digital storytelling system",
       "Created clearer pathways between events, content, and community engagement",
       "Supported a more consistent public-facing experience for F&B stakeholders",
+    ],
+    techStack: [
+      "Figma",
+      "Photoshop",
+      "Illustrator",
+      "Next.js",
+      "Node.js",
+      "Tailwind CSS",
+      "Blender",
     ],
     images: [
       "/assets/projects/rav/01.jpg",       // ảnh 1
@@ -137,6 +168,14 @@ export const projects: Project[] = [
       "Created a safer, more approachable product logic for student self-reflection",
       "Established a design framework for future feature iteration and school adoption",
     ],
+    techStack: [
+      "Figma",
+      "Photoshop",
+      "Illustrator",
+      "Next.js",
+      "Node.js",
+      "Tailwind CSS",
+    ],
     images: [
       "/assets/projects/emotico/01.jpg",      // ảnh 1
       "/assets/projects/emotico/mockup1.jpg", // mockup 1
@@ -168,6 +207,14 @@ export const projects: Project[] = [
       "Supported clearer content hierarchy and navigation",
       "Strengthened alignment between corporate messaging and interface design",
       "Reduced visual fragmentation through reusable UI patterns",
+    ],
+    techStack: [
+      "Figma",
+      "Photoshop",
+      "Illustrator",
+      "Next.js",
+      "Node.js",
+      "Tailwind CSS",
     ],
     images: [
       "/assets/projects/vinamilk/01.jpg",      // ảnh 1
@@ -203,6 +250,15 @@ export const projects: Project[] = [
       "Created a more emotionally appropriate visual experience",
       "Aligned nonprofit communication with a more careful and practical user journey",
     ],
+    techStack: [
+      "Figma",
+      "Photoshop",
+      "Illustrator",
+      "Next.js",
+      "Node.js",
+      "Tailwind CSS",
+      "Blender",
+    ],
     images: [
       "/assets/projects/bcnv/01.jpg",
       "/assets/projects/bcnv/02.jpg",
@@ -236,6 +292,16 @@ export const projects: Project[] = [
       "Helped stakeholders understand abstract financial scenarios through spatial UX",
       "Connected financial education with a more tangible customer experience",
     ],
+    techStack: [
+      "Figma",
+      "Photoshop",
+      "Illustrator",
+      "Next.js",
+      "Node.js",
+      "Tailwind CSS",
+      "Blender",
+      "Unity",
+    ],
     images: ["/assets/projects/sacombank-vr/01.jpg"],
   },
   {
@@ -261,6 +327,14 @@ export const projects: Project[] = [
       "Supported clearer product and brand alignment",
       "Created a more coherent website and mobile app experience",
       "Reduced ambiguity across visual, content, and interaction requirements",
+    ],
+    techStack: [
+      "Figma",
+      "Photoshop",
+      "Illustrator",
+      "Next.js",
+      "Node.js",
+      "Tailwind CSS",
     ],
     images: ["/assets/projects/cosmo-club/01.jpg"],
   },

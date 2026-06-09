@@ -6,7 +6,35 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import SectionWrapper, { FadeIn, SectionTitle } from "./SectionWrapper";
 import { projects, additionalProjects, type Project } from "@/data/projects";
-import { ArrowRight, X, Clock, Globe, AlertCircle, UserCheck, TrendingUp, Users } from "lucide-react";
+import { ArrowRight, X, Clock, Globe, AlertCircle, UserCheck, TrendingUp, Users, Code2 } from "lucide-react";
+
+const TECH_ICONS: Record<string, string> = {
+  "Figma":        "/assets/tech-icons/figma.png",
+  "Photoshop":    "/assets/tech-icons/photoshop.svg",
+  "Illustrator":  "/assets/tech-icons/illustrator.svg",
+  "Go":           "/assets/tech-icons/go.png",
+  "Node.js":      "/assets/tech-icons/node_js.png",
+  "Next.js":      "/assets/tech-icons/next_js.png",
+  "Tailwind CSS": "/assets/tech-icons/tailwind_css.png",
+  "Redis":        "/assets/tech-icons/redis.png",
+  "MySQL":        "/assets/tech-icons/mysql.png",
+  "MongoDB":      "/assets/tech-icons/mongodb.png",
+  "Docker":       "/assets/tech-icons/docker.png",
+  "Unity":        "/assets/tech-icons/unity.png",
+  "Blender":      "/assets/tech-icons/blender.svg",
+};
+
+function TechChip({ tech }: { tech: string }) {
+  const icon = TECH_ICONS[tech];
+  return (
+    <span className="chip !text-[12px] !py-1.5 !px-3.5 inline-flex items-center gap-1.5">
+      {icon && (
+        <Image src={icon} alt={tech} width={16} height={16} className="shrink-0 object-contain" />
+      )}
+      {tech}
+    </span>
+  );
+}
 
 const projectLogos: Record<string, string> = {
   "ss-group": "/assets/project logo/SSGroup.png",
@@ -534,6 +562,17 @@ function ProjectCard({ project, featured = false }: { project: Project; featured
                       </p>
                     </div>
                   )}
+
+                  {!!project.techStack?.length && (
+                    <div>
+                      <SectionLabel icon={Code2}>Tech Stack</SectionLabel>
+                      <div className="flex flex-wrap gap-2">
+                        {project.techStack.map((tech) => (
+                          <TechChip key={tech} tech={tech} />
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -559,6 +598,7 @@ type AdditionalCardData = {
   pmContribution?: string;
   outcomes?: string[];
   team?: string[];
+  techStack?: string[];
 };
 
 function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
@@ -716,6 +756,17 @@ function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
                         <p className="text-[13px] text-text-muted leading-[1.7]">
                           {data.team.join(" · ")}
                         </p>
+                      </div>
+                    )}
+
+                    {!!data.techStack?.length && (
+                      <div>
+                        <SectionLabel icon={Code2}>Tech Stack</SectionLabel>
+                        <div className="flex flex-wrap gap-2">
+                          {data.techStack.map((tech) => (
+                            <TechChip key={tech} tech={tech} />
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
