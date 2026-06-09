@@ -558,6 +558,7 @@ type AdditionalCardData = {
   painPoint?: string;
   pmContribution?: string;
   outcomes?: string[];
+  team?: string[];
 };
 
 function AdditionalWorkCard({ data }: { data: AdditionalCardData }) {
