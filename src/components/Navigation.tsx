@@ -180,7 +180,7 @@ export default function Navigation({ mode, setMode }: NavigationProps) {
             className="fixed inset-0 z-40 bg-bg/98 backdrop-blur-lg pt-24 px-8 md:hidden"
           >
             <div className="flex flex-col gap-1 pt-8">
-              <div className="mb-6 grid grid-cols-2 gap-2 rounded-full border border-black/10 bg-white/90 p-1">
+              <div className={`mb-6 grid grid-cols-2 gap-2 rounded-full border p-1 ${mode === "academic" ? "border-black/10 bg-white/90" : "border-white/10 bg-white/[0.04]"}`}>
                 <button
                   onClick={() => switchMode("business")}
                   className={`inline-flex items-center justify-center gap-2 rounded-full px-3 py-3 font-mono text-[10px] uppercase tracking-[0.1em] transition-all ${
