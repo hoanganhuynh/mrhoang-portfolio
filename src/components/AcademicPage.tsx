@@ -373,13 +373,13 @@ export default function AcademicPage() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full font-body text-[11px] transition-all duration-200 border ${
+                    className={`shrink-0 flex items-center gap-2 px-4 py-2 rounded-full font-body text-[13px] transition-all duration-200 border ${
                       activeTab === tab.id
                         ? "border-gold/30 bg-gold-soft text-gold"
                         : "border-line bg-surface text-text-muted"
                     }`}
                   >
-                    <Icon size={11} className="shrink-0" />
+                    <Icon size={13} className="shrink-0" />
                     <span>{tab.label}</span>
                   </button>
                 );
