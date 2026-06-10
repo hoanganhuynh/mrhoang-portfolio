@@ -53,8 +53,8 @@ const PROFILE = {
   name:      "Nguyễn Lê Bảo Hoàng",
   dob:       "24/10/1993",
   hometown:  "ĐăkLăk",
-  title:     "Tiến sĩ Tâm lý học",
-  titleYear: "2025",
+  title:     "PhD. Psychology",
+  titleYear: "Lecturer in Psychology in Business Administration",
   address:   "Tecco Central Home 06-08 Nguyễn Thiện Thuật, P.24, Q. Bình Thạnh",
   phone:     "0929822369",
   email:     "nguyenlebaohoang@gmail.com",
@@ -87,22 +87,23 @@ function groupAndIndex<T extends { year: string | number }>(items: T[]): YearGro
 function TimelineYear({
   year,
   isLast,
+  hideDot = false,
   children,
 }: {
   year: string;
   isLast: boolean;
+  hideDot?: boolean;
   children: React.ReactNode;
 }) {
   return (
     <div className="flex">
-      {/* Spine */}
-      <div className="flex flex-col items-center mr-5 pt-1 shrink-0" style={{ width: 44 }}>
-        <div className="w-2.5 h-2.5 rounded-full bg-gold ring-2 ring-gold/20 shrink-0" />
-        {!isLast && <div className="w-px bg-line flex-1 mt-2" />}
-      </div>
-      {/* Content */}
+      {!hideDot && (
+        <div className="flex flex-col items-center mr-4 pt-1 shrink-0" style={{ width: 28 }}>
+          <div className="w-2.5 h-2.5 rounded-full bg-gold ring-2 ring-gold/20 shrink-0" />
+          {!isLast && <div className="w-px bg-line flex-1 mt-2" />}
+        </div>
+      )}
       <div className={`flex-1 ${isLast ? "pb-2" : "pb-10"}`}>
-        {/* year label: small on mobile, 14px on desktop */}
         <p className="font-mono text-[11px] md:text-[14px] font-bold text-gold -mt-0.5 mb-4">{year}</p>
         {children}
       </div>
@@ -159,12 +160,12 @@ function BookEntry({ book }: { book: Book }) {
 
 // ── Tab content ────────────────────────────────────────────────────────
 
-function PaperTimelineTab({ items }: { items: Paper[] }) {
+function PaperTimelineTab({ items, hideDot = false }: { items: Paper[]; hideDot?: boolean }) {
   const groups = groupAndIndex(items);
   return (
     <div>
       {groups.map(({ year, entries }, gi) => (
-        <TimelineYear key={year} year={year} isLast={gi === groups.length - 1}>
+        <TimelineYear key={year} year={year} isLast={gi === groups.length - 1} hideDot={hideDot}>
           {entries.map(({ data, stt }) => (
             <PaperEntry key={stt} paper={data} />
           ))}
@@ -174,12 +175,12 @@ function PaperTimelineTab({ items }: { items: Paper[] }) {
   );
 }
 
-function ConferenceTimelineTab({ items }: { items: ConferencePaper[] }) {
+function ConferenceTimelineTab({ items, hideDot = false }: { items: ConferencePaper[]; hideDot?: boolean }) {
   const groups = groupAndIndex(items);
   return (
     <div>
       {groups.map(({ year, entries }, gi) => (
-        <TimelineYear key={year} year={year} isLast={gi === groups.length - 1}>
+        <TimelineYear key={year} year={year} isLast={gi === groups.length - 1} hideDot={hideDot}>
           {entries.map(({ data, stt }) => (
             <ConferenceEntry key={stt} paper={data} />
           ))}
@@ -241,7 +242,7 @@ export default function AcademicPage() {
   const activeTabMeta = TABS.find((t) => t.id === activeTab)!;
 
   return (
-    <div className="min-h-screen pt-24 pb-20">
+    <div className="min-h-screen pt-24 md:pt-[136px] pb-20">
       <div className="mx-auto max-w-[1360px] px-6 md:px-10 lg:px-14">
         <div className="flex flex-col md:flex-row gap-8 md:gap-12">
 
@@ -260,40 +261,66 @@ export default function AcademicPage() {
             </div>
 
             {/* Mobile: compact header row */}
-            <div className="flex md:hidden items-center gap-4 mb-5">
+            <div className="flex md:hidden items-center gap-4 mb-4">
+              <div className="flex-1">
+                <h1 className="font-heading font-bold text-[20px] text-text-primary leading-tight">
+                  {PROFILE.name}
+                </h1>
+                <p className="font-mono text-[11px] tracking-[0.02em] text-gold mt-1">
+                  {PROFILE.title}
+                </p>
+                <p className="font-body text-[12px] text-text-secondary mt-1 leading-snug">
+                  Giảng viên tại Đại học Sư phạm TP. Hồ Chí Minh<br />
+                  Tâm lý học Quản trị kinh doanh
+                </p>
+              </div>
               <Image
                 src="/assets/mr-hoang-academic.jpeg"
                 alt="Nguyễn Lê Bảo Hoàng"
-                width={64}
-                height={64}
-                className="w-16 h-16 object-cover object-top rounded-2xl shrink-0"
+                width={120}
+                height={120}
+                className="w-[120px] h-[120px] object-cover object-top rounded-2xl shrink-0"
               />
-              <div>
-                <h1 className="font-heading font-bold text-[16px] text-text-primary leading-tight">
-                  {PROFILE.name}
-                </h1>
-                <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-text-muted mt-1">
-                  {PROFILE.title}
-                </p>
+            </div>
+            <div className="flex md:hidden flex-col gap-2 mb-5">
+              <div className="flex items-center gap-2">
+                <MapPin size={12} className="text-text-muted shrink-0" />
+                <span className="font-body text-[13px] text-text-secondary">{PROFILE.hometown}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Phone size={12} className="text-text-muted shrink-0" />
+                <a href={`tel:${PROFILE.phone}`} className="font-body text-[13px] text-text-secondary hover:text-gold transition-colors">
+                  {PROFILE.phone}
+                </a>
+              </div>
+              <div className="flex items-center gap-2">
+                <Mail size={12} className="text-text-muted shrink-0" />
+                <a href={`mailto:${PROFILE.email}`} className="font-body text-[13px] text-text-secondary hover:text-gold transition-colors break-all">
+                  {PROFILE.email}
+                </a>
               </div>
             </div>
 
             {/* Desktop: name + profile info */}
             <div className="hidden md:block mb-5">
-              <h1 className="font-heading font-bold text-[16px] leading-tight text-text-primary mb-0.5">
+              <h1 className="font-heading font-bold text-[22px] leading-tight text-text-primary mb-0.5">
                 {PROFILE.name}
               </h1>
               {/* subtitle: desktop minimum 14px */}
-              <p className="font-mono text-[14px] uppercase tracking-[0.06em] text-gold mb-4">
-                {PROFILE.title} · {PROFILE.titleYear}
+              <p className="font-mono text-[14px] tracking-[0.02em] text-gold mb-1">
+                {PROFILE.title} – {PROFILE.titleYear}
+              </p>
+              <p className="font-body text-[13px] text-text-secondary mb-4 leading-snug">
+                Giảng viên tại Đại học Sư phạm TP. Hồ Chí Minh<br />
+                Tâm lý học Quản trị kinh doanh
               </p>
               <div className="flex flex-col gap-2.5">
-                <div className="flex items-start gap-2">
-                  <MapPin size={13} className="text-text-muted shrink-0 mt-0.5" />
+                <div className="flex items-center gap-2">
+                  <MapPin size={13} className="text-text-muted shrink-0" />
                   <span className="font-body text-[14px] text-text-secondary">{PROFILE.hometown}</span>
                 </div>
-                <div className="flex items-start gap-2">
-                  <Phone size={13} className="text-text-muted shrink-0 mt-0.5" />
+                <div className="flex items-center gap-2">
+                  <Phone size={13} className="text-text-muted shrink-0" />
                   <a
                     href={`tel:${PROFILE.phone}`}
                     className="font-body text-[14px] text-text-secondary hover:text-gold transition-colors"
@@ -301,8 +328,8 @@ export default function AcademicPage() {
                     {PROFILE.phone}
                   </a>
                 </div>
-                <div className="flex items-start gap-2">
-                  <Mail size={13} className="text-text-muted shrink-0 mt-0.5" />
+                <div className="flex items-center gap-2">
+                  <Mail size={13} className="text-text-muted shrink-0" />
                   <a
                     href={`mailto:${PROFILE.email}`}
                     className="font-body text-[14px] text-text-secondary hover:text-gold transition-colors break-all"
@@ -362,11 +389,21 @@ export default function AcademicPage() {
 
           {/* ── Main content ── */}
           <main className="flex-1 min-w-0">
-            <div className="mb-7 pb-4 border-b border-line-strong flex items-baseline gap-2">
+            {/* Mobile: sticky with blur */}
+            <div className="md:hidden sticky top-[60px] z-20 mb-7 pb-4 border-b border-line-strong flex items-baseline gap-2 bg-bg/80 backdrop-blur-[20px] -mx-6 px-6">
               <h2 className="font-heading font-bold text-[22px] text-text-primary">
                 {activeTabMeta.label}
               </h2>
-              <span className="font-mono text-[12px] md:text-[14px] text-text-muted">
+              <span className="font-mono text-[12px] text-text-muted">
+                · {activeTabMeta.count} mục
+              </span>
+            </div>
+            {/* Desktop: static, no blur */}
+            <div className="hidden md:flex mb-8 items-baseline gap-2">
+              <h2 className="font-heading font-bold text-[22px] text-text-primary">
+                {activeTabMeta.label}
+              </h2>
+              <span className="font-mono text-[14px] text-text-muted">
                 · {activeTabMeta.count} mục
               </span>
             </div>
@@ -379,9 +416,9 @@ export default function AcademicPage() {
                 exit={{ opacity: 0, y: -6 }}
                 transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
               >
-                {activeTab === "intl-papers"          && <PaperTimelineTab items={internationalPapers} />}
+                {activeTab === "intl-papers"          && <PaperTimelineTab items={internationalPapers} hideDot={true} />}
                 {activeTab === "domestic-papers"      && <PaperTimelineTab items={domesticPapers} />}
-                {activeTab === "intl-conferences"     && <ConferenceTimelineTab items={internationalConferences} />}
+                {activeTab === "intl-conferences"     && <ConferenceTimelineTab items={internationalConferences} hideDot={true} />}
                 {activeTab === "domestic-conferences" && <ConferenceTimelineTab items={domesticConferences} />}
                 {activeTab === "books"                && <BooksTimelineTab />}
                 {activeTab === "awards"               && <AwardsTab />}

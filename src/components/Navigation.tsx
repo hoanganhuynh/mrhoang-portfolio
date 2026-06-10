@@ -65,46 +65,49 @@ export default function Navigation({ mode, setMode }: NavigationProps) {
         }`}
       >
         <div className="mx-auto max-w-[1360px] px-6 md:px-10 lg:px-14">
-          <div className={`flex items-center justify-between rounded-full border px-4 py-2.5 transition-all duration-500 ${
-            isScrolled
-              ? "border-line bg-bg/78 shadow-[0_24px_80px_rgba(0,0,0,0.4)] backdrop-blur-[28px]"
-              : "border-transparent bg-transparent shadow-none backdrop-blur-0"
+          <div className={`flex items-center justify-between rounded-full border px-4 py-2.5 transition-all duration-500 gap-6 ${
+            mode === "academic"
+              ? "border-line bg-bg/80 shadow-[0_4px_24px_rgba(0,0,0,0.06)] backdrop-blur-[28px]"
+              : isScrolled
+                ? "border-line bg-bg/78 shadow-[0_24px_80px_rgba(0,0,0,0.4)] backdrop-blur-[28px]"
+                : "border-transparent bg-transparent shadow-none backdrop-blur-0"
           }`}>
 
-            {/* Logo */}
-            <a
-              href="#top"
-              onClick={(e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-              className="relative z-10 flex items-center"
-            >
-              <Image
-                src="/assets/logo.svg"
-                alt="Williens logo"
-                width={124}
-                height={34}
-                priority
-                className="h-8 w-auto"
-              />
-            </a>
+            {/* Logo + Desktop nav items grouped */}
+            <div className="flex items-center gap-6">
+              <a
+                href="#top"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="relative z-10 flex items-center shrink-0"
+              >
+                <Image
+                  src="/assets/logo.svg"
+                  alt="Williens logo"
+                  width={124}
+                  height={34}
+                  priority
+                  className="h-8 w-auto"
+                />
+              </a>
 
-            {/* Desktop nav items */}
-            <div className="hidden md:flex items-center gap-1 rounded-full px-1.5 py-1.5 transition-all duration-500">
-              {navItems.map((item) => (
-                <button
-                  key={item.href}
-                  onClick={() => scrollTo(item.href)}
-                  className={`relative px-4 py-1.5 rounded-full font-mono text-[16px] tracking-[0.02em] uppercase transition-all duration-300 ${
-                    activeSection === item.href.slice(1)
-                      ? "text-gold"
-                      : "text-text-muted hover:text-text-primary"
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
+              <div className="hidden md:flex items-center gap-1 rounded-full px-1.5 py-1.5 transition-all duration-500">
+                {navItems.map((item) => (
+                  <button
+                    key={item.href}
+                    onClick={() => scrollTo(item.href)}
+                    className={`relative px-4 py-1.5 rounded-full font-mono text-[16px] tracking-[0.02em] uppercase transition-all duration-300 ${
+                      activeSection === item.href.slice(1)
+                        ? "text-gold"
+                        : "text-text-muted hover:text-text-primary"
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
             </div>
 
 

@@ -33,7 +33,7 @@ export default function Home() {
 
   return (
     <>
-      <MobileMeshBackground />
+      {mode === "business" && <MobileMeshBackground />}
       <Navigation mode={mode} setMode={setMode} />
       <AnimatePresence mode="wait">
         {mode === "business" ? (
