@@ -269,7 +269,7 @@ export default function AcademicPage() {
                 <p className="font-mono text-[11px] tracking-[0.02em] text-gold mt-1">
                   {PROFILE.title}
                 </p>
-                <p className="font-body text-[12px] text-text-secondary mt-1 leading-snug">
+                <p className="font-body text-[14px] text-text-secondary mt-1 leading-snug">
                   Giảng viên tại Đại học Sư phạm TP. Hồ Chí Minh<br />
                   Tâm lý học Quản trị kinh doanh
                 </p>
