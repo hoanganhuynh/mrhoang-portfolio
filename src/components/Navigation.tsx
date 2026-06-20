@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { BriefcaseBusiness, GraduationCap, Menu, Phone, X } from "lucide-react";
 
@@ -17,10 +18,10 @@ const navItems = [
 
 interface NavigationProps {
   mode: Mode;
-  setMode: (mode: Mode) => void;
 }
 
-export default function Navigation({ mode, setMode }: NavigationProps) {
+export default function Navigation({ mode }: NavigationProps) {
+  const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -54,7 +55,11 @@ export default function Navigation({ mode, setMode }: NavigationProps) {
 
   const switchMode = (nextMode: Mode) => {
     setMobileOpen(false);
-    setMode(nextMode);
+    if (nextMode === "academic") {
+      router.push("/academic");
+    } else {
+      router.push("/");
+    }
   };
 
   return (

@@ -26,13 +26,13 @@ const syne = Syne({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://cv.williens.space"),
-  title: "Williens Hoang Nguyen — Product Design Lead",
+  title: "Williens Hoang Nguyen — Digital Product Consultant",
   description:
-    "PhD Psychology and Product Design Lead. Designing UIUX systems, product journeys, and digital experiences shaped by human behavior.",
+    "PhD Psychology and Digital Product Consultant. Designing UIUX systems, product journeys, and digital experiences shaped by human behavior.",
   keywords: [
     "Williens Hoang Nguyen",
     "Product Design",
-    "Product Design Lead",
+    "Digital Product Consultant",
     "Psychology",
     "Digital Product",
     "Creative Direction",
@@ -42,9 +42,9 @@ export const metadata: Metadata = {
     "Business Administration",
   ],
   openGraph: {
-    title: "Williens Hoang Nguyen — Product Design Lead",
+    title: "Williens Hoang Nguyen — Digital Product Consultant",
     description:
-      "PhD Psychology and Product Design Lead designing UIUX systems and product experiences.",
+      "PhD Psychology and Digital Product Consultant designing UIUX systems and product experiences.",
     type: "website",
     url: "https://cv.williens.space",
   },
