@@ -56,9 +56,9 @@ export default function Navigation({ mode }: NavigationProps) {
   const switchMode = (nextMode: Mode) => {
     setMobileOpen(false);
     if (nextMode === "academic") {
-      router.push("/academic");
+      router.push("/hoang.nguyen/academic");
     } else {
-      router.push("/");
+      router.push("/hoang.nguyen/business");
     }
   };
 
